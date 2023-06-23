@@ -202,8 +202,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 256382646}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 35.83941, y: 0.7608769, z: 1}
+  m_LocalPosition: {x: 8.464, y: -8.5028, z: 0}
+  m_LocalScale: {x: 135.15622, y: 17.766476, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -421,8 +421,12 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3930985119972215493, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
+      propertyPath: dashSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3930985119972215493, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
       propertyPath: jumpPower
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3930985119972215493, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
       propertyPath: moveSpeed

@@ -8,6 +8,7 @@ public class Gamemanager : MonoBehaviour
     private static PoolManager poolManager;
     private static ResourceManager resourceManager;
     private static UIManager uiManager;
+    private static DataManager dataManager;
 
     private void Awake()
     {
@@ -38,5 +39,10 @@ public class Gamemanager : MonoBehaviour
         uiObj.name = "UIManager";
         uiObj.transform.parent = transform;
         uiManager = uiObj.AddComponent<UIManager>();
+
+        GameObject dataObj = new GameObject();
+        dataObj.name = "DataManager";
+        dataObj.transform.parent = transform;
+        dataManager = dataObj.AddComponent<DataManager>();
     }
 }
