@@ -27,9 +27,8 @@ public class PlayerMover : MonoBehaviour
     {
         Move();
 
-        if (animator.GetBool("IsGround"))
+        if (!animator.GetBool("IsGround"))
             jumpTime += Time.deltaTime;
-        Debug.Log(jumpTime);
     }
 
     private void FixedUpdate()
@@ -68,11 +67,11 @@ public class PlayerMover : MonoBehaviour
     IEnumerator JumpRoutine()
     {
         Debug.Log("점프루틴 시작");
-        while (isJump && jumpTime < 1)
+        while (isJump && jumpTime < 1f)
         {
-            rb.AddForce(Vector2.up * jumpPower,ForceMode2D.Impulse);
+            rb.AddForce(Vector2.up * jumpPower * jumpTime, ForceMode2D.Impulse);
 
-            yield return new WaitForSeconds(0.1f);
+            yield return null;
         }
 
         Debug.Log("점프루틴 끝");
@@ -80,13 +79,14 @@ public class PlayerMover : MonoBehaviour
 
     private void OnJump(InputValue value)
     {
-        //if (!animator.GetBool("IsGround"))
-        //    return;
+        if (!animator.GetBool("IsGround"))
+            return;
 
         Debug.Log("점프 누름");
+        jumpTime = 0f;
         isJump = value.isPressed;
-        Jump();
-        //StartCoroutine(JumpRoutine());
+        //Jump();
+        StartCoroutine(JumpRoutine());
     }
 
     private void GroundCheck()
@@ -96,7 +96,6 @@ public class PlayerMover : MonoBehaviour
         if (hit.collider != null)
         {
             animator.SetBool("IsGround", true);
-            jumpTime = 0;
         }
         else
         {

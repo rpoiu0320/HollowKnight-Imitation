@@ -4,15 +4,39 @@ using UnityEngine;
 
 public class Gamemanager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private static Gamemanager instance;
+    private static PoolManager poolManager;
+    private static ResourceManager resourceManager;
+    private static UIManager uiManager;
+
+    private void Awake()
     {
-        
+        if (instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(this);
+        InitManagers();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void InitManagers()
     {
-        
+        GameObject resouceObj = new GameObject();
+        resouceObj.name = "ResourceManager";
+        resouceObj.transform.parent = transform;
+        resourceManager = resouceObj.AddComponent<ResourceManager>();
+
+        GameObject poolObj = new GameObject();
+        poolObj.name = "PollManager";
+        poolObj.transform.parent = transform;
+        poolManager = poolObj.AddComponent<PoolManager>();
+
+        GameObject uiObj = new GameObject();
+        uiObj.name = "UIManager";
+        uiObj.transform.parent = transform;
+        uiManager = uiObj.AddComponent<UIManager>();
     }
 }
