@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
+using System;
 
 public class PlayerMover : MonoBehaviour
 {
@@ -10,16 +12,18 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] float dashSpeed;
     [SerializeField] float jumpPower;
     [SerializeField] LayerMask groundLayer;
+    public UnityEvent OnDashEnd;
 
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer render;
     private Vector2 inputDir;
-    private Vector2 dashDir;
+    private Vector2 dashDir = new Vector2(1, 0);
     private float jumpTime;
+    private float dashTime;
     private bool isJump;
     private bool isGround;
-    private bool isDash;
+    [NonSerialized]public bool isDash;
 
     private void Awake()
     {
@@ -30,9 +34,10 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
-        Move();
+        if (!isDash) Move();
 
         Debug.Log(isDash);
+        Debug.Log(dashDir);
     }
 
     private void FixedUpdate()
@@ -43,29 +48,32 @@ public class PlayerMover : MonoBehaviour
     private void Move()
     {
         if (inputDir.x > 0)
+        {
             transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
+            render.flipX = false;
+        }
+            
         else if (inputDir.x < 0)
+        {
             transform.Translate(new Vector3(-moveSpeed * Time.deltaTime, 0, 0));
+            render.flipX = true;
+        }
+        //if (inputDir.x > 0)
+        //    render.flipX = false;
+        //else if (inputDir.x < 0)
+        //    render.flipX = true;
     }
 
-    private void OnMove(InputValue value)
+    public void OnMove(InputValue value)
     {
-        if (isDash)
-            return;
-
         inputDir = value.Get<Vector2>();
         
-        if(inputDir != new Vector2(0, 0))
+        if(inputDir != new Vector2(0, 0) )
         {
             dashDir = value.Get<Vector2>();
         }
 
         animator.SetFloat("Move", Mathf.Abs(inputDir.x));
-
-        if (inputDir.x > 0)
-            render.flipX = false;
-        else if (inputDir.x < 0)
-            render.flipX = true;
     }
 
     Coroutine jumpRoutine;
@@ -111,9 +119,9 @@ public class PlayerMover : MonoBehaviour
     IEnumerator DashRoutine()
     {
         Debug.Log("대시루틴 시작");
-
-        Vector2 startPosition = transform.position;
         isDash = true;
+        dashTime = 0f;
+        rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
         animator.SetTrigger("Dash");
 
         while (true)
@@ -123,14 +131,26 @@ public class PlayerMover : MonoBehaviour
             else if (dashDir.x < 0)
                 transform.Translate(new Vector2(-dashSpeed * Time.deltaTime, 0));            
 
-            if (Mathf.Abs(startPosition.x - transform.position.x) > 10)
+            dashTime += Time.deltaTime;
+            Debug.Log(dashTime);
+            if(dashTime > 0.5f)
             {
-                inputDir = new Vector2(0, 0);
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 isDash = false;
                 break;
             }
+            //if (Mathf.Abs(startPosition.x - transform.position.x) > 10)
+            //{
+            //    inputDir = new Vector2(0, 0);
+            //    isDash = false;
+            //    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            //    OnDashEnd?.Invoke();
+            //    break;
+            //}
+
             yield return null;
         }
+        Debug.Log("대시 끝");
     }
 
     private void OnDash(InputValue value)
