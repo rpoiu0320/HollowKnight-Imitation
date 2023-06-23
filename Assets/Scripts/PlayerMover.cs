@@ -19,6 +19,7 @@ public class PlayerMover : MonoBehaviour
     private float jumpTime;
     private bool isJump;
     private bool isGround;
+    private bool isDash;
 
     private void Awake()
     {
@@ -30,6 +31,8 @@ public class PlayerMover : MonoBehaviour
     private void Update()
     {
         Move();
+
+        Debug.Log(isDash);
     }
 
     private void FixedUpdate()
@@ -47,6 +50,9 @@ public class PlayerMover : MonoBehaviour
 
     private void OnMove(InputValue value)
     {
+        if (isDash)
+            return;
+
         inputDir = value.Get<Vector2>();
         
         if(inputDir != new Vector2(0, 0))
@@ -101,35 +107,36 @@ public class PlayerMover : MonoBehaviour
         }
     }
 
+    Coroutine dashRoutine;
     IEnumerator DashRoutine()
     {
         Debug.Log("대시루틴 시작");
 
         Vector2 startPosition = transform.position;
+        isDash = true;
+        animator.SetTrigger("Dash");
 
         while (true)
         {
             if (dashDir.x > 0)
-                transform.Translate(new Vector3(dashSpeed * Time.deltaTime, 0, 0));
+                transform.Translate(new Vector2(dashSpeed * Time.deltaTime, 0));
             else if (dashDir.x < 0)
-                transform.Translate(new Vector3(-dashSpeed * Time.deltaTime, 0, 0));
-
-            Debug.Log(startPosition.x);
-            Debug.Log(transform.position.x);
-            Debug.Log(Mathf.Abs(startPosition.x - transform.position.x));
-            
+                transform.Translate(new Vector2(-dashSpeed * Time.deltaTime, 0));            
 
             if (Mathf.Abs(startPosition.x - transform.position.x) > 10)
+            {
+                inputDir = new Vector2(0, 0);
+                isDash = false;
                 break;
-
-            
+            }
             yield return null;
         }
     }
 
     private void OnDash(InputValue value)
     {
-        StartCoroutine(DashRoutine());
+        if(!isDash)
+            dashRoutine = StartCoroutine(DashRoutine());
     }
 
     private void GroundCheck()
