@@ -12,7 +12,6 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] float dashSpeed;
     [SerializeField] float jumpPower;
     [SerializeField] LayerMask groundLayer;
-    public UnityEvent OnDashEnd;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -34,10 +33,9 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
-        if (!isDash) Move();
-
         Debug.Log(isDash);
-        Debug.Log(dashDir);
+        if (!isDash) 
+            Move();
     }
 
     private void FixedUpdate()
@@ -58,17 +56,13 @@ public class PlayerMover : MonoBehaviour
             transform.Translate(new Vector3(-moveSpeed * Time.deltaTime, 0, 0));
             render.flipX = true;
         }
-        //if (inputDir.x > 0)
-        //    render.flipX = false;
-        //else if (inputDir.x < 0)
-        //    render.flipX = true;
     }
 
     public void OnMove(InputValue value)
     {
         inputDir = value.Get<Vector2>();
         
-        if(inputDir != new Vector2(0, 0) )
+        if(inputDir != new Vector2(0, 0) && !isDash)
         {
             dashDir = value.Get<Vector2>();
         }
@@ -124,30 +118,26 @@ public class PlayerMover : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
         animator.SetTrigger("Dash");
 
+        //if (dashDir.x > 0)
+        //        transform.Translate(new Vector2(dashSpeed * Time.deltaTime, 0));
+        //    else if (dashDir.x < 0)
+        //        transform.Translate(new Vector2(-dashSpeed * Time.deltaTime, 0));   
+
         while (true)
         {
             if (dashDir.x > 0)
-                transform.Translate(new Vector2(dashSpeed * Time.deltaTime, 0));
+                transform.Translate(new Vector3(dashSpeed * Time.deltaTime, 0, 0));
             else if (dashDir.x < 0)
-                transform.Translate(new Vector2(-dashSpeed * Time.deltaTime, 0));            
+                transform.Translate(new Vector3(-dashSpeed * Time.deltaTime, 0, 0));
 
             dashTime += Time.deltaTime;
-            Debug.Log(dashTime);
-            if(dashTime > 0.5f)
+
+            if(dashTime > 0.3f)
             {
                 rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 isDash = false;
                 break;
             }
-            //if (Mathf.Abs(startPosition.x - transform.position.x) > 10)
-            //{
-            //    inputDir = new Vector2(0, 0);
-            //    isDash = false;
-            //    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            //    OnDashEnd?.Invoke();
-            //    break;
-            //}
-
             yield return null;
         }
         Debug.Log("´ë½Ã ³¡");
@@ -155,8 +145,11 @@ public class PlayerMover : MonoBehaviour
 
     private void OnDash(InputValue value)
     {
-        if(!isDash)
+        if (!isDash)
+        {
             dashRoutine = StartCoroutine(DashRoutine());
+            
+        }
     }
 
     private void GroundCheck()
