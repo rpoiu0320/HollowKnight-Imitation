@@ -20,9 +20,10 @@ public class PlayerMover : MonoBehaviour
     private Vector2 dashDir = new Vector2(1, 0);
     private float jumpTime;
     private float dashTime;
+    private bool isLook;
     private bool isJump;
     private bool isGround;
-    [NonSerialized]public bool isDash;
+    private bool isDash;
 
     private void Awake()
     {
@@ -33,7 +34,8 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(isDash);
+        LookUpDown();
+
         if (!isDash) 
             Move();
     }
@@ -58,7 +60,28 @@ public class PlayerMover : MonoBehaviour
         }
     }
 
-    public void OnMove(InputValue value)
+    private void LookUpDown()
+    {
+        if (inputDir.y > 0)
+        {
+            isLook = true;
+            animator.SetBool("isLook", true);
+        }
+        else if (inputDir.y < 0)
+        {
+            isLook = true;
+            animator.SetBool("isLook", true);
+        }
+        else
+        {
+            isLook = false;
+            animator.SetBool("isLook", false);
+        }
+
+        animator.SetFloat("LookUpDown", inputDir.y);
+    }
+    //TODO : 위, 아래 방향키 누르면 그쪽 쳐다봄, 카메라 이동 and 바라보는 방향에 따라 각각 다른 스킬 사용
+    private void OnMove(InputValue value)
     {
         inputDir = value.Get<Vector2>();
         
@@ -73,7 +96,6 @@ public class PlayerMover : MonoBehaviour
     Coroutine jumpRoutine;
     IEnumerator JumpRoutine()
     {
-        Debug.Log("점프루틴 시작");
 
         while (isJump)
         {
@@ -82,13 +104,11 @@ public class PlayerMover : MonoBehaviour
 
             if (jumpTime > 1f)
             {
-                Debug.Log("상승 끝");
                 break;
             }
 
             yield return null;
         }
-        Debug.Log("점프루틴 끝");
     }
 
     private void OnJump(InputValue value)
@@ -112,7 +132,6 @@ public class PlayerMover : MonoBehaviour
     Coroutine dashRoutine;
     IEnumerator DashRoutine()
     {
-        Debug.Log("대시루틴 시작");
         isDash = true;
         dashTime = 0f;
         rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
@@ -140,7 +159,11 @@ public class PlayerMover : MonoBehaviour
             }
             yield return null;
         }
-        Debug.Log("대시 끝");
+    }
+
+    public bool IsDash()
+    {
+        return isDash;
     }
 
     private void OnDash(InputValue value)
