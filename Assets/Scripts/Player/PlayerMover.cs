@@ -177,8 +177,8 @@ public class PlayerMover : MonoBehaviour
 
     private void GroundCheck()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 2.05f, groundLayer);
-        Debug.DrawRay(transform.position, Vector2.down * 2.05f, Color.red);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 5f, groundLayer);
+        Debug.DrawRay(transform.position, Vector2.down * 5f, Color.red);
 
         if (hit.collider != null)
         {
