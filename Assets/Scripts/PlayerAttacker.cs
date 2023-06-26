@@ -21,9 +21,17 @@ public class PlayerAttacker : MonoBehaviour
 
     private void OnAttack(InputValue value)
     {
-        if (playerMover.isDash)
+        if (playerMover.isDash)     // 대시 중 공격 안됨
             return;
 
         animator.SetTrigger("Attack");
+    }
+
+    private void OnSkill(InputValue value)
+    {
+        if (playerMover.isDash)
+            return;
+
+        animator.SetTrigger("Skill");
     }
 }
