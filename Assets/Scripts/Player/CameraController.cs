@@ -20,7 +20,8 @@ public class CameraController : MonoBehaviour
     private void FixedUpdate()      // TODO : 입력값이 있을때만 Update하도록 추가해야함
     { 
         HorizonCameraMoving();
-        VerticalCameraMoving();
+        //if(playerMover.IsCameraMove())
+            VerticalCameraMoving();
     }
 
     private void VerticalCameraMoving()

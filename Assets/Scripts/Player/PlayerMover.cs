@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.SceneView;
 
 public class PlayerMover : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class PlayerMover : MonoBehaviour
         animator = GetComponent<Animator>();
         render = GetComponent<SpriteRenderer>();
 
-        DefaultLook();
+        //DefaultLook();
     }
 
     private void Update()
@@ -67,51 +68,51 @@ public class PlayerMover : MonoBehaviour
     {
         while (isLook)
         {
-            if (playerAttacker.IsAttack())      // 위, 아래를 쳐다보던 중 공격을 하면 시점을 재자리로 복귀, 
+            if (playerAttacker.IsAttack())      // 지상에서 위, 아래를 쳐다보던 중 공격을 하면 시점을 재자리로 복귀, 
             {                                   // 공격이 진행 및 끝나도 계속 쳐다보고 있으면(위, 아래 키를 계속 누르고 있으면) 그 방향을 다시 바라보게됨
-                DefaultLook();
+                lookUpDownTime = 0;
+                upDown = UpDown.None;
+                isCameraMove = false;
 
                 yield return new WaitUntil(() => playerAttacker.IsAttack() == false);
             }
 
+            lookUpDownTime += Time.deltaTime;
+
             if (!isGround)                      // 공중에서 위, 아래로 시점이동 방지
             {
-                DefaultLook();
+                lookUpDownTime = 0;
+                upDown = UpDown.None;
+                isCameraMove = false;
+                animator.SetFloat("LookUpDown", inputDir.y);
 
-                yield return new WaitUntil(() => isGround == true);
+                //yield return new WaitUntil(() => isGround == true);
             }
-
-            lookUpDownTime += Time.deltaTime;
 
             if (inputDir.x != 0 || inputDir.y == 0)     // 위, 아래를 보던 중 이동을 하거나 위, 아래 키를 때면 시점 초기화 
             {
                 isLook = false;
-                DefaultLook();
+                animator.SetBool("IsLook", isLook);
                 animator.SetFloat("LookUpDown", inputDir.y);
+                upDown = UpDown.None;
+                isCameraMove = isLook;
                 break;
             }
-            else if (inputDir.y > 0)        // TODO : 시점이 이동될 시간, 애니메이션이 움직일 시간 등 추후 수정 필요할거같음
+            else if(inputDir.y != 0)
             {
                 isLook = true;
-                animator.SetBool("isLook", isLook);
+                animator.SetBool("IsLook", isLook);
                 animator.SetFloat("LookUpDown", inputDir.y);
 
-                if (inputDir.x == 0)
+                if (inputDir.x == 0 && inputDir.y > 0)
                 {
-                    if(lookUpDownTime > 0.7f)
+                    if (lookUpDownTime > 0.7f)
                     {
                         upDown = UpDown.Up;
                         isCameraMove = isLook;
                     }
                 }
-            }
-            else if (inputDir.y < 0)
-            {
-                isLook = true;
-                animator.SetBool("isLook", isLook);
-                animator.SetFloat("LookUpDown", inputDir.y);
-
-                if (inputDir.x == 0)
+                else if (inputDir.x == 0 && inputDir.y < 0)
                 {
                     if (lookUpDownTime > 0.7f)
                     {
@@ -120,18 +121,50 @@ public class PlayerMover : MonoBehaviour
                     }
                 }
             }
+
+
+            //else if (inputDir.y > 0)        // TODO : 시점이 이동될 시간, 애니메이션이 움직일 시간 등 추후 수정 필요할거같음
+            //{
+            //    isLook = true;
+            //    animator.SetBool("IsLook", isLook);
+            //    animator.SetFloat("LookUpDown", inputDir.y);
+
+            //    if (inputDir.x == 0)
+            //    {
+            //        if(lookUpDownTime > 0.7f)
+            //        {
+            //            upDown = UpDown.Up;
+            //            isCameraMove = isLook;
+            //        }
+            //    }
+            //}
+            //else if (inputDir.y < 0)
+            //{
+            //    isLook = true;
+            //    animator.SetBool("IsLook", isLook);
+            //    animator.SetFloat("LookUpDown", inputDir.y);
+
+            //    if (inputDir.x == 0)
+            //    {
+            //        if (lookUpDownTime > 0.7f)
+            //        {
+            //            upDown = UpDown.Down;
+            //            isCameraMove = isLook;
+            //        }
+            //    }
+            //}
             yield return null;
         }
     }
 
-    private void DefaultLook()      // Look과 관련된 사항들 초기화
-    {
-        lookUpDownTime = 0;
-//        animator.SetBool("isLook", isLook);
-        animator.Play("Idle");
-        upDown = UpDown.None;
-        isCameraMove = false;
-    }
+    //private void DefaultLook()      // Look과 관련된 사항들 초기화
+    //{
+    //    lookUpDownTime = 0;
+    //    animator.SetBool("isLook", isLook);
+    //    animator.Play("Idle");
+    //    upDown = UpDown.None;
+    //    isCameraMove = false;
+    //}
 
     //TODO : 스킬 쓸 때 Move 안되게
     private void OnMove(InputValue value)
@@ -144,7 +177,6 @@ public class PlayerMover : MonoBehaviour
         if(inputDir.y != 0)
         {
             isLook = true;
-            animator.SetBool("isLook", isLook);
             lookingRoutine = StartCoroutine(LookingRoutine());
         }
 
@@ -270,4 +302,18 @@ public class PlayerMover : MonoBehaviour
     {
         return isCameraMove;
     }
+
+    /* TODO : isGround가 false일 때 isLook이 바뀌질 않음
+
+    isCameraMove가 쓰이지 않고 있음, CameraController에서 쓸려고 했던 것 같은데 isLook이 바뀌면 CameraMove가 IsLook의 값을 받아서 현재 쓸 이유가 없음
+    분명 구분할 이유가 있어서 만들었는데 기억이 안남
+
+    isCameraMove가 isLook이랑 구분될려고 넣은거같음
+    AttackUP, JumpAttackDown이 isLook, LookUpDown, Attack을 사용해 진입하기에 
+
+    if(!isGround)가 다 쳐막고있어서?
+
+    그럼 if(!isGround)는 카메라 관련만 건드려야할듯?
+
+    시점 변경이랑 위, 아래 공격 함수를 구분해야 할것같음*/
 }
