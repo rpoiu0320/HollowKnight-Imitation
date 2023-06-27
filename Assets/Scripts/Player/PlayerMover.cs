@@ -41,8 +41,6 @@ public class PlayerMover : MonoBehaviour
     {
         if (!isDash) 
             Move();
-
-        Debug.Log(playerAttacker.IsAttack());
     }
 
     private void FixedUpdate()
@@ -50,7 +48,7 @@ public class PlayerMover : MonoBehaviour
         GroundCheck();
     }
 
-    private void Move()
+    private void Move()     // 실질적 이동
     {
         if (inputDir.x > 0)
         {
@@ -69,14 +67,14 @@ public class PlayerMover : MonoBehaviour
     {
         while (isLook)
         {
-            if (playerAttacker.IsAttack())
-            {
+            if (playerAttacker.IsAttack())      // 위, 아래를 쳐다보던 중 공격을 하면 시점을 재자리로 복귀, 
+            {                                   // 공격이 진행 및 끝나도 계속 쳐다보고 있으면(위, 아래 키를 계속 누르고 있으면) 그 방향을 다시 바라보게됨
                 DefaultLook();
 
                 yield return new WaitUntil(() => playerAttacker.IsAttack() == false);
             }
 
-            if (!isGround)
+            if (!isGround)                      // 공중에서 위, 아래로 시점이동 방지
             {
                 DefaultLook();
 
@@ -85,14 +83,14 @@ public class PlayerMover : MonoBehaviour
 
             lookUpDownTime += Time.deltaTime;
 
-            if (inputDir.x != 0 || inputDir.y == 0)
+            if (inputDir.x != 0 || inputDir.y == 0)     // 위, 아래를 보던 중 이동을 하거나 위, 아래 키를 때면 시점 초기화 
             {
                 DefaultLook();
                 isLook = false;
                 animator.SetFloat("LookUpDown", inputDir.y);
                 break;
             }
-            else if (inputDir.y > 0)
+            else if (inputDir.y > 0)        // TODO : 시점이 이동될 시간, 애니메이션이 움직일 시간 등 추후 수정 필요할거같음
             { 
                 animator.SetBool("isLook", true);
                 animator.SetFloat("LookUpDown", inputDir.y);
@@ -124,7 +122,7 @@ public class PlayerMover : MonoBehaviour
         }
     }
 
-    private void DefaultLook()
+    private void DefaultLook()      // Look과 관련된 사항들 초기화
     {
         lookUpDownTime = 0;
         animator.SetBool("isLook", false);
@@ -133,7 +131,7 @@ public class PlayerMover : MonoBehaviour
         isCameraMove = false;
     }
 
-    //TODO : 위, 아래 방향키 누르면 그쪽 쳐다봄, 카메라 이동 and 바라보는 방향에 따라 각각 다른 스킬 사용, 스킬 쓸 때 Move 안되게
+    //TODO : 스킬 쓸 때 Move 안되게
     private void OnMove(InputValue value)
     {
         inputDir = value.Get<Vector2>();
@@ -151,7 +149,7 @@ public class PlayerMover : MonoBehaviour
     }
 
     Coroutine jumpRoutine;
-    IEnumerator JumpRoutine()
+    IEnumerator JumpRoutine()       // 점프 끝나고 내려올 때 
     {
         while (isJump)
         {
@@ -234,6 +232,8 @@ public class PlayerMover : MonoBehaviour
             animator.SetBool("IsGround", false);
         }
     }
+
+    // 이하 함수들은 다른 컴포넌트들과 상호작용
 
     public UpDown LookingUpDown()
     {
