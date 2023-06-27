@@ -76,6 +76,13 @@ public class PlayerMover : MonoBehaviour
                 yield return new WaitUntil(() => playerAttacker.IsAttack() == false);
             }
 
+            if (!isGround)
+            {
+                DefaultLook();
+
+                yield return new WaitUntil(() => isGround == true);
+            }
+
             lookUpDownTime += Time.deltaTime;
 
             if (inputDir.x != 0 || inputDir.y == 0)
