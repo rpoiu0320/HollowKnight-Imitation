@@ -85,14 +85,15 @@ public class PlayerMover : MonoBehaviour
 
             if (inputDir.x != 0 || inputDir.y == 0)     // 위, 아래를 보던 중 이동을 하거나 위, 아래 키를 때면 시점 초기화 
             {
-                DefaultLook();
                 isLook = false;
+                DefaultLook();
                 animator.SetFloat("LookUpDown", inputDir.y);
                 break;
             }
             else if (inputDir.y > 0)        // TODO : 시점이 이동될 시간, 애니메이션이 움직일 시간 등 추후 수정 필요할거같음
-            { 
-                animator.SetBool("isLook", true);
+            {
+                isLook = true;
+                animator.SetBool("isLook", isLook);
                 animator.SetFloat("LookUpDown", inputDir.y);
 
                 if (inputDir.x == 0)
@@ -100,13 +101,14 @@ public class PlayerMover : MonoBehaviour
                     if(lookUpDownTime > 0.7f)
                     {
                         upDown = UpDown.Up;
-                        isCameraMove = true;
+                        isCameraMove = isLook;
                     }
                 }
             }
             else if (inputDir.y < 0)
             {
-                animator.SetBool("isLook", true);
+                isLook = true;
+                animator.SetBool("isLook", isLook);
                 animator.SetFloat("LookUpDown", inputDir.y);
 
                 if (inputDir.x == 0)
@@ -114,7 +116,7 @@ public class PlayerMover : MonoBehaviour
                     if (lookUpDownTime > 0.7f)
                     {
                         upDown = UpDown.Down;
-                        isCameraMove = true;
+                        isCameraMove = isLook;
                     }
                 }
             }
@@ -125,7 +127,7 @@ public class PlayerMover : MonoBehaviour
     private void DefaultLook()      // Look과 관련된 사항들 초기화
     {
         lookUpDownTime = 0;
-        animator.SetBool("isLook", false);
+//        animator.SetBool("isLook", isLook);
         animator.Play("Idle");
         upDown = UpDown.None;
         isCameraMove = false;
@@ -142,6 +144,7 @@ public class PlayerMover : MonoBehaviour
         if(inputDir.y != 0)
         {
             isLook = true;
+            animator.SetBool("isLook", isLook);
             lookingRoutine = StartCoroutine(LookingRoutine());
         }
 
@@ -180,6 +183,9 @@ public class PlayerMover : MonoBehaviour
         if (!isJump)
         {
             StopCoroutine(jumpRoutine);
+
+            if (!isGround)
+                rb.velocity = new Vector2(rb.velocity.x, -jumpPower);
         }
     }
 
