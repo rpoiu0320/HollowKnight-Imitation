@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.EventSystems;
-using UnityEngine.Events;
-using System;
 
 public class PlayerMover : MonoBehaviour
 {
@@ -13,6 +9,9 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] float jumpPower;
     [SerializeField] LayerMask groundLayer;
 
+    public enum UpDown { None, Up, Down }
+
+    private PlayerAttacker playerAttacker;
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer render;
@@ -25,20 +24,34 @@ public class PlayerMover : MonoBehaviour
     private bool isJump;
     private bool isGround;
     private bool isDash;
+    private bool isCameraMove;
+    private UpDown upDown;
 
     private void Awake()
     {
+        playerAttacker = GetComponent<PlayerAttacker>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         render = GetComponent<SpriteRenderer>();
+
+        DefaultLook();
     }
 
     private void Update()
     {
-        LookUpDown();
+        animator.SetFloat("LookUpDown", inputDir.y);
 
         if (!isDash) 
             Move();
+
+        if (playerAttacker.IsAttack())
+        {
+            DefaultLook();
+            StopCoroutine(lookingRoutine);
+        }
+        else if (isLook)
+            lookingRoutine = StartCoroutine(LookingRoutine());
+
         Debug.Log(lookUpDownTime);
     }
 
@@ -62,41 +75,58 @@ public class PlayerMover : MonoBehaviour
         }
     }
 
-    private void LookUpDown()
+    Coroutine lookingRoutine;
+    IEnumerator LookingRoutine()
     {
-        if (lookDir.y == 0)
-            return;
-
-        lookUpDownTime += Time.deltaTime;
-
-        if (inputDir.y > 0)
+        while (isLook)
         {
-            isLook = true;
-            animator.SetBool("isLook", true);
+            lookUpDownTime += Time.deltaTime;
 
-            if (lookUpDownTime > 0.3f && inputDir.x == 0)
-                animator.Play("LookUp");
+            if (inputDir.x != 0 || inputDir.y == 0)
+            {
+                DefaultLook();
+                break;
+            }
+            else if (inputDir.y > 0)
+            { 
+                animator.SetBool("isLook", true);
+
+                if (inputDir.x == 0)
+                {
+                    if (lookUpDownTime > 0.7f)
+                    {
+                        upDown = UpDown.Up;
+                        isCameraMove = true;
+                    }
+                }
+            }
+            else if (inputDir.y < 0)
+            {
+                animator.SetBool("isLook", true);
+
+                if (inputDir.x == 0)
+                {
+                    if (lookUpDownTime > 0.7f)
+                    {
+                        upDown = UpDown.Down;
+                        isCameraMove = true;
+                    }
+                }
+            }
+            yield return null;
         }
-        else if (inputDir.y < 0)
-        {
-            isLook = true;
-            animator.SetBool("isLook", true);
-
-            if (lookUpDownTime > 0.3f && inputDir.x == 0)
-                animator.Play("LookDown");
-        }
-        else
-        {
-            lookUpDownTime = 0;
-            isLook = false;
-            animator.SetBool("isLook", false);
-            animator.Play("Idle");
-        }
-
-        Debug.Log(inputDir.y);
-
-        animator.SetFloat("LookUpDown", inputDir.y);
     }
+
+    private void DefaultLook()
+    {
+        lookUpDownTime = 0;
+        isLook = false;
+        animator.SetBool("isLook", false);
+        animator.Play("Idle");
+        upDown = UpDown.None;
+        isCameraMove = false;
+    }
+
     //TODO : 위, 아래 방향키 누르면 그쪽 쳐다봄, 카메라 이동 and 바라보는 방향에 따라 각각 다른 스킬 사용, 스킬 쓸 때 Move 안되게
     private void OnMove(InputValue value)
     {
@@ -105,13 +135,18 @@ public class PlayerMover : MonoBehaviour
         if(inputDir != new Vector2(0, 0) && !isDash)    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지
             lookDir = value.Get<Vector2>();
 
+        if(inputDir.y != 0)
+        {
+            isLook = true;
+            lookingRoutine = StartCoroutine(LookingRoutine());
+        }
+
         animator.SetFloat("Move", Mathf.Abs(inputDir.x));
     }
 
     Coroutine jumpRoutine;
     IEnumerator JumpRoutine()
     {
-
         while (isJump)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
@@ -194,13 +229,33 @@ public class PlayerMover : MonoBehaviour
         }
     }
 
-    public bool IsDash()
+    public UpDown LookingUpDown()
     {
-        return isDash;
+        return upDown;
     }
 
     public Vector2 LookDir()
     {
         return lookDir;
+    }
+
+    public Vector2 InputDir()
+    {
+        return inputDir;
+    }
+
+    public bool IsLook()
+    {
+        return isLook;
+    }
+
+    public bool IsDash()
+    {
+        return isDash;
+    }
+
+    public bool IsCameraMove()
+    {
+        return isCameraMove;
     }
 }

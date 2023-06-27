@@ -7,6 +7,7 @@ public class PlayerAttacker : MonoBehaviour
 {
     private Animator animator;
     private PlayerMover playerMover;
+    private bool isAttack;
 
     private void Awake()
     {
@@ -16,7 +17,7 @@ public class PlayerAttacker : MonoBehaviour
 
     private void Update()
     {
-        
+
     }
 
     private void OnSkill(InputValue value)
@@ -29,7 +30,10 @@ public class PlayerAttacker : MonoBehaviour
         if (playerMover.IsDash())     // 대시 중 공격 안됨
             return;
 
-        animator.SetTrigger("Attack");
+        isAttack = value.isPressed;
+
+        if (isAttack)
+            animator.SetTrigger("Attack");
     }
 
     private void AttackUp()
@@ -40,5 +44,10 @@ public class PlayerAttacker : MonoBehaviour
     private void JumpAttackDown()
     {
 
+    }
+    
+    public bool IsAttack()
+    {
+        return isAttack;
     }
 }
