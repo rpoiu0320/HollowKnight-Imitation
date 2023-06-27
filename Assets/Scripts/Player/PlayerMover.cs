@@ -39,20 +39,10 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
-        animator.SetFloat("LookUpDown", inputDir.y);
-
         if (!isDash) 
             Move();
 
-        if (playerAttacker.IsAttack())
-        {
-            DefaultLook();
-            StopCoroutine(lookingRoutine);
-        }
-        else if (isLook)
-            lookingRoutine = StartCoroutine(LookingRoutine());
-
-        Debug.Log(lookUpDownTime);
+        Debug.Log(playerAttacker.IsAttack());
     }
 
     private void FixedUpdate()
@@ -67,7 +57,6 @@ public class PlayerMover : MonoBehaviour
             transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
             render.flipX = false;
         }
-            
         else if (inputDir.x < 0)
         {
             transform.Translate(new Vector3(-moveSpeed * Time.deltaTime, 0, 0));
@@ -80,20 +69,30 @@ public class PlayerMover : MonoBehaviour
     {
         while (isLook)
         {
+            if (playerAttacker.IsAttack())
+            {
+                DefaultLook();
+
+                yield return new WaitUntil(() => playerAttacker.IsAttack() == false);
+            }
+
             lookUpDownTime += Time.deltaTime;
 
             if (inputDir.x != 0 || inputDir.y == 0)
             {
                 DefaultLook();
+                isLook = false;
+                animator.SetFloat("LookUpDown", inputDir.y);
                 break;
             }
             else if (inputDir.y > 0)
             { 
                 animator.SetBool("isLook", true);
+                animator.SetFloat("LookUpDown", inputDir.y);
 
                 if (inputDir.x == 0)
                 {
-                    if (lookUpDownTime > 0.7f)
+                    if(lookUpDownTime > 0.7f)
                     {
                         upDown = UpDown.Up;
                         isCameraMove = true;
@@ -103,6 +102,7 @@ public class PlayerMover : MonoBehaviour
             else if (inputDir.y < 0)
             {
                 animator.SetBool("isLook", true);
+                animator.SetFloat("LookUpDown", inputDir.y);
 
                 if (inputDir.x == 0)
                 {
@@ -120,7 +120,6 @@ public class PlayerMover : MonoBehaviour
     private void DefaultLook()
     {
         lookUpDownTime = 0;
-        isLook = false;
         animator.SetBool("isLook", false);
         animator.Play("Idle");
         upDown = UpDown.None;
