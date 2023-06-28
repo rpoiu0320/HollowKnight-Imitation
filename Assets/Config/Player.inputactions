@@ -34,7 +34,7 @@
                 },
                 {
                     "name": "Skill",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "d03279ad-940e-4213-8eb3-e7c8638ac26d",
                     "expectedControlType": "Button",
                     "processors": "",

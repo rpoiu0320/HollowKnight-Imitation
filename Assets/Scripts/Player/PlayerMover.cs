@@ -76,6 +76,14 @@ public class PlayerMover : MonoBehaviour
 
                 yield return new WaitUntil(() => playerAttacker.IsAttack() == false);
             }
+            if (playerAttacker.IsSkill())      // 지상에서 위, 아래를 쳐다보던 중 공격을 하면 시점을 재자리로 복귀, 
+            {                                   // 공격이 진행 및 끝나도 계속 쳐다보고 있으면(위, 아래 키를 계속 누르고 있으면) 그 방향을 다시 바라보게됨
+                lookUpDownTime = 0;
+                upDown = UpDown.None;
+                isCameraMove = false;
+
+                yield return new WaitUntil(() => playerAttacker.IsSkill() == false);
+            }
 
             lookUpDownTime += Time.deltaTime;
 
@@ -91,6 +99,7 @@ public class PlayerMover : MonoBehaviour
 
             if (inputDir.x != 0 || inputDir.y == 0)     // 위, 아래를 보던 중 이동을 하거나 위, 아래 키를 때면 시점 초기화 
             {
+                lookUpDownTime = 0;
                 isLook = false;
                 animator.SetBool("IsLook", isLook);
                 animator.SetFloat("LookUpDown", inputDir.y);
@@ -188,6 +197,9 @@ public class PlayerMover : MonoBehaviour
     {
         while (isJump)
         {
+            if (isDash)     // 점프키 누르고있으면 대시가 끝난 후 다시 올라가는 현상 방지
+                break;
+
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
             jumpTime += Time.deltaTime;
 
@@ -316,4 +328,6 @@ public class PlayerMover : MonoBehaviour
     그럼 if(!isGround)는 카메라 관련만 건드려야할듯?
 
     시점 변경이랑 위, 아래 공격 함수를 구분해야 할것같음*/
+
+    // 카메라 의도대로 정상동작함, 수정 완
 }

@@ -7,7 +7,10 @@ public class PlayerAttacker : MonoBehaviour
 {
     private Animator animator;
     private PlayerMover playerMover;
+    private float attackCooldown;
     private bool isAttack;
+    private bool isSkill;
+    private bool possibleAttack;
 
     private void Awake()
     {
@@ -17,12 +20,29 @@ public class PlayerAttacker : MonoBehaviour
 
     private void Update()
     {
-
+        Debug.Log(isAttack);
+        //AttackCooldown();
     }
 
     private void OnSkill(InputValue value)
     {
-        animator.SetTrigger("Skill");
+        if (playerMover.IsDash())     // 대시 중 공격 안됨
+            return;
+
+        isSkill = value.isPressed;
+
+        if (isSkill)       // 이때 공격 콜라이더 생성하면 될거같음
+            animator.SetTrigger("Skill");
+    }
+
+    private void AttackCooldown()
+    {
+        if(isAttack)
+        {
+            return;
+        }
+
+        attackCooldown += Time.deltaTime;
     }
 
     private void OnAttack(InputValue value)
@@ -32,7 +52,7 @@ public class PlayerAttacker : MonoBehaviour
 
         isAttack = value.isPressed;
 
-        if (isAttack)
+        if (isAttack)       // 이때 공격 콜라이더 생성하면 될거같음
             animator.SetTrigger("Attack");
     }
 
@@ -49,5 +69,10 @@ public class PlayerAttacker : MonoBehaviour
     public bool IsAttack()
     {
         return isAttack;
+    }
+
+    public bool IsSkill()
+    {
+        return isSkill;
     }
 }
