@@ -34,15 +34,32 @@ public class PoolManager : MonoBehaviour
         }
         else if (original is Component)
         {
-            Debug.Log("Component일 때, Get보류");
-            return null;
+            Component component = original as Component;
+            string key = component.gameObject.name;
+
+            if (!poolDic.ContainsKey(key))
+                CreatePool(key, component.gameObject);
+
+            GameObject obj = poolDic[key].Get();
+            obj.transform.parent = parent;
+            obj.transform.position = position;
+            return obj.GetComponent<T>();
         }
         else
         {
             Debug.Log("else 일 때, Get보류");
             return null;
         }
+    }
 
+    public T Get<T>(T original, Transform parent) where T : Object
+    {
+        return Get<T>(original, Vector3.zero, parent);
+    }
+
+    public T Get<T>(T original) where T : Object
+    {
+        return Get(original, Vector3.zero, null);
     }
 
     public bool Release<T>(T instance) where T : Object     // pool로 반환
@@ -60,8 +77,14 @@ public class PoolManager : MonoBehaviour
         }
         else if (instance is Component)
         {
-            Debug.Log("Component일 때, release보류");
-            return false;
+            Component component = instance as Component;
+            string key = component.gameObject.name;
+
+            if (!poolDic.ContainsKey(key))
+                return false;
+
+            poolDic[key].Release(component.gameObject);
+            return true;
         }
         else
         {
@@ -84,8 +107,13 @@ public class PoolManager : MonoBehaviour
         }
         else if (original is Component)
         {
-            Debug.Log("Component일 때, IsContain보류");
-            return false;
+            Component component = original as Component;
+            string key = component.gameObject.name;
+
+            if (poolDic.ContainsKey(key))
+                return true;
+            else
+                return false;
         }
         else
         {

@@ -12,6 +12,8 @@ public class ShotSoul : MonoBehaviour
     private void OnEnable()
     {
         playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
+        render = GetComponent<SpriteRenderer>();
+        Debug.Log(playerMover.tag);
         lookDir = playerMover.LookDir();
     }
 

@@ -5,12 +5,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttacker : MonoBehaviour
 {
+    [SerializeField] Transform attackPoint;
+
     private Animator animator;
     private PlayerMover playerMover;
     private float attackCooldown;
+    private bool possibleAttack;
     private bool isAttack;
     private bool isSkill;
-    private bool possibleAttack;
 
     private void Awake()
     {
@@ -31,8 +33,11 @@ public class PlayerAttacker : MonoBehaviour
 
         isSkill = value.isPressed;
 
-        if (isSkill)       // 이때 공격 콜라이더 생성하면 될거같음
+        if (isSkill)
+        {
             animator.SetTrigger("Skill");
+            ShotSoul shotSoul = GameManager.Resource.Instantiate<ShotSoul>("Prefab/Player/Skill/ShotSoul", attackPoint.position, gameObject.transform);
+        }
     }
 
     private void AttackCooldown()
@@ -52,8 +57,10 @@ public class PlayerAttacker : MonoBehaviour
 
         isAttack = value.isPressed;
 
-        if (isAttack)       // 이때 공격 콜라이더 생성하면 될거같음
+        if (isAttack)
+        {
             animator.SetTrigger("Attack");
+        }
     }
 
     private void AttackUp()
