@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public static UIManager UI { get { return uiManager; } }
     public static DataManager Data {  get { return dataManager; } }
 
+    private GameManager() { }
 
     private void Awake()
     {
@@ -28,6 +29,12 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(this);
         InitManagers();
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+            instance = null;
     }
 
     private void InitManagers()
