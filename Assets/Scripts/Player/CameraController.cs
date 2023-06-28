@@ -18,11 +18,11 @@ public class CameraController : MonoBehaviour
         playerAttacker = GetComponent<PlayerAttacker>();
     }
 
-    private void FixedUpdate()      // TODO : 입력값이 있을때만 Update하도록 추가해야함
+    private void FixedUpdate()
     { 
         HorizonCameraMoving();
 
-        if(changeVertical != playerMover.IsCameraMove())
+        if(changeVertical != playerMover.IsCameraMove())    // 수직으로 카메라가 변경될 때
         {
             changeVertical = playerMover.IsCameraMove();
             VerticalCameraMoving();
