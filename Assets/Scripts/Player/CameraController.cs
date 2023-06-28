@@ -6,25 +6,27 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] CinemachineVirtualCamera cmVC;
-    CinemachineFramingTransposer cmFT;
-    PlayerMover playerMover;
-    PlayerAttacker playerAttacker;
+    private CinemachineFramingTransposer cmFT;
+    private PlayerMover playerMover;
+    private PlayerAttacker playerAttacker;
+    private bool changeVertical;
 
     private void Awake()
     {
+        cmFT = cmVC.GetCinemachineComponent<CinemachineFramingTransposer>();
         playerMover = GetComponent<PlayerMover>();
         playerAttacker = GetComponent<PlayerAttacker>();
-        cmFT = cmVC.GetCinemachineComponent<CinemachineFramingTransposer>();
     }
 
     private void FixedUpdate()      // TODO : 입력값이 있을때만 Update하도록 추가해야함
     { 
         HorizonCameraMoving();
 
-        //if(playerMover.IsCameraMove())
-        //    VerticalCameraMoving();
-        //else 
+        if(changeVertical != playerMover.IsCameraMove())
+        {
+            changeVertical = playerMover.IsCameraMove();
             VerticalCameraMoving();
+        }
     }
 
     private void VerticalCameraMoving()
