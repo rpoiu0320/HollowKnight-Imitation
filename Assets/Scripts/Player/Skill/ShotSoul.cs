@@ -8,13 +8,15 @@ public class ShotSoul : MonoBehaviour
     private PlayerMover playerMover;
     private Vector2 lookDir;
     private SpriteRenderer render;
+    private ContactFilter2D contactFilter;
+    private Collider2D[] colliderArray;
 
     private void OnEnable()
     {
         playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
         render = GetComponent<SpriteRenderer>();
-        Debug.Log(playerMover.tag);
         lookDir = playerMover.LookDir();
+        contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
     }
 
     private void Update()
@@ -36,11 +38,22 @@ public class ShotSoul : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D target)
     {
-        if(collision == GameObject.FindWithTag("Monster"))
+        if(target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
-            Debug.Log("Monster Hit");
+            Debug.Log("Monster Enter");
+        }
+
+        
+    }
+
+    private void OnTriggerExit2D(Collider2D MapBoundary)
+    {
+        if (MapBoundary.gameObject.layer == LayerMask.NameToLayer("MapBoundary"))
+        {
+            Debug.Log("MapBoundary Enter");
+            GameManager.Pool.Release(gameObject);
         }
     }
 }

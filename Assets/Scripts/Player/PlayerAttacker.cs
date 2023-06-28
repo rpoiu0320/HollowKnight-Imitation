@@ -36,7 +36,7 @@ public class PlayerAttacker : MonoBehaviour
         if (isSkill)
         {
             animator.SetTrigger("Skill");
-            ShotSoul shotSoul = GameManager.Resource.Instantiate<ShotSoul>("Prefab/Player/Skill/ShotSoul", attackPoint.position, gameObject.transform);
+            ShotSoul shotSoul = GameManager.Resource.Instantiate<ShotSoul>("Prefab/Player/Skill/ShotSoul", attackPoint.position, GameObject.Find("PoolManager").transform);
         }
     }
 

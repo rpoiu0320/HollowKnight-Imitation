@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     private void InitManagers()
     {
         GameObject poolObj = new GameObject();
-        poolObj.name = "PollManager";
+        poolObj.name = "PoolManager";
         poolObj.transform.parent = transform;
         poolManager = poolObj.AddComponent<PoolManager>();
 
