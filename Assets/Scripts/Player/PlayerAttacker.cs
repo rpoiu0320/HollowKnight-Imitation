@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,7 +29,7 @@ public class PlayerAttacker : MonoBehaviour
 
     private void OnSkill(InputValue value)
     {
-        if (playerMover.IsDash())     // 대시 중 공격 안됨
+        if (playerMover.IsDash())     // 대시 중 공격 안되도록
             return;
 
         isSkill = value.isPressed;
@@ -36,8 +37,34 @@ public class PlayerAttacker : MonoBehaviour
         if (isSkill)
         {
             animator.SetTrigger("Skill");
-            ShotSoul shotSoul = GameManager.Resource.Instantiate<ShotSoul>("Prefab/Player/Skill/ShotSoul", attackPoint.position, GameObject.Find("PoolManager").transform);
+            switch (playerMover.InputDir().y)
+            {
+                case 0:
+                    ShotSoul();
+                    break;
+                case 1:
+                    Howling();
+                    break;
+                case -1:
+                    Dive();
+                    break;
+            }
         }
+    }
+
+    private void Howling()
+    {
+
+    }
+
+    private void ShotSoul()
+    {
+        ShotSoul shotSoul = GameManager.Resource.Instantiate<ShotSoul>("Prefab/Player/Skill/ShotSoul", attackPoint.position, GameObject.Find("PoolManager").transform);
+    }
+
+    private void Dive()
+    {
+
     }
 
     private void AttackCooldown()
