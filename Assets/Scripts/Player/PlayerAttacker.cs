@@ -37,24 +37,19 @@ public class PlayerAttacker : MonoBehaviour
         if (isSkill)
         {
             animator.SetTrigger("Skill");
-            switch (playerMover.InputDir().y)
-            {
-                case 0:
-                    ShotSoul();
-                    break;
-                case 1:
-                    Howling();
-                    break;
-                case -1:
-                    Dive();
-                    break;
-            }
+
+            if (playerMover.InputDir().y > 0)
+                Howling();
+            else if(playerMover.InputDir().y < 0 && !playerMover.IsGround())
+                Dive();
+            else
+                ShotSoul();
         }
     }
 
     private void Howling()
     {
-
+        Debug.Log("use Howling");
     }
 
     private void ShotSoul()
@@ -64,6 +59,7 @@ public class PlayerAttacker : MonoBehaviour
 
     private void Dive()
     {
+        Debug.Log("use Dive");
 
     }
 

@@ -17,6 +17,7 @@ public class PlayerMover : MonoBehaviour
     private SpriteRenderer render;
     private Vector2 inputDir;
     private Vector2 lookDir = new Vector2(1, 0);
+    private Vector2 lastDirX;
     private float lookUpDownTime;
     private float jumpTime;
     private float dashTime;
@@ -179,8 +180,13 @@ public class PlayerMover : MonoBehaviour
     {
         inputDir = value.Get<Vector2>();
         
-        if(inputDir != new Vector2(0, 0) && !isDash)    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지
+        if(inputDir != new Vector2(0, 0) && !isDash)    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지, 입력이 기존 입력에서 변경되었을 때만
+        {
             lookDir = value.Get<Vector2>();
+
+            if (lastDirX.x != lookDir.x && lookDir.x != 0)
+                lastDirX.x = lookDir.x;
+        }
 
         if(inputDir.y != 0)
         {
@@ -242,9 +248,9 @@ public class PlayerMover : MonoBehaviour
 
         while (true)
         {
-            if (lookDir.x > 0)
+            if (lastDirX.x > 0)
                 transform.Translate(new Vector2(dashSpeed * Time.deltaTime, 0));
-            else if (lookDir.x < 0)
+            else if (lastDirX.x < 0)
                 transform.Translate(new Vector2(-dashSpeed * Time.deltaTime, 0));
 
             dashTime += Time.deltaTime;
@@ -312,6 +318,11 @@ public class PlayerMover : MonoBehaviour
     public bool IsCameraMove()
     {
         return isCameraMove;
+    }
+
+    public bool IsGround()
+    {
+        return isGround;
     }
 
     /* TODO : isGround가 false일 때 isLook이 바뀌질 않음
