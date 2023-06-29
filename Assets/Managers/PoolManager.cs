@@ -27,10 +27,10 @@ public class PoolManager : MonoBehaviour
             if (!poolDic.ContainsKey(key))      // poolDic에 없으면 새로 생성
                 CreatePool(key, prefab);
 
-            GameObject obj = poolDic[key].Get();    // use ObjectPool
-            obj.transform.parent = parent;
-            obj.transform.position = position;
-            return obj as T;                    // T로 Casting 후 return
+            GameObject gameObject = poolDic[key].Get();    // use ObjectPool
+            gameObject.transform.parent = parent;
+            gameObject.transform.position = position;
+            return gameObject as T;                    // T로 Casting 후 return
         }
         else if (original is Component)
         {
