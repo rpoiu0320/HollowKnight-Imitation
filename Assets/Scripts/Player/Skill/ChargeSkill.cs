@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ChargeSkill : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Animator skillAnimator;
+
+    private void Awake()
     {
-        
+        skillAnimator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UseChargeSkill()
     {
-        
+        Debug.Log("UseChargeSkill");
     }
 }

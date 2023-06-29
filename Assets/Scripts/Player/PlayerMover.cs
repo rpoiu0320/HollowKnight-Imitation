@@ -17,7 +17,7 @@ public class PlayerMover : MonoBehaviour
     private SpriteRenderer render;
     private Vector2 inputDir;
     private Vector2 lookDir = new Vector2(1, 0);
-    private Vector2 lastDirX;
+    private float lastDirX;
     private float lookUpDownTime;
     private float jumpTime;
     private float dashTime;
@@ -34,8 +34,11 @@ public class PlayerMover : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         render = GetComponent<SpriteRenderer>();
+    }
 
-        //DefaultLook();
+    private void Start()
+    {
+        lastDirX = lookDir.x;
     }
 
     private void Update()
@@ -184,8 +187,8 @@ public class PlayerMover : MonoBehaviour
         {
             lookDir = value.Get<Vector2>();
 
-            if (lastDirX.x != lookDir.x && lookDir.x != 0)
-                lastDirX.x = lookDir.x;
+            if (lastDirX != lookDir.x && lookDir.x != 0)
+                lastDirX = lookDir.x;
         }
 
         if(inputDir.y != 0)
@@ -248,9 +251,9 @@ public class PlayerMover : MonoBehaviour
 
         while (true)
         {
-            if (lastDirX.x > 0)
+            if (lastDirX > 0)
                 transform.Translate(new Vector2(dashSpeed * Time.deltaTime, 0));
-            else if (lastDirX.x < 0)
+            else if (lastDirX < 0)
                 transform.Translate(new Vector2(-dashSpeed * Time.deltaTime, 0));
 
             dashTime += Time.deltaTime;
@@ -303,6 +306,11 @@ public class PlayerMover : MonoBehaviour
     public Vector2 InputDir()
     {
         return inputDir;
+    }
+
+    public float LastDirX()
+    {
+        return lastDirX;
     }
 
     public bool IsLook()

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerAttacker : MonoBehaviour
@@ -14,6 +15,9 @@ public class PlayerAttacker : MonoBehaviour
     private bool possibleAttack;
     private bool isAttack;
     private bool isSkill;
+    public UnityEvent OnHowling;
+    public UnityEvent OnShotSoul;
+    public UnityEvent OnDive;
 
     private void Awake()
     {
@@ -39,27 +43,27 @@ public class PlayerAttacker : MonoBehaviour
             animator.SetTrigger("Skill");
 
             if (playerMover.InputDir().y > 0)
-                Howling();
-            else if(playerMover.InputDir().y < 0 && !playerMover.IsGround())
-                Dive();
+                OnHowling?.Invoke();
+            else if (playerMover.InputDir().y < 0 && !playerMover.IsGround())
+                OnDive?.Invoke();
             else
-                ShotSoul();
+                OnShotSoul?.Invoke();
         }
     }
 
     private void Howling()
     {
-        Debug.Log("use Howling");
+        Debug.Log("use Howling attacker");
     }
 
     private void ShotSoul()
     {
-        ShotSoul shotSoul = GameManager.Resource.Instantiate<ShotSoul>("Prefab/Player/Skill/ShotSoul", attackPoint.position, GameObject.Find("PoolManager").transform);
+        //ShotSoul shotSoul = GameManager.Resource.Instantiate<ShotSoul>("Prefab/Player/Skill/ShotSoul", attackPoint.position, GameObject.Find("PoolManager").transform);
     }
 
     private void Dive()
     {
-        Debug.Log("use Dive");
+        Debug.Log("use Dive attacker");
 
     }
 

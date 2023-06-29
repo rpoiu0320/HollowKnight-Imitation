@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shot
+  m_Name: DiveMotion
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,7 +20,7 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -1027658411, guid: 66fdb0f651b703144922809ec8d75c16, type: 3}
+      value: {fileID: -1304280191, guid: 79ffa34286951bd46a45145fefc2a34c, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -40,7 +40,7 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -1027658411, guid: 66fdb0f651b703144922809ec8d75c16, type: 3}
+    - {fileID: -1304280191, guid: 79ffa34286951bd46a45145fefc2a34c, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

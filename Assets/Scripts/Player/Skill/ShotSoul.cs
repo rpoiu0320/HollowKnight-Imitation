@@ -6,17 +6,16 @@ public class ShotSoul : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
     private PlayerMover playerMover;
-    private Vector2 lookDir;
     private SpriteRenderer render;
     private ContactFilter2D contactFilter;
-    private Collider2D[] colliderArray;
+    private float direction;
 
     private void OnEnable()
     {
         playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
         render = GetComponent<SpriteRenderer>();
-        lookDir = playerMover.LookDir();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
+        direction = playerMover.LastDirX();
     }
 
     private void Update()
@@ -26,12 +25,12 @@ public class ShotSoul : MonoBehaviour
 
     private void Move()
     {
-        if (lookDir.x > 0)
+        if (direction > 0)
         {
             transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
             render.flipX = false;
         }
-        else if (lookDir.x < 0)
+        else if (direction < 0)
         {
             transform.Translate(new Vector3(-moveSpeed * Time.deltaTime, 0, 0));
             render.flipX = true;
@@ -44,8 +43,6 @@ public class ShotSoul : MonoBehaviour
         {
             Debug.Log("Monster Enter");
         }
-
-        
     }
 
     private void OnTriggerExit2D(Collider2D MapBoundary)

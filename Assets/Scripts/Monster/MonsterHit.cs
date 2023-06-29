@@ -6,18 +6,6 @@ public class MonsterHit : MonoBehaviour, IHittable
 {
     public void TakeHit()
     {
-        throw new System.NotImplementedException();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log("몬스터 체력 감소");
     }
 }
