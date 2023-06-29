@@ -6,35 +6,24 @@ public class Howling : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
     private PlayerMover playerMover;
-    private SpriteRenderer render;
     private ContactFilter2D contactFilter;
-    private float direction;
+    private bool limiteMove;
 
     private void OnEnable()
     {
         playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
-        render = GetComponent<SpriteRenderer>();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
-        direction = playerMover.LastDirX();
+        playerMover.LimitMove(limiteMove = true);
+    }
+
+    private void OnDisable()
+    {
+        playerMover.LimitMove(limiteMove = false);
     }
 
     private void Update()
     {
-        Move();
-    }
 
-    private void Move()
-    {
-        if (direction > 0)
-        {
-            transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
-            render.flipX = false;
-        }
-        else if (direction < 0)
-        {
-            transform.Translate(new Vector3(-moveSpeed * Time.deltaTime, 0, 0));
-            render.flipX = true;
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D target)

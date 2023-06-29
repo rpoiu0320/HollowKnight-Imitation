@@ -43,14 +43,9 @@ public class ShotSoul : MonoBehaviour
         {
             Debug.Log("Monster Enter");
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D MapBoundary)
-    {
-        if (MapBoundary.gameObject.layer == LayerMask.NameToLayer("MapBoundary"))
+        else if(target.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            Debug.Log("MapBoundary Enter");
-            GameManager.Pool.Release(gameObject);
+            Debug.Log("Ground Enter");
         }
     }
 }

@@ -21,6 +21,7 @@ public class PlayerMover : MonoBehaviour
     private float lookUpDownTime;
     private float jumpTime;
     private float dashTime;
+    private bool limitMove;
     private bool isLook;
     private bool isJump;
     private bool isGround;
@@ -54,6 +55,9 @@ public class PlayerMover : MonoBehaviour
 
     private void Move()     // 실질적 이동
     {
+        if(limitMove)
+            return;
+
         if (inputDir.x > 0)
         {
             transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
@@ -331,6 +335,16 @@ public class PlayerMover : MonoBehaviour
     public bool IsGround()
     {
         return isGround;
+    }
+
+    public bool LimitMove(bool limitMove)
+    {
+        if (limitMove)
+            rb.simulated = false;
+        else
+            rb.simulated = true;
+
+        return this.limitMove = limitMove;
     }
 
     /* TODO : isGround가 false일 때 isLook이 바뀌질 않음

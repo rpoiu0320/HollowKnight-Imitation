@@ -683,32 +683,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1704278065 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5368029004970888687, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
-  m_PrefabInstance: {fileID: 5368029003420382686}
-  m_PrefabAsset: {fileID: 0}
---- !u!50 &1704278070
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1704278065}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!4 &1744370105 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 318305914316868945, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
@@ -993,8 +967,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gruzzer
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5368029004970888684, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
 --- !u!1001 &6184758694719274363
 PrefabInstance:
