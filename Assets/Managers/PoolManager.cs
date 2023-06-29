@@ -28,6 +28,7 @@ public class PoolManager : MonoBehaviour
                 CreatePool(key, prefab);
 
             GameObject gameObject = poolDic[key].Get();    // use ObjectPool
+            gameObject.name = key;
             gameObject.transform.parent = parent;
             gameObject.transform.position = position;
             return gameObject as T;                    // T·Î Casting ÈÄ return
@@ -41,6 +42,7 @@ public class PoolManager : MonoBehaviour
                 CreatePool(key, component.gameObject);
 
             GameObject obj = poolDic[key].Get();
+            gameObject.name = key;
             obj.transform.parent = parent;
             obj.transform.position = position;
             return obj.GetComponent<T>();

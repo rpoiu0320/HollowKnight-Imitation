@@ -353,11 +353,6 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!4 &555717692 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 555717692, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-  m_PrefabInstance: {fileID: 318305913019467606}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &790869693
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,17 +683,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 318305914316868945, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
   m_PrefabInstance: {fileID: 318305913019467606}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1828907038 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 709227604, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-  m_PrefabInstance: {fileID: 318305913019467606}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0af5303909b4c7248888c834d7a96eb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2005060891
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,48 +853,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 520088948397313936, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: attackPoint
-      value: 
-      objectReference: {fileID: 555717692}
-    - target: {fileID: 520088948397313936, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: OnDive.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1828907038}
-    - target: {fileID: 520088948397313936, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: OnHowling.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1828907038}
-    - target: {fileID: 520088948397313936, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: OnDive.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnDive
-      objectReference: {fileID: 0}
-    - target: {fileID: 520088948397313936, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: OnShotSoul.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1828907038}
-    - target: {fileID: 520088948397313936, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: OnHowling.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnHowling
-      objectReference: {fileID: 0}
-    - target: {fileID: 520088948397313936, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: OnShotSoul.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnShotSoul
-      objectReference: {fileID: 0}
-    - target: {fileID: 520088948397313936, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: OnDive.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PlayerSkill, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 520088948397313936, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: OnHowling.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PlayerSkill, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 520088948397313936, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: OnShotSoul.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PlayerSkill, Assembly-CSharp
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 709227605, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
 --- !u!1001 &5368029003420382686
 PrefabInstance:

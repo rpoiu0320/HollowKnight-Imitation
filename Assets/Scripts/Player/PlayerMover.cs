@@ -55,9 +55,6 @@ public class PlayerMover : MonoBehaviour
 
     private void Move()     // 실질적 이동
     {
-        if(limitMove)
-            return;
-
         if (inputDir.x > 0)
         {
             transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
@@ -185,6 +182,9 @@ public class PlayerMover : MonoBehaviour
     //TODO : 스킬 쓸 때 Move 안되게
     private void OnMove(InputValue value)
     {
+        if (limitMove)
+            return;
+
         inputDir = value.Get<Vector2>();
         
         if(inputDir != new Vector2(0, 0) && !isDash)    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지, 입력이 기존 입력에서 변경되었을 때만
@@ -345,6 +345,11 @@ public class PlayerMover : MonoBehaviour
             rb.simulated = true;
 
         return this.limitMove = limitMove;
+    }
+
+    public bool LimitMove()
+    {
+        return limitMove;
     }
 
     /* TODO : isGround가 false일 때 isLook이 바뀌질 않음
