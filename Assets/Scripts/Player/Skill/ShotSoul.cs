@@ -46,6 +46,7 @@ public class ShotSoul : MonoBehaviour
         else if(target.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             Debug.Log("Ground Enter");
+            GameManager.Resource.Destory(gameObject);
         }
     }
 }

@@ -12,7 +12,6 @@ public class PlayerAttacker : MonoBehaviour
     private Animator animator;
     private PlayerMover playerMover;
     private float attackCooldown;
-    private bool possibleAttack;
     private bool isAttack;
     private bool isSkill;
     public UnityEvent OnHowling;
@@ -27,8 +26,7 @@ public class PlayerAttacker : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(isAttack);
-        //AttackCooldown();
+
     }
 
     private void OnSkill(InputValue value)

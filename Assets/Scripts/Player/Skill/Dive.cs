@@ -8,33 +8,18 @@ public class Dive : MonoBehaviour
     private PlayerMover playerMover;
     private SpriteRenderer render;
     private ContactFilter2D contactFilter;
-    private float direction;
+    private bool isGround;
 
     private void OnEnable()
     {
         playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
         render = GetComponent<SpriteRenderer>();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
-        direction = playerMover.LastDirX();
     }
 
     private void Update()
     {
-        Move();
-    }
 
-    private void Move()
-    {
-        if (direction > 0)
-        {
-            transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
-            render.flipX = false;
-        }
-        else if (direction < 0)
-        {
-            transform.Translate(new Vector3(-moveSpeed * Time.deltaTime, 0, 0));
-            render.flipX = true;
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D target)

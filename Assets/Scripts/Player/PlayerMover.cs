@@ -46,6 +46,8 @@ public class PlayerMover : MonoBehaviour
     {
         if (!isDash) 
             Move();
+
+        Debug.Log(limitMove);
     }
 
     private void FixedUpdate()
@@ -55,6 +57,9 @@ public class PlayerMover : MonoBehaviour
 
     private void Move()     // 실질적 이동
     {
+        if (limitMove)
+            return;
+
         if (inputDir.x > 0)
         {
             transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
@@ -80,6 +85,7 @@ public class PlayerMover : MonoBehaviour
 
                 yield return new WaitUntil(() => playerAttacker.IsAttack() == false);
             }
+
             if (playerAttacker.IsSkill())      // 지상에서 위, 아래를 쳐다보던 중 공격을 하면 시점을 재자리로 복귀, 
             {                                   // 공격이 진행 및 끝나도 계속 쳐다보고 있으면(위, 아래 키를 계속 누르고 있으면) 그 방향을 다시 바라보게됨
                 lookUpDownTime = 0;
@@ -88,8 +94,6 @@ public class PlayerMover : MonoBehaviour
 
                 yield return new WaitUntil(() => playerAttacker.IsSkill() == false);
             }
-
-            lookUpDownTime += Time.deltaTime;
 
             if (!isGround)                      // 공중에서 위, 아래로 시점이동 방지
             {
@@ -100,6 +104,8 @@ public class PlayerMover : MonoBehaviour
 
                 //yield return new WaitUntil(() => isGround == true);
             }
+
+            lookUpDownTime += Time.deltaTime;
 
             if (inputDir.x != 0 || inputDir.y == 0)     // 위, 아래를 보던 중 이동을 하거나 위, 아래 키를 때면 시점 초기화 
             {
@@ -134,38 +140,6 @@ public class PlayerMover : MonoBehaviour
                     }
                 }
             }
-
-
-            //else if (inputDir.y > 0)        // TODO : 시점이 이동될 시간, 애니메이션이 움직일 시간 등 추후 수정 필요할거같음
-            //{
-            //    isLook = true;
-            //    animator.SetBool("IsLook", isLook);
-            //    animator.SetFloat("LookUpDown", inputDir.y);
-
-            //    if (inputDir.x == 0)
-            //    {
-            //        if(lookUpDownTime > 0.7f)
-            //        {
-            //            upDown = UpDown.Up;
-            //            isCameraMove = isLook;
-            //        }
-            //    }
-            //}
-            //else if (inputDir.y < 0)
-            //{
-            //    isLook = true;
-            //    animator.SetBool("IsLook", isLook);
-            //    animator.SetFloat("LookUpDown", inputDir.y);
-
-            //    if (inputDir.x == 0)
-            //    {
-            //        if (lookUpDownTime > 0.7f)
-            //        {
-            //            upDown = UpDown.Down;
-            //            isCameraMove = isLook;
-            //        }
-            //    }
-            //}
             yield return null;
         }
     }
@@ -182,9 +156,6 @@ public class PlayerMover : MonoBehaviour
     //TODO : 스킬 쓸 때 Move 안되게
     private void OnMove(InputValue value)
     {
-        if (limitMove)
-            return;
-
         inputDir = value.Get<Vector2>();
         
         if(inputDir != new Vector2(0, 0) && !isDash)    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지, 입력이 기존 입력에서 변경되었을 때만
@@ -274,7 +245,7 @@ public class PlayerMover : MonoBehaviour
 
     private void OnDash(InputValue value)
     {
-        if (!isDash)    // 대시 중 다시 대시하는거 방지
+        if (!isDash && !limitMove)    // 대시 중 다시 대시하는거 방지
             dashRoutine = StartCoroutine(DashRoutine());
     }
 
