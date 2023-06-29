@@ -132,23 +132,23 @@ public class PoolManager : MonoBehaviour
         ObjectPool<GameObject> pool = new ObjectPool<GameObject>(
             createFunc: () =>
             {
-                GameObject obj = Instantiate(prefab);
-                obj.gameObject.name = key;
-                return obj;
+                GameObject gameObject = Instantiate(prefab);
+                gameObject.name = key;
+                return gameObject;
             },
-            actionOnGet: (GameObject obj) =>
+            actionOnGet: (GameObject gameObject) =>
             {
-                obj.gameObject.SetActive(true);
-                obj.transform.parent = null;
+                gameObject.gameObject.SetActive(true);
+                gameObject.transform.parent = null;
             },
-            actionOnRelease: (GameObject obj) =>
+            actionOnRelease: (GameObject gameObject) =>
             {
-                obj.gameObject.SetActive(false);
-                obj.transform.parent = poolContainer[key];
+                gameObject.gameObject.SetActive(false);
+                gameObject.transform.parent = poolContainer[key];
             },
-            actionOnDestroy: (GameObject obj) =>
+            actionOnDestroy: (GameObject gameObject) =>
             {
-                Destroy(obj);
+                Destroy(gameObject);
             }
             );
         poolDic.Add(key, pool);
