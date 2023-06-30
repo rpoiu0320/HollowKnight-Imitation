@@ -16,7 +16,7 @@ public class PlayerSkill : MonoBehaviour
     public void OnHowling()
     {
         Howling howling = GameManager.Resource.Instantiate<Howling>
-            ("Prefab/Player/Skill/Howling", new Vector3(playerMover.transform.position.x, playerMover.transform.position.y + .5f, playerMover.transform.position.z), GameObject.Find("PoolManager").transform);
+            ("Prefab/Player/Skill/Howling", new Vector3(playerMover.transform.position.x, playerMover.transform.position.y + 10f, playerMover.transform.position.z), GameObject.Find("PoolManager").transform);
     }
 
     public void OnShotSoul()

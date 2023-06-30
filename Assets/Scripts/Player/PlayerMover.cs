@@ -46,8 +46,6 @@ public class PlayerMover : MonoBehaviour
     {
         if (!isDash) 
             Move();
-
-        Debug.Log(limitMove);
     }
 
     private void FixedUpdate()
