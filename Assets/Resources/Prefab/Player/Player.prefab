@@ -41,7 +41,6 @@ GameObject:
   m_Component:
   - component: {fileID: 709227602}
   - component: {fileID: 709227603}
-  - component: {fileID: 709227604}
   m_Layer: 3
   m_Name: SkillPoint
   m_TagString: Untagged
@@ -116,18 +115,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &709227604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 709227601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0af5303909b4c7248888c834d7a96eb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &318305914316868949
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +132,7 @@ GameObject:
   - component: {fileID: 520088948397313936}
   - component: {fileID: 3930985119972215493}
   - component: {fileID: 1744370113}
+  - component: {fileID: 1744370114}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -322,51 +310,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoint: {fileID: 555717692}
-  OnHowling:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 709227604}
-        m_TargetAssemblyTypeName: PlayerSkill, Assembly-CSharp
-        m_MethodName: OnHowling
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnShotSoul:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 709227604}
-        m_TargetAssemblyTypeName: PlayerSkill, Assembly-CSharp
-        m_MethodName: OnShotSoul
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnDive:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 709227604}
-        m_TargetAssemblyTypeName: PlayerSkill, Assembly-CSharp
-        m_MethodName: OnDive
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &3930985119972215493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,3 +341,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cmVC: {fileID: 0}
+--- !u!114 &1744370114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318305914316868949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af5303909b4c7248888c834d7a96eb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

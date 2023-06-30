@@ -20,7 +20,7 @@ public class Dive : MonoBehaviour
 
     private void OnDisable()
     {
-        playerMover.LimitMove(false);
+
     }
 
     private void Update()
@@ -31,8 +31,6 @@ public class Dive : MonoBehaviour
     Coroutine diveRoutine;
     IEnumerator DiveRoutine()
     {
-        playerMover.LimitMove(true);
-        
         yield return new WaitForSeconds(0.5f);
 
         while (!playerMover.IsGround())

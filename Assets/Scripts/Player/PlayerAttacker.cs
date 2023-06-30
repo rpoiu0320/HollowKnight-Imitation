@@ -11,14 +11,7 @@ public class PlayerAttacker : MonoBehaviour
 
     private Animator animator;
     private PlayerMover playerMover;
-    private float attackCooldown;
-    private float chargeTime;
     private bool isAttack;
-    private bool isSkill;
-    public UnityEvent OnHowling;
-    public UnityEvent OnShotSoul;
-    public UnityEvent OnDive;
-    public UnityEvent OnCharge;
 
     private void Awake()
     {
@@ -26,37 +19,7 @@ public class PlayerAttacker : MonoBehaviour
         playerMover = GetComponent<PlayerMover>();
     }
 
-    private void Update()
-    {
-
-    }
-
-    private void OnSkill(InputValue value)
-    {
-        if (playerMover.LimitMove())
-            return;
-
-        isSkill = value.isPressed;
-        chargeTime = 0;
-
-        if (isSkill)
-        {
-            chargeTime += Time.deltaTime;
-
-            animator.SetTrigger("Skill");
-
-            if (chargeTime > 0.5f)
-            {
-                OnCharge?.Invoke();
-            }
-            else if (playerMover.InputDir().y > 0)
-                OnHowling?.Invoke();
-            else if (playerMover.InputDir().y < 0 && !playerMover.IsGround())
-                OnDive?.Invoke();
-            else
-                OnShotSoul?.Invoke();
-        }
-    }
+    
 
     private void AttackCooldown()
     {
@@ -64,8 +27,6 @@ public class PlayerAttacker : MonoBehaviour
         {
             return;
         }
-
-        attackCooldown += Time.deltaTime;
     }
 
     private void OnAttack(InputValue value)
@@ -94,10 +55,5 @@ public class PlayerAttacker : MonoBehaviour
     public bool IsAttack()
     {
         return isAttack;
-    }
-
-    public bool IsSkill()
-    {
-        return isSkill;
     }
 }

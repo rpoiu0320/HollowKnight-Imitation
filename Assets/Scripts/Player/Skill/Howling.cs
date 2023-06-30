@@ -11,7 +11,7 @@ public class Howling : MonoBehaviour
     private PlayerMover playerMover;
     private ContactFilter2D contactFilter;
     private Collider2D collider2d;
-    private Collider2D[] colliderResults = new Collider2D[10];
+    // private Collider2D[] colliderResults = new Collider2D[10];
     private float attackTime = 0;
 
     private void OnEnable()
@@ -22,13 +22,6 @@ public class Howling : MonoBehaviour
         howlingRoutine = StartCoroutine(HowlingRoutine());
     }
 
-    private void OnDisable()
-    {
-        playerMover.LookSync();
-        playerMover.LimitMove(false);
-        Debug.Log("end");
-    }
-
     private void Update()
     {
         // Debug.Log(Physics2D.OverlapCollider(collider2d, contactFilter, colliderResults));
@@ -36,10 +29,9 @@ public class Howling : MonoBehaviour
     }
 
     Coroutine howlingRoutine;
-
     IEnumerator HowlingRoutine()
     {
-        playerMover.LimitMove(true);
+        //playerMover.LimitMove(true);
 
         while (attackTime < 1f)
         {

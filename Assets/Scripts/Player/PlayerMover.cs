@@ -22,6 +22,7 @@ public class PlayerMover : MonoBehaviour
     private float jumpTime;
     private float dashTime;
     private bool limitMove;
+    private bool isDash;
     private bool isLook;
     private bool isJump;
     private bool isGround;
@@ -80,14 +81,14 @@ public class PlayerMover : MonoBehaviour
                 yield return new WaitUntil(() => playerAttacker.IsAttack() == false);
             }
 
-            if (playerAttacker.IsSkill())      // 지상에서 위, 아래를 쳐다보던 중 공격을 하면 시점을 재자리로 복귀, 
-            {                                   // 공격이 진행 및 끝나도 계속 쳐다보고 있으면(위, 아래 키를 계속 누르고 있으면) 그 방향을 다시 바라보게됨
-                lookUpDownTime = 0;
-                upDown = UpDown.None;
-                isCameraMove = false;
+            //if (playerAttacker.IsSkill())      // 지상에서 위, 아래를 쳐다보던 중 공격을 하면 시점을 재자리로 복귀, 
+            //{                                   // 공격이 진행 및 끝나도 계속 쳐다보고 있으면(위, 아래 키를 계속 누르고 있으면) 그 방향을 다시 바라보게됨
+            //    lookUpDownTime = 0;
+            //    upDown = UpDown.None;
+            //    isCameraMove = false;
 
-                yield return new WaitUntil(() => playerAttacker.IsSkill() == false);
-            }
+            //    yield return new WaitUntil(() => playerAttacker.IsSkill() == false);
+            //}
 
             if (!isGround)                      // 공중에서 위, 아래로 시점이동 방지
             {
@@ -142,7 +143,7 @@ public class PlayerMover : MonoBehaviour
     {
         inputDir = value.Get<Vector2>();
         
-        if(inputDir != new Vector2(0, 0) && !limitMove)    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지, 입력이 기존 입력에서 변경되었을 때만
+        if(inputDir != new Vector2(0, 0) && !isDash/*&& !limitMove*/)    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지, 입력이 기존 입력에서 변경되었을 때만
         {
             lookDir = value.Get<Vector2>();
 
@@ -204,6 +205,7 @@ public class PlayerMover : MonoBehaviour
     IEnumerator DashRoutine()
     {
         limitMove = true;
+        isDash = true;
         dashTime = 0f;  // TODO : 대시 애니메이션과 시간 동기화 필요, 점프를 계속 누르고 있으면서 대시를 하면 대시 종료 후 점프하는 현상 수정 필요
         rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation; // 대시 중 중력 영향받아 떨어지는거 방지
         animator.SetTrigger("Dash");
@@ -221,7 +223,8 @@ public class PlayerMover : MonoBehaviour
             {
                 rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 limitMove = false;
-                LookSync();
+                isDash = false;
+                //LookSync();
                 break;
             }
             yield return null;
@@ -253,14 +256,14 @@ public class PlayerMover : MonoBehaviour
 
     // 이하 함수들은 다른 컴포넌트들과 상호작용
 
-    public void LookSync()
-    {
-        Debug.Log(isLook);
-        Debug.Log(inputDir.y);
-        animator.SetBool("IsLook", isLook);
-        animator.SetFloat("LookUpDown", inputDir.y);
-        dashDir = inputDir.x;      
-    }
+    //public void LookSync()
+    //{
+    //    Debug.Log(isLook);
+    //    Debug.Log(inputDir.y);
+    //    animator.SetBool("IsLook", isLook);
+    //    animator.SetFloat("LookUpDown", inputDir.y);
+    //    dashDir = inputDir.x;      
+    //}
 
     public UpDown LookingUpDown()
     {
