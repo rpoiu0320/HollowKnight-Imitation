@@ -36,7 +36,7 @@ public class ShotSoul : MonoBehaviour
             render.flipX = true;
         }
     }
-
+    
     private void OnTriggerEnter2D(Collider2D target)
     {
         if(target.gameObject.layer == LayerMask.NameToLayer("Monster"))
@@ -46,6 +46,14 @@ public class ShotSoul : MonoBehaviour
         else if(target.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             Debug.Log("Ground Enter");
+            GameManager.Resource.Destory(gameObject);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D target)
+    {
+        if (target.gameObject.layer == LayerMask.NameToLayer("MapBoundary"))
+        {
             GameManager.Resource.Destory(gameObject);
         }
     }

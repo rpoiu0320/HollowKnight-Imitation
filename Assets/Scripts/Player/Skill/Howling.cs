@@ -13,20 +13,20 @@ public class Howling : MonoBehaviour
     private Collider2D collider2d;
     private Collider2D[] colliderResults = new Collider2D[10];
     private float attackTime = 0;
-    private bool limiteMove;
 
     private void OnEnable()
     {
         playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
         collider2d = GetComponent<Collider2D>();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
-        playerMover.LimitMove(limiteMove = true);
         howlingRoutine = StartCoroutine(HowlingRoutine());
     }
 
     private void OnDisable()
     {
-        playerMover.LimitMove(limiteMove = false);
+        playerMover.LookSync();
+        playerMover.LimitMove(false);
+        Debug.Log("end");
     }
 
     private void Update()
@@ -39,6 +39,8 @@ public class Howling : MonoBehaviour
 
     IEnumerator HowlingRoutine()
     {
+        playerMover.LimitMove(true);
+
         while (attackTime < 1f)
         {
             yield return new WaitForSeconds(0.2f);

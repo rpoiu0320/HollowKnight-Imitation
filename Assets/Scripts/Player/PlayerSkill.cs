@@ -28,11 +28,12 @@ public class PlayerSkill : MonoBehaviour
     public void OnDive()
     {
         Dive dive = GameManager.Resource.Instantiate<Dive>
-            ("Prefab/Player/Skill/Dive", playerMover.transform.position, GameObject.Find("PoolManager").transform);
+            ("Prefab/Player/Skill/Dive", playerMover.transform.position, GameObject.Find("SkillPoint").transform);
     }
 
     public void OnChargeSkill()
     {
-        Debug.Log("UseChargeSkill");
+        ChargeSkill chargeSkill = GameManager.Resource.Instantiate<ChargeSkill>
+            ("Prefab/Player/Skill/ChargeSkill", playerMover.transform.position, GameObject.Find("SkillPoint").transform);
     }
 }

@@ -17,7 +17,7 @@ public class PlayerMover : MonoBehaviour
     private SpriteRenderer render;
     private Vector2 inputDir;
     private Vector2 lookDir = new Vector2(1, 0);
-    private float lastDirX;
+    private float dashDir;                         // 방향키 입력 없으면 제자리 대시하는 현상 방지
     private float lookUpDownTime;
     private float jumpTime;
     private float dashTime;
@@ -38,16 +38,13 @@ public class PlayerMover : MonoBehaviour
 
     private void Start()
     {
-        lastDirX = lookDir.x;
+        dashDir = lookDir.x;
     }
 
     private void Update()
     {
         if (!limitMove) 
             Move();
-
-        Debug.Log(inputDir + " input");
-        Debug.Log(lookDir + " look");
     }
 
     private void FixedUpdate()
@@ -149,8 +146,8 @@ public class PlayerMover : MonoBehaviour
         {
             lookDir = value.Get<Vector2>();
 
-            if (lastDirX != lookDir.x && lookDir.x != 0)
-                lastDirX = lookDir.x;
+            if (dashDir != lookDir.x && lookDir.x != 0)
+                dashDir = lookDir.x;
         }
 
         if(inputDir.y != 0)
@@ -213,19 +210,18 @@ public class PlayerMover : MonoBehaviour
 
         while (true)
         {
-            if (lastDirX > 0)
+            if (dashDir > 0)
                 transform.Translate(new Vector2(dashSpeed * Time.deltaTime, 0));
-            else if (lastDirX < 0)
+            else if (dashDir < 0)
                 transform.Translate(new Vector2(-dashSpeed * Time.deltaTime, 0));
 
             dashTime += Time.deltaTime;
 
-            if(dashTime > 0.3f)
+            if(dashTime > 0.5f)
             {
                 rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 limitMove = false;
-                if(inputDir.x != 0 && lastDirX != inputDir.x)
-                    lastDirX = inputDir.x;
+                LookSync();
                 break;
             }
             yield return null;
@@ -257,6 +253,15 @@ public class PlayerMover : MonoBehaviour
 
     // 이하 함수들은 다른 컴포넌트들과 상호작용
 
+    public void LookSync()
+    {
+        Debug.Log(isLook);
+        Debug.Log(inputDir.y);
+        animator.SetBool("IsLook", isLook);
+        animator.SetFloat("LookUpDown", inputDir.y);
+        dashDir = inputDir.x;      
+    }
+
     public UpDown LookingUpDown()
     {
         return upDown;
@@ -274,7 +279,7 @@ public class PlayerMover : MonoBehaviour
 
     public float LastDirX()
     {
-        return lastDirX;
+        return dashDir;
     }
 
     public bool IsLook()

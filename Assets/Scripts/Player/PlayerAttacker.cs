@@ -12,11 +12,13 @@ public class PlayerAttacker : MonoBehaviour
     private Animator animator;
     private PlayerMover playerMover;
     private float attackCooldown;
+    private float chargeTime;
     private bool isAttack;
     private bool isSkill;
     public UnityEvent OnHowling;
     public UnityEvent OnShotSoul;
     public UnityEvent OnDive;
+    public UnityEvent OnCharge;
 
     private void Awake()
     {
@@ -31,38 +33,29 @@ public class PlayerAttacker : MonoBehaviour
 
     private void OnSkill(InputValue value)
     {
-        if (playerMover.LimitMove())     // 대시 중 공격 안되도록
+        if (playerMover.LimitMove())
             return;
 
         isSkill = value.isPressed;
+        chargeTime = 0;
 
         if (isSkill)
         {
+            chargeTime += Time.deltaTime;
+
             animator.SetTrigger("Skill");
 
-            if (playerMover.InputDir().y > 0)
+            if (chargeTime > 0.5f)
+            {
+                OnCharge?.Invoke();
+            }
+            else if (playerMover.InputDir().y > 0)
                 OnHowling?.Invoke();
             else if (playerMover.InputDir().y < 0 && !playerMover.IsGround())
                 OnDive?.Invoke();
             else
                 OnShotSoul?.Invoke();
         }
-    }
-
-    private void Howling()
-    {
-        Debug.Log("use Howling attacker");
-    }
-
-    private void ShotSoul()
-    {
-        //ShotSoul shotSoul = GameManager.Resource.Instantiate<ShotSoul>("Prefab/Player/Skill/ShotSoul", attackPoint.position, GameObject.Find("PoolManager").transform);
-    }
-
-    private void Dive()
-    {
-        Debug.Log("use Dive attacker");
-
     }
 
     private void AttackCooldown()
