@@ -300,10 +300,10 @@ public class PlayerMover : MonoBehaviour
         return isGround;
     }
 
-    public bool LimitMove(bool limitMove)
+    public bool LimitMove(bool limitMove)   // 입력값을 받지 못하게
     {
         if (limitMove)
-            rb.simulated = false;
+            rb.simulated = false;           // 중력 영향 안받음
         else
             rb.simulated = true;
 

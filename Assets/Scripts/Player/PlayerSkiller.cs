@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -7,17 +8,21 @@ using UnityEngine.InputSystem;
 public class PlayerSkiller : MonoBehaviour
 {
     private PlayerMover playerMover;
+    private Animator animator;
     private float attackCooldown;
     private float chargeTime;
     private bool isSkill;
+    
+
     private void Awake()
     {
-        playerMover = playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
+        playerMover = playerMover = GetComponent<PlayerMover>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        if (isSkill)
+        if(isSkill)
         {
             chargeTime += Time.deltaTime;
         }
@@ -26,14 +31,42 @@ public class PlayerSkiller : MonoBehaviour
     Coroutine skillRoutine;
     IEnumerator SkillRoutine()
     {
-        if (playerMover.InputDir().y > 0)
-            OnHowling();
-        else if (playerMover.InputDir().y < 0 && !playerMover.IsGround())
-            OnDive();
-        else
-            OnShotSoul();
+        while (isSkill)
+        {
+            chargeTime += Time.deltaTime;
+            
+            if (chargeTime >= 0.5f && playerMover.IsGround())
+            {
+                OnChargeSkill();
+                yield break;
+            }
+            yield return null;
+        }
 
-        yield return null;
+        if(!isSkill)
+        {
+            Debug.Log(chargeTime);
+            if (chargeTime < 0.4f)
+            {
+                if(playerMover.InputDir().y > 0)
+                {
+                    animator.SetTrigger("Skill");
+                    OnHowling();
+                }
+                else if(playerMover.InputDir().y < 0 && !playerMover.IsGround())
+                {
+                    animator.SetTrigger("Skill");
+                    OnDive();
+                }
+                else
+                {
+                    animator.SetTrigger("Skill");
+                    OnShotSoul();
+                }
+                yield break;
+            }
+        }
+        yield break;
     }
 
     private void OnSkill(InputValue value)
@@ -42,7 +75,7 @@ public class PlayerSkiller : MonoBehaviour
             return;
 
         isSkill = value.isPressed;
-
+        
         if(isSkill)
         {
             chargeTime = 0;
@@ -72,5 +105,11 @@ public class PlayerSkiller : MonoBehaviour
     {
         ChargeSkill chargeSkill = GameManager.Resource.Instantiate<ChargeSkill>
             ("Prefab/Player/Skill/ChargeSkill", playerMover.transform.position, GameObject.Find("SkillPoint").transform);
+    }
+
+    Coroutine chargeSkillRoutine;
+    IEnumerator ChargeSkillRoutine()
+    {
+        yield return null;
     }
 }
