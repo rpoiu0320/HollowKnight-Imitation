@@ -10,7 +10,8 @@ public class PlayerSkiller : MonoBehaviour
     private PlayerMover playerMover;
     private Animator animator;
     private float attackCooldown;
-    private float chargeTime;
+    private float buttonPressedTime;
+    private float chargeSkillTime;
     private bool isSkill;
     
 
@@ -24,7 +25,7 @@ public class PlayerSkiller : MonoBehaviour
     {
         if(isSkill)
         {
-            chargeTime += Time.deltaTime;
+            buttonPressedTime += Time.deltaTime;
         }
     }
 
@@ -33,11 +34,11 @@ public class PlayerSkiller : MonoBehaviour
     {
         while (isSkill)
         {
-            chargeTime += Time.deltaTime;
+            buttonPressedTime += Time.deltaTime;
             
-            if (chargeTime >= 0.5f && playerMover.IsGround())
+            if (buttonPressedTime >= 0.5f && playerMover.IsGround())
             {
-                OnChargeSkill();
+                chargeSkillRoutine = StartCoroutine(ChargeSkillRoutine());
                 yield break;
             }
             yield return null;
@@ -45,8 +46,8 @@ public class PlayerSkiller : MonoBehaviour
 
         if(!isSkill)
         {
-            Debug.Log(chargeTime);
-            if (chargeTime < 0.4f)
+            Debug.Log(buttonPressedTime);
+            if (buttonPressedTime < 0.4f)
             {
                 if(playerMover.InputDir().y > 0)
                 {
@@ -66,7 +67,7 @@ public class PlayerSkiller : MonoBehaviour
                 yield break;
             }
         }
-        yield break;
+        StopCoroutine(skillRoutine);
     }
 
     private void OnSkill(InputValue value)
@@ -78,7 +79,7 @@ public class PlayerSkiller : MonoBehaviour
         
         if(isSkill)
         {
-            chargeTime = 0;
+            buttonPressedTime = 0;
             skillRoutine = StartCoroutine(SkillRoutine());
         }
     }
@@ -110,6 +111,22 @@ public class PlayerSkiller : MonoBehaviour
     Coroutine chargeSkillRoutine;
     IEnumerator ChargeSkillRoutine()
     {
-        yield return null;
+        OnChargeSkill();
+        chargeSkillTime = 0;
+
+        while (isSkill)
+        {
+            chargeSkillTime += Time.deltaTime;
+
+            if(chargeSkillTime > 0.5f)
+            {
+                Debug.Log("Èú");
+            }
+
+            yield return null;
+        }
+
+        GameManager.Resource.Destory(gameObject);
+        StopCoroutine(chargeSkillRoutine);
     }
 }
