@@ -25,7 +25,6 @@ public class PlayerMover : MonoBehaviour
     private bool isLook;
     private bool isJump;
     private bool isGround;
-    private bool isDash;
     private bool isCameraMove;
     private UpDown upDown;
 
@@ -44,8 +43,11 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
-        if (!isDash) 
+        if (!limitMove) 
             Move();
+
+        Debug.Log(inputDir + " input");
+        Debug.Log(lookDir + " look");
     }
 
     private void FixedUpdate()
@@ -55,9 +57,6 @@ public class PlayerMover : MonoBehaviour
 
     private void Move()     // 실질적 이동
     {
-        if (limitMove)
-            return;
-
         if (inputDir.x > 0)
         {
             transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
@@ -142,21 +141,11 @@ public class PlayerMover : MonoBehaviour
         }
     }
 
-    //private void DefaultLook()      // Look과 관련된 사항들 초기화
-    //{
-    //    lookUpDownTime = 0;
-    //    animator.SetBool("isLook", isLook);
-    //    animator.Play("Idle");
-    //    upDown = UpDown.None;
-    //    isCameraMove = false;
-    //}
-
-    //TODO : 스킬 쓸 때 Move 안되게
     private void OnMove(InputValue value)
     {
         inputDir = value.Get<Vector2>();
         
-        if(inputDir != new Vector2(0, 0) && !isDash)    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지, 입력이 기존 입력에서 변경되었을 때만
+        if(inputDir != new Vector2(0, 0) && !limitMove)    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지, 입력이 기존 입력에서 변경되었을 때만
         {
             lookDir = value.Get<Vector2>();
 
@@ -178,7 +167,7 @@ public class PlayerMover : MonoBehaviour
     {
         while (isJump)
         {
-            if (isDash)     // 점프키 누르고있으면 대시가 끝난 후 다시 올라가는 현상 방지
+            if (limitMove)     // 점프키 누르고있으면 대시가 끝난 후 다시 올라가는 현상 방지
                 break;
 
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
@@ -217,7 +206,7 @@ public class PlayerMover : MonoBehaviour
     Coroutine dashRoutine;
     IEnumerator DashRoutine()
     {
-        isDash = true;
+        limitMove = true;
         dashTime = 0f;  // TODO : 대시 애니메이션과 시간 동기화 필요, 점프를 계속 누르고 있으면서 대시를 하면 대시 종료 후 점프하는 현상 수정 필요
         rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation; // 대시 중 중력 영향받아 떨어지는거 방지
         animator.SetTrigger("Dash");
@@ -234,7 +223,9 @@ public class PlayerMover : MonoBehaviour
             if(dashTime > 0.3f)
             {
                 rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-                isDash = false;
+                limitMove = false;
+                if(inputDir.x != 0 && lastDirX != inputDir.x)
+                    lastDirX = inputDir.x;
                 break;
             }
             yield return null;
@@ -243,7 +234,7 @@ public class PlayerMover : MonoBehaviour
 
     private void OnDash(InputValue value)
     {
-        if (!isDash && !limitMove)    // 대시 중 다시 대시하는거 방지
+        if (!limitMove)    // 대시 중 다시 대시하는거 방지
             dashRoutine = StartCoroutine(DashRoutine());
     }
 
@@ -289,11 +280,6 @@ public class PlayerMover : MonoBehaviour
     public bool IsLook()
     {
         return isLook;
-    }
-
-    public bool IsDash()
-    {
-        return isDash;
     }
 
     public bool IsCameraMove()

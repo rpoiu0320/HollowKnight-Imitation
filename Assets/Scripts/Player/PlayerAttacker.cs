@@ -31,7 +31,7 @@ public class PlayerAttacker : MonoBehaviour
 
     private void OnSkill(InputValue value)
     {
-        if (playerMover.IsDash() || playerMover.LimitMove())     // 대시 중 공격 안되도록
+        if (playerMover.LimitMove())     // 대시 중 공격 안되도록
             return;
 
         isSkill = value.isPressed;
@@ -77,7 +77,7 @@ public class PlayerAttacker : MonoBehaviour
 
     private void OnAttack(InputValue value)
     {
-        if (playerMover.IsDash() || playerMover.LimitMove())     // 대시 중 공격 안됨
+        if (playerMover.LimitMove())     // 대시 중 공격 안됨
             return;
 
         isAttack = value.isPressed;
