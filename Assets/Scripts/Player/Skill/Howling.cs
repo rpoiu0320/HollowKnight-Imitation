@@ -30,7 +30,7 @@ public class Howling : MonoBehaviour
     {
         while (attackTime < 1f)
         {
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.25f);
 
             collider2d.enabled = false;
             collider2d.enabled = true;
