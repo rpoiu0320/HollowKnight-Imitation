@@ -12,6 +12,7 @@ public class PlayerMover : MonoBehaviour
     public enum UpDown { None, Up, Down }
 
     private PlayerAttacker playerAttacker;
+    private PlayerSkiller playerSkiller;
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer render;
@@ -32,6 +33,7 @@ public class PlayerMover : MonoBehaviour
     private void Awake()
     {
         playerAttacker = GetComponent<PlayerAttacker>();
+        playerSkiller = GetComponent<PlayerSkiller>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         render = GetComponent<SpriteRenderer>();
@@ -81,14 +83,14 @@ public class PlayerMover : MonoBehaviour
                 yield return new WaitUntil(() => playerAttacker.IsAttack() == false);
             }
 
-            //if (playerAttacker.IsSkill())      // 지상에서 위, 아래를 쳐다보던 중 공격을 하면 시점을 재자리로 복귀, 
-            //{                                   // 공격이 진행 및 끝나도 계속 쳐다보고 있으면(위, 아래 키를 계속 누르고 있으면) 그 방향을 다시 바라보게됨
-            //    lookUpDownTime = 0;
-            //    upDown = UpDown.None;
-            //    isCameraMove = false;
+            /*if (playerSkiller.IsSkill())      // 지상에서 위, 아래를 쳐다보던 중 공격을 하면 시점을 재자리로 복귀, 
+            {                                   // 공격이 진행 및 끝나도 계속 쳐다보고 있으면(위, 아래 키를 계속 누르고 있으면) 그 방향을 다시 바라보게됨
+                lookUpDownTime = 0;
+                upDown = UpDown.None;
+                isCameraMove = false;
 
-            //    yield return new WaitUntil(() => playerAttacker.IsSkill() == false);
-            //}
+                yield return new WaitUntil(() => playerSkiller.IsSkill() == false);
+            }*/
 
             if (!isGround)                      // 공중에서 위, 아래로 시점이동 방지
             {
@@ -96,8 +98,6 @@ public class PlayerMover : MonoBehaviour
                 upDown = UpDown.None;
                 isCameraMove = false;
                 animator.SetFloat("LookUpDown", inputDir.y);
-
-                //yield return new WaitUntil(() => isGround == true);
             }
 
             lookUpDownTime += Time.deltaTime;
@@ -143,7 +143,7 @@ public class PlayerMover : MonoBehaviour
     {
         inputDir = value.Get<Vector2>();
         
-        if(inputDir != new Vector2(0, 0)/* && !isDash*/)    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지, 입력이 기존 입력에서 변경되었을 때만
+        if(inputDir != new Vector2(0, 0))    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지, 입력이 기존 입력에서 변경되었을 때만
         {
             lookDir = value.Get<Vector2>();
 
@@ -171,8 +171,10 @@ public class PlayerMover : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
             jumpTime += Time.deltaTime;
 
-            if (jumpTime > 1f)
+            if (jumpTime > 0.4f)
             {
+                yield return new WaitForSeconds(0.15f);
+                //rb.velocity = new Vector2(rb.velocity.x, -jumpPower);
                 break;
             }
 
@@ -195,9 +197,7 @@ public class PlayerMover : MonoBehaviour
         if (!isJump)
         {
             StopCoroutine(jumpRoutine);
-
-            if (!isGround)
-                rb.velocity = new Vector2(rb.velocity.x, -jumpPower);
+            rb.velocity = new Vector2(rb.velocity.x, -jumpPower/2);
         }
     }
 
@@ -256,15 +256,6 @@ public class PlayerMover : MonoBehaviour
 
     // 이하 함수들은 다른 컴포넌트들과 상호작용
 
-    //public void LookSync()
-    //{
-    //    Debug.Log(isLook);
-    //    Debug.Log(inputDir.y);
-    //    animator.SetBool("IsLook", isLook);
-    //    animator.SetFloat("LookUpDown", inputDir.y);
-    //    dashDir = inputDir.x;      
-    //}
-
     public UpDown LookingUpDown()
     {
         return upDown;
@@ -303,7 +294,7 @@ public class PlayerMover : MonoBehaviour
     public bool LimitMove(bool limitMove)   // 입력값을 받지 못하게
     {
         if (limitMove)
-            rb.simulated = false;           // 중력 영향 안받음
+            rb.simulated = false;           // 중력 영향 안받음, 점프 하자마자 대시하고 점프키를 계속 누르고있어도 대시 끝나면 바로 내려감
         else
             rb.simulated = true;
 

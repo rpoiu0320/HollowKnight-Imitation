@@ -14,7 +14,9 @@ public class PlayerSkiller : MonoBehaviour
     private float skillPressedTime;
     private float chargeSkillTime;
     private bool isSkill;
-    
+    private bool endSkill;
+
+
 
     private void Awake()
     {
@@ -32,7 +34,7 @@ public class PlayerSkiller : MonoBehaviour
 
     Coroutine skillRoutine;
     IEnumerator SkillRoutine()
-    {
+    {        
         while (isSkill)
         {
             skillPressedTime += Time.deltaTime;
@@ -63,18 +65,17 @@ public class PlayerSkiller : MonoBehaviour
                 yield break;
             }
         }
+
         StopCoroutine(skillRoutine);
     }
 
     private void OnSkill(InputValue value)
     {
-        if (playerMover.LimitMove())
-            return;
-
         isSkill = value.isPressed;
         
         if(isSkill)
         {
+            endSkill = false;
             skillPressedTime = 0;
             skillRoutine = StartCoroutine(SkillRoutine());
         }
@@ -128,5 +129,10 @@ public class PlayerSkiller : MonoBehaviour
         animator.SetBool("IsChargeSkill", false);
         GameManager.Resource.Destory(chargeSkill.gameObject);
         StopCoroutine(chargeSkillRoutine);
+    }
+
+    public bool EndSkill()
+    {
+        return endSkill;
     }
 }
