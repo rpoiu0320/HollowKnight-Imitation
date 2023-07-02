@@ -12,7 +12,6 @@ public class PlayerSkiller : MonoBehaviour
     private ChargeSkill chargeSkill;
     private PlayerMover playerMover;
     private Animator animator;
-    private float attackCooldown;
     private float skillPressedTime;
     private float chargeSkillTime;
     private bool isSkill;

@@ -5,19 +5,33 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] CinemachineVirtualCamera cmVC;
+    private Collider2D mapBoundary;
+    private CinemachineVirtualCamera cmVC;
     private CinemachineFramingTransposer cmFT;
+    private CinemachineConfiner2D cmConfiner2D;
+    private Player player;
     private PlayerMover playerMover;
     private PlayerAttacker playerAttacker;
     private PlayerSkiller playerSkiller;
+    
     private bool changeVertical;
 
     private void Awake()
     {
+        mapBoundary = GameObject.FindWithTag("MapBoundary").GetComponent<Collider2D>();
+        cmVC = GetComponent<CinemachineVirtualCamera>();
         cmFT = cmVC.GetCinemachineComponent<CinemachineFramingTransposer>();
-        playerMover = GetComponent<PlayerMover>();
-        playerAttacker = GetComponent<PlayerAttacker>();
-        playerSkiller = GetComponent<PlayerSkiller>();
+        cmConfiner2D = cmVC.GetComponent<CinemachineConfiner2D>();
+        player = GameObject.Find("Player").GetComponent<Player>();
+        playerMover = player.GetComponent<PlayerMover>();
+        playerAttacker = player.GetComponent<PlayerAttacker>();
+        playerSkiller = player.GetComponent<PlayerSkiller>();
+    }
+
+    private void Start()
+    {
+        cmVC.Follow = player.transform;
+        cmConfiner2D.m_BoundingShape2D = mapBoundary;
     }
 
     private void FixedUpdate()

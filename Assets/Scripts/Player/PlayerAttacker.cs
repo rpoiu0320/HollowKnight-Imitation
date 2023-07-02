@@ -19,8 +19,6 @@ public class PlayerAttacker : MonoBehaviour
         playerMover = GetComponent<PlayerMover>();
     }
 
-    
-
     private void AttackCooldown()
     {
         if(isAttack)
