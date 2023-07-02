@@ -143,7 +143,7 @@ public class PlayerMover : MonoBehaviour
     {
         inputDir = value.Get<Vector2>();
         
-        if(inputDir != new Vector2(0, 0) && !isDash/*&& !limitMove*/)    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지, 입력이 기존 입력에서 변경되었을 때만
+        if(inputDir != new Vector2(0, 0) && !isDash)    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지, 입력이 기존 입력에서 변경되었을 때만
         {
             lookDir = value.Get<Vector2>();
 

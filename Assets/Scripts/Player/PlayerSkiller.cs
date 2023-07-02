@@ -11,7 +11,7 @@ public class PlayerSkiller : MonoBehaviour
     private PlayerMover playerMover;
     private Animator animator;
     private float attackCooldown;
-    private float buttonPressedTime;
+    private float skillPressedTime;
     private float chargeSkillTime;
     private bool isSkill;
     
@@ -26,7 +26,7 @@ public class PlayerSkiller : MonoBehaviour
     {
         if(isSkill)
         {
-            buttonPressedTime += Time.deltaTime;
+            skillPressedTime += Time.deltaTime;
         }
     }
 
@@ -35,11 +35,12 @@ public class PlayerSkiller : MonoBehaviour
     {
         while (isSkill)
         {
-            buttonPressedTime += Time.deltaTime;
+            skillPressedTime += Time.deltaTime;
             
-            if (buttonPressedTime >= 0.5f && playerMover.IsGround())
+            if (skillPressedTime >= 0.5f && playerMover.IsGround())
             {
                 chargeSkillRoutine = StartCoroutine(ChargeSkillRoutine());
+
                 yield break;
             }
             yield return null;
@@ -47,24 +48,18 @@ public class PlayerSkiller : MonoBehaviour
 
         if(!isSkill)
         {
-            Debug.Log(buttonPressedTime);
-            if (buttonPressedTime < 0.4f)
+            Debug.Log(skillPressedTime);
+            if (skillPressedTime < 0.4f)
             {
                 if(playerMover.InputDir().y > 0)
-                {
-                    animator.SetTrigger("Skill");
                     OnHowling();
-                }
                 else if(playerMover.InputDir().y < 0 && !playerMover.IsGround())
-                {
-                    animator.SetTrigger("Skill");
                     OnDive();
-                }
                 else
-                {
-                    animator.SetTrigger("Skill");
                     OnShotSoul();
-                }
+
+                animator.SetTrigger("Skill");
+
                 yield break;
             }
         }
@@ -80,7 +75,7 @@ public class PlayerSkiller : MonoBehaviour
         
         if(isSkill)
         {
-            buttonPressedTime = 0;
+            skillPressedTime = 0;
             skillRoutine = StartCoroutine(SkillRoutine());
         }
     }
@@ -114,6 +109,7 @@ public class PlayerSkiller : MonoBehaviour
     Coroutine chargeSkillRoutine;
     IEnumerator ChargeSkillRoutine()
     {
+        animator.SetBool("IsChargeSkill", true);
         OnChargeSkill();
         chargeSkillTime = 0;
 
@@ -129,6 +125,7 @@ public class PlayerSkiller : MonoBehaviour
             yield return null;
         }
 
+        animator.SetBool("IsChargeSkill", false);
         GameManager.Resource.Destory(chargeSkill.gameObject);
         StopCoroutine(chargeSkillRoutine);
     }
