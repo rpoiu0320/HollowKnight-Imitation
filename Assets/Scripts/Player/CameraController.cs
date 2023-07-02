@@ -20,6 +20,7 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // TODO : LimitMove상태에서 카메라 움직임 제한, 아래의 코드를 그냥 쓰면 LimitMove상태에서 바라보는 반대의 입력을 했을 때 카메라와 플레이어가 바라보는 방향이 일치하지 않음
         //if (playerMover.LimitMove())
         //    return;
 

@@ -28,8 +28,6 @@ public class Howling : MonoBehaviour
     Coroutine howlingRoutine;
     IEnumerator HowlingRoutine()
     {
-        //playerMover.LimitMove(true);
-
         while (attackTime < 1f)
         {
             yield return new WaitForSeconds(0.2f);
