@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerSkiller : MonoBehaviour
 {
+    private ChargeSkill chargeSkill;
     private PlayerMover playerMover;
     private Animator animator;
     private float attackCooldown;
@@ -106,6 +107,8 @@ public class PlayerSkiller : MonoBehaviour
     {
         ChargeSkill chargeSkill = GameManager.Resource.Instantiate<ChargeSkill>
             ("Prefab/Player/Skill/ChargeSkill", playerMover.transform.position, GameObject.Find("SkillPoint").transform);
+
+        this.chargeSkill = chargeSkill;
     }
 
     Coroutine chargeSkillRoutine;
@@ -126,7 +129,7 @@ public class PlayerSkiller : MonoBehaviour
             yield return null;
         }
 
-        GameManager.Resource.Destory(gameObject);
+        GameManager.Resource.Destory(chargeSkill.gameObject);
         StopCoroutine(chargeSkillRoutine);
     }
 }
