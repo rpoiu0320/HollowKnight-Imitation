@@ -16,7 +16,6 @@ public class PlayerSkiller : MonoBehaviour
     private float skillPressedTime;
     private float chargeSkillTime;
     private bool isSkill;
-    private bool endSkill;
 
 
 
@@ -112,7 +111,6 @@ public class PlayerSkiller : MonoBehaviour
         
         if(isSkill)
         {
-            endSkill = false;
             skillPressedTime = 0;
             skillRoutine = StartCoroutine(SkillRoutine());
         }
@@ -168,8 +166,8 @@ public class PlayerSkiller : MonoBehaviour
         StopCoroutine(chargeSkillRoutine);
     }
 
-    public bool EndSkill()
+    public bool IsSkill()
     {
-        return endSkill;
+        return isSkill;
     }
 }

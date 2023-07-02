@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 3930985119972215493}
   - component: {fileID: 1744370113}
   - component: {fileID: 1744370114}
+  - component: {fileID: 4494496321729159397}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -354,3 +355,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diveSpeed: 100
+--- !u!114 &4494496321729159397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318305914316868949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a7b41827a91a594b835279ebc823d4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 466e4ee42045ea247bc3b19997891251, type: 2}

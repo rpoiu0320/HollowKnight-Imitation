@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
     private CinemachineFramingTransposer cmFT;
     private PlayerMover playerMover;
     private PlayerAttacker playerAttacker;
+    private PlayerSkiller playerSkiller;
     private bool changeVertical;
 
     private void Awake()
@@ -16,6 +17,7 @@ public class CameraController : MonoBehaviour
         cmFT = cmVC.GetCinemachineComponent<CinemachineFramingTransposer>();
         playerMover = GetComponent<PlayerMover>();
         playerAttacker = GetComponent<PlayerAttacker>();
+        playerSkiller = GetComponent<PlayerSkiller>();
     }
 
     private void FixedUpdate()
@@ -36,6 +38,12 @@ public class CameraController : MonoBehaviour
     private void VerticalCameraMoving()
     {
         if (playerAttacker.IsAttack())
+        {
+            cmFT.m_TrackedObjectOffset.y = 0f;
+            return;
+        }
+
+        if (playerSkiller.IsSkill())
         {
             cmFT.m_TrackedObjectOffset.y = 0f;
             return;
