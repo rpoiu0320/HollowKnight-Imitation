@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerSkiller : MonoBehaviour
 {
+    [SerializeField] float diveSpeed;
+
     private ChargeSkill chargeSkill;
     private PlayerMover playerMover;
     private Animator animator;
@@ -39,7 +41,7 @@ public class PlayerSkiller : MonoBehaviour
         {
             skillPressedTime += Time.deltaTime;
             
-            if (skillPressedTime >= 0.5f && playerMover.IsGround())
+            if (skillPressedTime >= 0.4f && playerMover.IsGround())
             {
                 chargeSkillRoutine = StartCoroutine(ChargeSkillRoutine());
 
@@ -53,14 +55,47 @@ public class PlayerSkiller : MonoBehaviour
             Debug.Log(skillPressedTime);
             if (skillPressedTime < 0.4f)
             {
-                if(playerMover.InputDir().y > 0)
+                if(playerMover.LookDir().y > 0)
+                {
                     OnHowling();
-                else if(playerMover.InputDir().y < 0 && !playerMover.IsGround())
-                    OnDive();
-                else
-                    OnShotSoul();
+                    animator.SetTrigger("Skill");
+                    playerMover.LimitMove(true);
 
-                animator.SetTrigger("Skill");
+                    yield return new WaitForSeconds(1f);
+
+                    playerMover.LimitMove(false);
+                }
+                else if(playerMover.LookDir().y < 0 && !playerMover.IsGround())
+                {
+                    OnDive();
+                    animator.SetTrigger("Skill");
+                    playerMover.LimitMove(true);
+
+                    yield return new WaitForSeconds(0.5f);
+
+                    while (!playerMover.IsGround())
+                    {
+                        playerMover.transform.Translate(new Vector3(0, -diveSpeed * Time.deltaTime, 0));
+
+                        yield return null;
+                    }
+
+                    yield return new WaitForSeconds(0.35f);
+
+                    playerMover.LimitMove(false);
+                }
+                else
+                {
+                    OnShotSoul();
+                    playerMover.LimitMove(true);
+                    animator.SetTrigger("Skill");
+
+                    yield return new WaitForSeconds(0.3f);
+
+                    playerMover.LimitMove(false);
+                }
+
+                
 
                 yield break;
             }

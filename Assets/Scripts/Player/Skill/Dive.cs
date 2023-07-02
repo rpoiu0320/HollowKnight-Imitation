@@ -4,44 +4,30 @@ using UnityEngine;
 
 public class Dive : MonoBehaviour
 {
-    [SerializeField] float moveSpeed;
     private PlayerMover playerMover;
-    private ContactFilter2D contactFilter;
     private Animator diveAnimator;
-    private bool isGround;
+    private Collider2D collider2d;
+    private ContactFilter2D contactFilter;
 
     private void OnEnable()
     {
         playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
         diveAnimator = GetComponent<Animator>();
+        collider2d = GetComponent<Collider2D>();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
         diveRoutine = StartCoroutine(DiveRoutine());
-    }
-
-    private void OnDisable()
-    {
-
-    }
-
-    private void Update()
-    {
-
     }
 
     Coroutine diveRoutine;
     IEnumerator DiveRoutine()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitUntil(() => playerMover.IsGround() == true);
 
-        while (!playerMover.IsGround())
-        {
-            playerMover.transform.Translate(new Vector3(0, -moveSpeed * Time.deltaTime, 0));
-            
-            yield return null;
-        }
-        Debug.Log("GroundCheck");
         diveAnimator.SetTrigger("GroundCheck");
+        collider2d.enabled = true;
+
         yield return new WaitForSeconds(0.35f);
+
         GameManager.Resource.Destory(gameObject);
         StopCoroutine(diveRoutine);
     }

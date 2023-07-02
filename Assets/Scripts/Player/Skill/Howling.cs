@@ -8,15 +8,13 @@ using UnityEngine;
 public class Howling : MonoBehaviour
 {
     [SerializeField] float damage;
-    private PlayerMover playerMover;
+
     private ContactFilter2D contactFilter;
     private Collider2D collider2d;
-    // private Collider2D[] colliderResults = new Collider2D[10];
     private float attackTime = 0;
 
     private void OnEnable()
     {
-        playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
         collider2d = GetComponent<Collider2D>();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
         howlingRoutine = StartCoroutine(HowlingRoutine());
@@ -24,7 +22,6 @@ public class Howling : MonoBehaviour
 
     private void Update()
     {
-        // Debug.Log(Physics2D.OverlapCollider(collider2d, contactFilter, colliderResults));
         attackTime += Time.deltaTime;
     }
 

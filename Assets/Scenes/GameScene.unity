@@ -805,6 +805,10 @@ PrefabInstance:
       propertyPath: cmVC
       value: 
       objectReference: {fileID: 1328182044}
+    - target: {fileID: 1744370114, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
+      propertyPath: diveSpeed
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 318305914316868945, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -849,21 +853,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 318305914316868947, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 318305914316868949, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930985119972215493, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: dashSpeed
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930985119972215493, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: jumpPower
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930985119972215493, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: moveSpeed
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}

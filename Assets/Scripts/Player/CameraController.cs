@@ -19,7 +19,10 @@ public class CameraController : MonoBehaviour
     }
 
     private void FixedUpdate()
-    { 
+    {
+        //if (playerMover.LimitMove())
+        //    return;
+
         HorizonCameraMoving();
 
         if(changeVertical != playerMover.IsCameraMove())    // 수직으로 카메라가 변경될 때

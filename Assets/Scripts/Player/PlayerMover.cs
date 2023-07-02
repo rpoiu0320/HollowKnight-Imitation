@@ -46,6 +46,9 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(inputDir + " input");
+        Debug.Log(lookDir + " look");
+
         if (!limitMove) 
             Move();
     }
@@ -239,8 +242,8 @@ public class PlayerMover : MonoBehaviour
 
     private void GroundCheck()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 5f, groundLayer);
-        Debug.DrawRay(transform.position, Vector2.down * 5f, Color.red);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 4f, groundLayer);
+        Debug.DrawRay(transform.position, Vector2.down * 4f, Color.red);
 
         if (hit.collider != null)
         {
@@ -293,13 +296,16 @@ public class PlayerMover : MonoBehaviour
 
     public bool LimitMove(bool limitMove)   // 입력값을 받지 못하게
     {
-        if (limitMove)
-            rb.simulated = false;           // 중력 영향 안받음, 점프 하자마자 대시하고 점프키를 계속 누르고있어도 대시 끝나면 바로 내려감
+        if (limitMove)  // 중력 영향 안받음, 점프 하자마자 대시하고 점프키를 계속 누르고있어도 대시 끝나면 바로 내려감
+
+            rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
         else
-            rb.simulated = true;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         return this.limitMove = limitMove;
     }
+    // rb.simulated는 비용이 많이 듬
+    
 
     public bool LimitMove()
     {
