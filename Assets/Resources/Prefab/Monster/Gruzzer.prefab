@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5368029004970888682}
   - component: {fileID: 5368029004970888685}
+  - component: {fileID: 2244785945484072824}
   - component: {fileID: 5368029004970888683}
   - component: {fileID: 1704278070}
-  - component: {fileID: -5058168766810768593}
+  - component: {fileID: 8977442162027844792}
   m_Layer: 8
   m_Name: Gruzzer
   m_TagString: Monster
@@ -87,6 +88,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &2244785945484072824
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5368029004970888687}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 83149dd7a2d201a479e51db8f72bf202, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!70 &5368029004970888683
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -124,7 +146,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-5058168766810768593
+--- !u!114 &8977442162027844792
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,6 +155,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5368029004970888687}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac642de9613d984282d9e34d88b4fe5, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ae9641312384a44fb69c7893e67ad37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

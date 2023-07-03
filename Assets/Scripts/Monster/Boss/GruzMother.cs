@@ -44,19 +44,7 @@ public class GruzMother : Monster, IHittable
 
     private void GroundCheck()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 4f, groundLayer);
-        Debug.DrawRay(transform.position, Vector2.down * 4f, Color.red);
-
-        if (hit.collider != null)
-        {
-            isGround = true;
-            animator.SetBool("IsGround", true);
-        }
-        else
-        {
-            isGround = false;
-            animator.SetBool("IsGround", false);
-        }
+        //Physics2D.OverlapCollider(col,
     }
 
     public void TakeHit()
