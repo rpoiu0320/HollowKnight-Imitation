@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0347e460958865c41b431f3dd87a710c, type: 3}
   m_Name: MonsterData
   m_EditorClassIdentifier: 
-  towers: []
+  monsters:
+  - monster: {fileID: 0}
+    name: 
+    description: 
+    maxHp: 90
+    curHp: 90
+    haveGeo: 0

@@ -46,9 +46,6 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log(inputDir + " input");
-        //Debug.Log(lookDir + " look");
-
         if (!limitMove) 
             Move();
     }

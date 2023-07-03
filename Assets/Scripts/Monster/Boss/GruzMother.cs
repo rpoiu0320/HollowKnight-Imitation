@@ -6,6 +6,8 @@ using System;
 
 public class GruzMother : Monster, IHittable
 {
+    [SerializeField] LayerMask groundLayer;
+
     private Animator animator;
     private Collider2D col;
     private SpriteRenderer render;
