@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GruzMother : MonoBehaviour
+public class GruzMother : Monster
 {
     // Start is called before the first frame update
     void Start()
