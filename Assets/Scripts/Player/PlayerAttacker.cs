@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,6 +18,7 @@ public class PlayerAttacker : MonoBehaviour
 
     private Animator animator;
     private PlayerMover playerMover;
+    private float attackCooldown;
     private bool isAttack;
 
     private void Awake()
@@ -24,12 +27,15 @@ public class PlayerAttacker : MonoBehaviour
         playerMover = GetComponent<PlayerMover>();
     }
 
-    private void AttackCooldown()
+    private void Update()
     {
-        if(isAttack)
+        Debug.Log(attackCooldown);
+        if (attackCooldown >= 0.3f)
         {
-            return;
+            StopCoroutine(attackRoutine);
+            attackCooldown = 0;
         }
+            
     }
 
     private void OnAttack(InputValue value)
@@ -39,14 +45,27 @@ public class PlayerAttacker : MonoBehaviour
 
         isAttack = value.isPressed;
 
-        if (isAttack)
+
+        if (isAttack && attackCooldown == 0)
         {
-            if (playerMover.InputDir().y > 0)
-                AttackUp();
-            else if (playerMover.InputDir().y < 0 && !playerMover.IsGround())
-                JumpAttackDown();
-            else
-                CommonAttack();
+            attackRoutine = StartCoroutine(AttackRoutine());
+        }
+    }
+
+    Coroutine attackRoutine;
+    IEnumerator AttackRoutine()
+    {
+        if (playerMover.InputDir().y > 0)
+            AttackUp();
+        else if (playerMover.InputDir().y < 0 && !playerMover.IsGround())
+            JumpAttackDown();
+        else
+            CommonAttack();
+
+        while (attackCooldown < 0.3f)
+        {
+            attackCooldown += Time.deltaTime;
+            yield return null;
         }
     }
 
