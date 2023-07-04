@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 public class PlayerMover : MonoBehaviour
 {
     [SerializeField] Transform commonAttackPoint;
+    [SerializeField] SpriteRenderer commonAttackRen;
+    [SerializeField] SpriteRenderer attackUpRen;
+    [SerializeField] SpriteRenderer jumpAttackDownRen;
     [SerializeField] float moveSpeed;
     [SerializeField] float dashSpeed;
     [SerializeField] float jumpPower;
@@ -54,7 +57,7 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(inputDir + " inputDir");
+        //Debug.Log(inputDir + " inputDir");
         //Debug.Log(lookDir + " lookDir");
         //Debug.Log(dashDir + " dashDir");
 
@@ -79,12 +82,18 @@ public class PlayerMover : MonoBehaviour
         {
             transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
             render.flipX = false;
+            commonAttackRen.flipX = false;
+            attackUpRen.flipX = false;
+            jumpAttackDownRen.flipX = false;
             lastDirXCheck = DirX.Right;
         }
         else if (inputDir.x < 0)
         {
             transform.Translate(new Vector3(-moveSpeed * Time.deltaTime, 0, 0));
             render.flipX = true;
+            commonAttackRen.flipX = true;
+            attackUpRen.flipX = true;
+            jumpAttackDownRen.flipX = true;
             lastDirXCheck = DirX.Left;
         }
     }

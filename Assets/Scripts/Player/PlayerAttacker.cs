@@ -9,6 +9,9 @@ public class PlayerAttacker : MonoBehaviour
     [SerializeField] Vector2 commonAttackRange;
     [SerializeField] Vector2 attackUpRange;
     [SerializeField] Vector2 jumpAttackDownRange;
+    [SerializeField] Animator commonAttackAnimator;
+    [SerializeField] Animator attackUpAnimator;
+    [SerializeField] Animator jumpAttackDownAnimator;
     [SerializeField] LayerMask hitMask;
 
     private Animator animator;
@@ -49,6 +52,8 @@ public class PlayerAttacker : MonoBehaviour
 
     private void CommonAttack()
     {
+        animator.SetTrigger("Attack");
+        commonAttackAnimator.SetTrigger("Attack");
         Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(commonAttackPoint.position, commonAttackRange, 0, hitMask);
 
         foreach (Collider2D collider in collider2Ds)
@@ -58,17 +63,36 @@ public class PlayerAttacker : MonoBehaviour
                 Debug.Log("몬스터가 맞음");
             }
         }
-        animator.SetTrigger("Attack");
     }
 
     private void AttackUp()
     {
+        animator.SetTrigger("Attack");
+        attackUpAnimator.SetTrigger("Attack");
+        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(attackUpPoint.position, attackUpRange, 0, hitMask);
 
+        foreach (Collider2D collider in collider2Ds)
+        {
+            if (collider.tag == "Monster")
+            {
+                Debug.Log("몬스터가 맞음");
+            }
+        }
     }
 
     private void JumpAttackDown()
     {
+        animator.SetTrigger("Attack");
+        jumpAttackDownAnimator.SetTrigger("Attack");
+        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(jumpAttackDownPoint.position, jumpAttackDownRange, 0, hitMask);
 
+        foreach (Collider2D collider in collider2Ds)
+        {
+            if (collider.tag == "Monster")
+            {
+                Debug.Log("몬스터가 맞음");
+            }
+        }
     }
 
     private void OnDrawGizmos()
