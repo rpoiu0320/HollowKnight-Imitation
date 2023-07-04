@@ -53,7 +53,7 @@ public class PlayerSkiller : MonoBehaviour
             Debug.Log(skillPressedTime);
             if (skillPressedTime < 0.4f)
             {
-                if(playerMover.LookDir().y > 0)
+                if(playerMover.InputDir().y > 0)
                 {
                     // TODO : 공중에서 Howling사용 시 스킬이 끝나도 내려오지 않음, 공격 및 위, 아래를 제외한 다른 입력을 해야 내려옴
 
@@ -65,7 +65,7 @@ public class PlayerSkiller : MonoBehaviour
 
                     playerMover.LimitMove(false);
                 }
-                else if(playerMover.LookDir().y < 0 && !playerMover.IsGround())
+                else if(playerMover.InputDir().y < 0 && !playerMover.IsGround())
                 {
                     OnDive();
                     animator.SetTrigger("Skill");

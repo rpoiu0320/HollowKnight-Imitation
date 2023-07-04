@@ -9,6 +9,7 @@ public class PlayerAttacker : MonoBehaviour
     [SerializeField] Vector2 commonAttackRange;
     [SerializeField] Vector2 attackUpRange;
     [SerializeField] Vector2 jumpAttackDownRange;
+    [SerializeField] LayerMask hitMask;
 
     private Animator animator;
     private PlayerMover playerMover;
@@ -37,13 +38,27 @@ public class PlayerAttacker : MonoBehaviour
 
         if (isAttack)
         {
-            animator.SetTrigger("Attack");
+            if (playerMover.InputDir().y > 0)
+                AttackUp();
+            else if (playerMover.InputDir().y < 0 && !playerMover.IsGround())
+                JumpAttackDown();
+            else
+                CommonAttack();
         }
     }
 
     private void CommonAttack()
     {
+        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(commonAttackPoint.position, commonAttackRange, 0, hitMask);
 
+        foreach (Collider2D collider in collider2Ds)
+        {
+            if (collider.tag == "Monster")
+            {
+                Debug.Log("몬스터가 맞음");
+            }
+        }
+        animator.SetTrigger("Attack");
     }
 
     private void AttackUp()

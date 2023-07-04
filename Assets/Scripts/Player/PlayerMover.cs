@@ -11,6 +11,7 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
 
     public enum UpDown { None, Up, Down }
+    public enum DirX { Left, Right }
 
     private PlayerAttacker playerAttacker;
     private PlayerSkiller playerSkiller;
@@ -31,6 +32,8 @@ public class PlayerMover : MonoBehaviour
     private bool isGround;
     private bool isCameraMove;
     private UpDown upDown;
+    private DirX dirX;
+    private DirX lastDirXCheck;
 
     private void Awake()
     {
@@ -45,12 +48,24 @@ public class PlayerMover : MonoBehaviour
     {
         dashDir = lookDir.x;
         originCommonAttackPointX = commonAttackPoint.position.x;
+        dirX = DirX.Right;
+        lastDirXCheck = DirX.Right;
     }
 
     private void Update()
     {
+        Debug.Log(inputDir + " inputDir");
+        //Debug.Log(lookDir + " lookDir");
+        //Debug.Log(dashDir + " dashDir");
+
         if (!limitMove) 
             Move();
+
+        if (dirX != lastDirXCheck)
+        {
+            dirX = lastDirXCheck;
+            ChangeAttackPositionX();
+        }
     }
 
     private void FixedUpdate()
@@ -64,11 +79,13 @@ public class PlayerMover : MonoBehaviour
         {
             transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
             render.flipX = false;
+            lastDirXCheck = DirX.Right;
         }
         else if (inputDir.x < 0)
         {
             transform.Translate(new Vector3(-moveSpeed * Time.deltaTime, 0, 0));
             render.flipX = true;
+            lastDirXCheck = DirX.Left;
         }
     }
 
@@ -115,7 +132,7 @@ public class PlayerMover : MonoBehaviour
                 isCameraMove = isLook;
                 break;
             }
-            else if(inputDir.y != 0)
+            else if (inputDir.y != 0)
             {
                 isLook = true;
                 animator.SetBool("IsLook", isLook);
@@ -146,18 +163,17 @@ public class PlayerMover : MonoBehaviour
     {
         inputDir = value.Get<Vector2>();
         
-        if(inputDir != new Vector2(0, 0))    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지, 입력이 기존 입력에서 변경되었을 때만
+        if (inputDir != new Vector2(0, 0))    // 방향키를 누르지 않고 대시할 때 움직이지 않는거 방지, 대시 중 방향 바뀌는거 방지, 입력이 기존 입력에서 변경되었을 때만
         {
-            lookDir = value.Get<Vector2>();
+            lookDir = inputDir;
 
             if (dashDir != lookDir.x && lookDir.x != 0 && !isDash)
             {
                 dashDir = lookDir.x;
-                ChangeAttackPositionX();
             }
         }
-
-        if(inputDir.y != 0)
+     
+        if (inputDir.y != 0)
         {
             isLook = true;
             lookingRoutine = StartCoroutine(LookingRoutine());
@@ -168,9 +184,9 @@ public class PlayerMover : MonoBehaviour
 
     private void ChangeAttackPositionX()
     {
-        if (dashDir > 0)
+        if (dirX == DirX.Right)
             commonAttackPoint.Translate(new Vector3(originCommonAttackPointX * 2, 0));
-        else if (dashDir < 0)
+        else if (dirX == DirX.Left)
             commonAttackPoint.Translate(new Vector3(-originCommonAttackPointX * 2, 0));
     }
 
@@ -233,7 +249,7 @@ public class PlayerMover : MonoBehaviour
 
             dashTime += Time.deltaTime;
 
-            if(dashTime > 0.5f)
+            if (dashTime > 0.5f)
             {
                 rb.constraints = RigidbodyConstraints2D.FreezeRotation;
                 limitMove = false;
