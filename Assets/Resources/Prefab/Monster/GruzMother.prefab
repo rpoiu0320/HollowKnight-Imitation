@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7065238869293973093}
   - component: {fileID: 7065238869293973094}
   - component: {fileID: 2082984089308072640}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GruzMother
   m_TagString: Untagged
   m_Icon: {fileID: 0}
