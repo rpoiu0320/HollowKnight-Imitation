@@ -16,6 +16,7 @@ public class PlayerAttacker : MonoBehaviour
     [SerializeField] Animator jumpAttackDownAnimator;
     [SerializeField] LayerMask hitMask;
 
+    private PlayerData data;
     private Animator animator;
     private PlayerMover playerMover;
     private float attackCooldown;
@@ -29,13 +30,11 @@ public class PlayerAttacker : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(attackCooldown);
         if (attackCooldown >= 0.3f)
         {
             StopCoroutine(attackRoutine);
             attackCooldown = 0;
-        }
-            
+        }   
     }
 
     private void OnAttack(InputValue value)
@@ -79,7 +78,8 @@ public class PlayerAttacker : MonoBehaviour
         {
             if (collider.tag == "Monster")
             {
-                Debug.Log("몬스터가 맞음");
+                IHittable hittable = collider.GetComponent<IHittable>();
+                hittable?.TakeHit((int)data.Player[0].attackDamage);
             }
         }
     }
@@ -94,7 +94,8 @@ public class PlayerAttacker : MonoBehaviour
         {
             if (collider.tag == "Monster")
             {
-                Debug.Log("몬스터가 맞음");
+                IHittable hittable = collider.GetComponent<IHittable>();
+                hittable?.TakeHit((int)data.Player[0].attackDamage);
             }
         }
     }
@@ -109,7 +110,8 @@ public class PlayerAttacker : MonoBehaviour
         {
             if (collider.tag == "Monster")
             {
-                Debug.Log("몬스터가 맞음");
+                IHittable hittable = collider.GetComponent<IHittable>();
+                hittable?.TakeHit((int)data.Player[0].attackDamage);
             }
         }
     }

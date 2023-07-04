@@ -5,6 +5,8 @@ using UnityEngine;
 public class ShotSoul : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
+
+    private PlayerData data;
     private PlayerMover playerMover;
     private SpriteRenderer render;
     private Collider2D collider2d;
@@ -46,7 +48,6 @@ public class ShotSoul : MonoBehaviour
     Coroutine bumpRoutine;
     IEnumerator BumpRoutine()
     {
-        Debug.Log("StargBump");
         isBump = true;
         shotSoulAnimator.SetTrigger("IsBump");
         collider2d.enabled = false;
@@ -66,7 +67,8 @@ public class ShotSoul : MonoBehaviour
     {
         if(target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
-            Debug.Log("Monster Enter");
+            IHittable hittable = target.GetComponent<IHittable>();
+            hittable?.TakeHit((int)data.Player[0].shotSoulDamage);
         }
         else if(target.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {

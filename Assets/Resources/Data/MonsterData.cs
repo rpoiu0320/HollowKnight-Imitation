@@ -9,6 +9,8 @@ public class MonsterData : ScriptableObject
     [SerializeField] MonsterInfo[] monsters;
     public MonsterInfo[] Monsters { get { return monsters; } }
 
+    public enum monsterName { GruzMother, Gruzzer };
+
     [Serializable]
     public class MonsterInfo
     {
@@ -16,8 +18,7 @@ public class MonsterData : ScriptableObject
         public string name;
         public string description;
         
-        public float maxHp;   
-        public float curHp;
+        public float maxHp;
         public float haveGeo;
     }
 }

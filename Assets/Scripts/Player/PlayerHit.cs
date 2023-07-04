@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerHit : MonoBehaviour, IHittable
 {
-    public void TakeHit()
+    public void TakeHit(int damage)
     {
         Debug.Log("플레이어 체력 감소");
     }

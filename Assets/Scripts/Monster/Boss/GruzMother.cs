@@ -4,29 +4,31 @@ using UnityEngine;
 using GruzMotherState;
 using System;
 
-public class GruzMother : Monster, IHittable
+public class GruzMother : Monster
 {
     [SerializeField] LayerMask groundLayer;
-
     private Animator animator;
-    private Collider2D col;
     private SpriteRenderer render;
+    private Collider2D col;
     private StateBase[] states;
     private StateGruzMother curState;
+    //private float curHp;
     private bool isGround;
+
     [NonSerialized] public Transform playerTransform;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        col = GetComponent<Collider2D>();
         render = GetComponent<SpriteRenderer>();
+        col = GetComponent<Collider2D>();
     }
 
     private void Start()
     {
         playerTransform = GameObject.FindWithTag("Player").transform;
         curState = StateGruzMother.Sleep;
+        curHp = data.Monsters[(int)MonsterData.monsterName.GruzMother].maxHp;
     }
 
     private void Update()
@@ -42,15 +44,6 @@ public class GruzMother : Monster, IHittable
         states[(int)curState].Update();
     }
 
-    private void GroundCheck()
-    {
-        //Physics2D.OverlapCollider(col,
-    }
-
-    public void TakeHit()
-    {
-        Debug.Log("¸ÂÀ½");
-    }
 }
 
 namespace GruzMotherState

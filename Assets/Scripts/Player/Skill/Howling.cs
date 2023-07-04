@@ -9,6 +9,7 @@ public class Howling : MonoBehaviour
 {
     [SerializeField] float damage;
 
+    private PlayerData data;
     private ContactFilter2D contactFilter;
     private Collider2D collider2d;
     private float attackTime = 0;
@@ -44,7 +45,8 @@ public class Howling : MonoBehaviour
     {
         if (target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
-            Debug.Log("Monster Enter");
+            IHittable hittable = target.GetComponent<IHittable>();
+            hittable?.TakeHit((int)data.Player[0].howlingDamage);
         }
     }
 }

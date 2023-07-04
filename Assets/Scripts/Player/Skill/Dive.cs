@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Dive : MonoBehaviour
 {
+    private PlayerData data;
     private PlayerMover playerMover;
     private Animator diveAnimator;
     private Collider2D collider2d;
@@ -36,7 +37,8 @@ public class Dive : MonoBehaviour
     {
         if (target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
-            Debug.Log("Monster Enter");
+            IHittable hittable = target.GetComponent<IHittable>();
+            hittable?.TakeHit((int)data.Player[0].diveDagame);
         }
     }
 }

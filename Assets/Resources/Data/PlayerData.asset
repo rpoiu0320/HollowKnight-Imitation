@@ -16,11 +16,11 @@ MonoBehaviour:
   - player: {fileID: 4494496321729159397, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
     name: Player
     description: PlayerInfo
-    mapHp: 0
-    curHp: 0
-    maxSoul: 0
+    mapHp: 3
+    curHp: 3
+    maxSoul: 3
     curSoul: 0
-    attackDamage: 0
-    howlingDamage: 0
-    shotSoulDamage: 0
-    diveDagame: 0
+    attackDamage: 5
+    howlingDamage: 2
+    shotSoulDamage: 2
+    diveDagame: 2
