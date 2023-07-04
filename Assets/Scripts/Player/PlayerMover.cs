@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMover : MonoBehaviour
 {
+    [SerializeField] Transform commonAttackPoint;
     [SerializeField] float moveSpeed;
     [SerializeField] float dashSpeed;
     [SerializeField] float jumpPower;
@@ -22,6 +23,7 @@ public class PlayerMover : MonoBehaviour
     private float lookUpDownTime;
     private float jumpTime;
     private float dashTime;
+    private float originCommonAttackPointX;
     private bool limitMove;
     private bool isDash;
     private bool isLook;
@@ -42,6 +44,7 @@ public class PlayerMover : MonoBehaviour
     private void Start()
     {
         dashDir = lookDir.x;
+        originCommonAttackPointX = commonAttackPoint.position.x;
     }
 
     private void Update()
@@ -148,7 +151,10 @@ public class PlayerMover : MonoBehaviour
             lookDir = value.Get<Vector2>();
 
             if (dashDir != lookDir.x && lookDir.x != 0 && !isDash)
+            {
                 dashDir = lookDir.x;
+                ChangeAttackPositionX();
+            }
         }
 
         if(inputDir.y != 0)
@@ -158,6 +164,14 @@ public class PlayerMover : MonoBehaviour
         }
 
         animator.SetFloat("Move", Mathf.Abs(inputDir.x));
+    }
+
+    private void ChangeAttackPositionX()
+    {
+        if (dashDir > 0)
+            commonAttackPoint.Translate(new Vector3(originCommonAttackPointX * 2, 0));
+        else if (dashDir < 0)
+            commonAttackPoint.Translate(new Vector3(-originCommonAttackPointX * 2, 0));
     }
 
     Coroutine jumpRoutine;

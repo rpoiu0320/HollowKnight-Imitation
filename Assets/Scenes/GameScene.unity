@@ -584,17 +584,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1328182044 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1366213051450164201, guid: 30fcd83a60d4bcd458f357754fe99011, type: 3}
-  m_PrefabInstance: {fileID: 1366213052673487093}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1906767615
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,18 +940,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1744370113, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: cmVC
-      value: 
-      objectReference: {fileID: 1328182044}
-    - target: {fileID: 318305914316868944, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 327479226, guid: 66fdb0f651b703144922809ec8d75c16, type: 3}
-    - target: {fileID: 318305914316868944, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 318305914316868945, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1011,8 +988,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1744370113, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
 --- !u!1001 &1366213052673487093
 PrefabInstance:
@@ -1078,37 +1054,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 71072501, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
-      propertyPath: groundMask.m_Bits
-      value: 320
-      objectReference: {fileID: 0}
-    - target: {fileID: 71072501, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
-      propertyPath: reversMask.m_Bits
-      value: 320
-      objectReference: {fileID: 0}
-    - target: {fileID: 1704278070, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1704278070, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1704278070, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5368029004970888682, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5368029004970888682, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.6
+      value: -26.7
       objectReference: {fileID: 0}
     - target: {fileID: 5368029004970888682, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.9
+      value: 10.1
       objectReference: {fileID: 0}
     - target: {fileID: 5368029004970888682, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1140,10 +1096,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5368029004970888682, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5368029004970888683, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
-      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5368029004970888687, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}

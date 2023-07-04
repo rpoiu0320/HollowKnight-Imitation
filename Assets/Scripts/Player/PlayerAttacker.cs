@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerAttacker : MonoBehaviour
 {
-    [SerializeField] Transform attackPoint;
+    [SerializeField] Transform commonAttackPoint;
+    [SerializeField] Transform attackUpPoint;
+    [SerializeField] Transform jumpAttackDownPoint;
+    [SerializeField] Vector2 commonAttackRange;
+    [SerializeField] Vector2 attackUpRange;
+    [SerializeField] Vector2 jumpAttackDownRange;
 
     private Animator animator;
     private PlayerMover playerMover;
@@ -40,6 +41,11 @@ public class PlayerAttacker : MonoBehaviour
         }
     }
 
+    private void CommonAttack()
+    {
+
+    }
+
     private void AttackUp()
     {
 
@@ -49,7 +55,15 @@ public class PlayerAttacker : MonoBehaviour
     {
 
     }
-    
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(commonAttackPoint.position, commonAttackRange);
+        Gizmos.DrawWireCube(attackUpPoint.position, attackUpRange);
+        Gizmos.DrawWireCube(jumpAttackDownPoint.position, jumpAttackDownRange);
+    }
+
     public bool IsAttack()
     {
         return isAttack;
