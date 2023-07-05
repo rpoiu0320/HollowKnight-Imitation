@@ -18,12 +18,13 @@ public class Monster : MonoBehaviour, IHittable
 
     private void Update()
     {
-
+        
     }
 
     public void TakeHit(int damage)
     {
         curHp -= damage;
+        Debug.Log(curHp);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

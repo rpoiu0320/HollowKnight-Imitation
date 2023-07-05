@@ -380,7 +380,7 @@ namespace GruzMotherState
     
         public override void Enter()
         {
-    
+            gruzMother.animator.SetTrigger("IsDIe");
         }
     
         public override void Update()
