@@ -189,12 +189,17 @@ namespace GruzMotherState
         public Coroutine rushRoutine;
         IEnumerator RushRoutine()
         {
+            Vector2 dir = (gruzMother.playerTransform.position - gruzMother.transform.position).normalized;
+
+            if (dir.x > 0)
+                gruzMother.render.flipX = true;
+            if (dir.x < 0)
+                gruzMother.render.flipX = false;
+
             gruzMother.animator.SetTrigger("ReadyAttack");
             gruzMother.animator.SetTrigger("IsRush");
 
             yield return new WaitForSeconds(0.5f);
-
-            Vector2 dir = (gruzMother.playerTransform.position - gruzMother.transform.position).normalized;
 
             while (rushTime < 1f)
             {
