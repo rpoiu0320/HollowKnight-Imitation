@@ -14,6 +14,7 @@ public class GruzMother : Monster
     private StateBase[] states;
     private StateGruzMother curState;
     private bool isGround;
+    private bool alive;
 
     [NonSerialized] public SpriteRenderer render;
     [NonSerialized] public ContactFilter2D contactFilter;
@@ -47,11 +48,12 @@ public class GruzMother : Monster
         flying.IsFly(isFly = false);
         curState = StateGruzMother.Sleep;
         isSleep = true;
+        alive = true;
     }
 
     private void Update()
     {
-        if (curHp <= 0)
+        if (curHp <= 0 && alive)
             ChangeState(StateGruzMother.Die);
 
         states[(int)curState].Update();
@@ -380,17 +382,31 @@ namespace GruzMotherState
     
         public override void Enter()
         {
-            gruzMother.animator.SetTrigger("IsDIe");
+            //dieRoutine = gruzMother.StartCoroutine(DieRoutine());
+            gruzMother.animator.SetTrigger("NextDieAnimation");
         }
     
         public override void Update()
         {
-    
+
         }
     
         public override void Exit()
         {
     
+        }
+
+        Coroutine dieRoutine;
+        IEnumerator DieRoutine()
+        {
+            gruzMother.animator.SetTrigger("NextDieAnimation");
+
+            //yield return new WaitForSeconds(1f);
+
+            // 여기에 터지는거
+            //gruzMother.animator.SetTrigger("NextDieAnimation");
+
+            yield break;
         }
     }
 }
