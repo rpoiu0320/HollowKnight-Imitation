@@ -13,17 +13,18 @@ public class GruzMother : Monster
     [SerializeField] public float wildSlamSpeed;
     [SerializeField] public float vierticalSpeed;
     [SerializeField] public float horizonSpeed;
-    private SpriteRenderer render;
     private StateBase[] states;
     private StateGruzMother curState;
     private bool isGround;
 
+    [NonSerialized] public SpriteRenderer render;
     [NonSerialized] public ContactFilter2D contactFilter;
     [NonSerialized] public Collider2D col;
     [NonSerialized] public Flying flying;
     [NonSerialized] public Animator animator;
     [NonSerialized] public Transform playerTransform;
     [NonSerialized] public bool isFly;
+    [NonSerialized] public bool isSleep;
 
 
     private new void Awake()
@@ -47,6 +48,7 @@ public class GruzMother : Monster
         playerTransform = GameObject.FindWithTag("Player").transform;
         flying.IsFly(isFly = false);
         curState = StateGruzMother.Sleep;
+        isSleep = true;
     }
 
     private void Update()
@@ -131,6 +133,13 @@ namespace GruzMotherState
         public override void Enter()
         {
             idleTime = 0;
+
+            if (gruzMother.isSleep)     // 처음 기상할 때 AwakeRoutine을 사용하여 잠깐의 지연시간을 유지시키기 위함
+            {
+                gruzMother.isSleep = false;
+                return;
+            }
+
             gruzMother.flying.IsFly(gruzMother.isFly = true);
         }
 
@@ -141,8 +150,7 @@ namespace GruzMotherState
 
             if (idleTime > 3f)
             {
-                //gruzMother.ChangeState((StateGruzMother)random);
-                gruzMother.ChangeState(StateGruzMother.WildSlam);
+                gruzMother.ChangeState((StateGruzMother)random);    // Rush, WildSlam 중 하나
             }
         }
 
@@ -198,6 +206,8 @@ namespace GruzMotherState
                 yield return null;
             }
 
+            yield return new WaitForSeconds(1f);
+
             gruzMother.ChangeState(StateGruzMother.Idle);
 
             yield break;
@@ -207,10 +217,11 @@ namespace GruzMotherState
     public class WildSlamState : StateBase
     {
         private GruzMother gruzMother;
-        private enum Dir { Up, Down, Left, Right }
-        private Dir horizonCheck;
-        private Dir verticalCheck;
+        private enum MoveDir { Up, Down, Left, Right }
+        private MoveDir horizonCheck;
+        private MoveDir verticalCheck;
         private float wildSlamTime;
+        private bool waitTiming;
 
         public WildSlamState(GruzMother gruzMother)
         {
@@ -221,8 +232,8 @@ namespace GruzMotherState
         {
             wildSlamRoutine = gruzMother.StartCoroutine(WildSlamRoutine());
             wildSlamTime = 0;
-            horizonCheck = Dir.Left;
-            verticalCheck = Dir.Down;
+            horizonCheck = MoveDir.Left;
+            verticalCheck = MoveDir.Down;
         }
     
         public override void Update()
@@ -235,73 +246,115 @@ namespace GruzMotherState
             
         }
 
-        private void VerticalCheck()
+        private void VerticalCheck(MoveDir verticalCheck)
         {
-            RaycastHit2D hitDown = Physics2D.Raycast(gruzMother.transform.position, Vector2.down, 4f, gruzMother.groundLayer);
-            RaycastHit2D hitUp = Physics2D.Raycast(gruzMother.transform.position, Vector2.up, 5f, gruzMother.groundLayer);
+            if (verticalCheck == MoveDir.Up)    // 부하를 줄이기 위해 필요한 상황에서만 해당 방향으로 Ray발사, 얼마나 부하 걸리는지는 모름
+            {                                   // and 밀림방지를 위해 rb.Constraints를 모두 ture로 하니 항상 Ray발사 시 비비적대는 현상이 있음, 이를 위한 Ray분할 발사
+                RaycastHit2D hitUp = Physics2D.Raycast(gruzMother.transform.position, Vector2.up, 5f, gruzMother.groundLayer);
+
+                if (hitUp.collider != null && hitUp.collider.gameObject != gruzMother.gameObject)
+                {
+                    gruzMother.animator.SetTrigger("BumpCeiling");
+                    this.verticalCheck = MoveDir.Down;
+                    waitTiming = true;
+                }
+            }
+            else if (verticalCheck == MoveDir.Down)
+            {
+                RaycastHit2D hitDown = Physics2D.Raycast(gruzMother.transform.position, Vector2.down, 4f, gruzMother.groundLayer);
+
+                if (hitDown.collider != null && hitDown.collider.gameObject != gruzMother.gameObject)
+                {
+                    gruzMother.animator.SetTrigger("BumpGround");
+                    this.verticalCheck = MoveDir.Up;
+                    waitTiming = true;
+                }
+            }
+
             Debug.DrawRay(gruzMother.transform.position, Vector2.down * 4f, Color.red);
             Debug.DrawRay(gruzMother.transform.position, Vector2.up * 5f, Color.red);
-
-            if (hitDown.collider != null && hitDown.collider.gameObject != gruzMother.gameObject)
-            {
-                gruzMother.animator.SetTrigger("BumpGround");
-                verticalCheck = Dir.Up;
-            }
-            else if (hitUp.collider != null && hitUp.collider.gameObject != gruzMother.gameObject)
-            {
-                gruzMother.animator.SetTrigger("BumpCeiling");
-                verticalCheck = Dir.Down;
-            }
         }
 
-        private void HorizonCheck()
+        private void HorizonCheck(MoveDir horizonCheck)
         {
-            RaycastHit2D hitLeft = Physics2D.Raycast(gruzMother.transform.position, Vector2.left, 5.5f, gruzMother.groundLayer);
-            RaycastHit2D hitRight = Physics2D.Raycast(gruzMother.transform.position, Vector2.right, 5.5f, gruzMother.groundLayer);
+            if (horizonCheck == MoveDir.Left)
+            {
+                RaycastHit2D hitLeft = Physics2D.Raycast(gruzMother.transform.position, Vector2.left, 5.5f, gruzMother.groundLayer);
+
+                if (hitLeft.collider != null && hitLeft.collider.gameObject != gruzMother.gameObject)
+                    this.horizonCheck = MoveDir.Right;
+            }
+            else if (horizonCheck == MoveDir.Right)
+            {
+                RaycastHit2D hitRight = Physics2D.Raycast(gruzMother.transform.position, Vector2.right, 5.5f, gruzMother.groundLayer);
+
+                if (hitRight.collider != null && hitRight.collider.gameObject != gruzMother.gameObject)
+                    horizonCheck = MoveDir.Left;
+            }
+            
             Debug.DrawRay(gruzMother.transform.position, Vector2.left * 5.5f, Color.red);
             Debug.DrawRay(gruzMother.transform.position, Vector2.right * 5.5f, Color.red);
-
-            if (hitLeft.collider != null && hitLeft.collider.gameObject != gruzMother.gameObject)
-            {
-                horizonCheck = Dir.Right;
-            }
-            else if (hitRight.collider != null && hitRight.collider.gameObject != gruzMother.gameObject)
-            {
-                horizonCheck = Dir.Left;
-            }
         }
 
         Coroutine wildSlamRoutine;
         IEnumerator WildSlamRoutine()
         {
-            while(wildSlamTime < 10f)
+            gruzMother.animator.SetTrigger("ReadyAttack");
+            
+            yield return new WaitForSeconds(0.3f);          // 자연스러운 애니메이션을 위함
+
+            gruzMother.animator.SetTrigger("IsWildSlam");
+
+            yield return new WaitForSeconds(0.3f);
+
+            while (wildSlamTime < 8f)
             {
                 switch (verticalCheck)
                 {
-                    case Dir.Up :
-                        if (horizonCheck == Dir.Left)
+                    case MoveDir.Up :
+                        if (horizonCheck == MoveDir.Left)
+                        {
                             gruzMother.transform.Translate(new Vector3(-gruzMother.horizonSpeed * Time.deltaTime, gruzMother.vierticalSpeed * Time.deltaTime));
-                        else if (horizonCheck == Dir.Right)
+                            gruzMother.render.flipX = false;
+                        }
+                        else if (horizonCheck == MoveDir.Right)
+                        {
                             gruzMother.transform.Translate(new Vector3(gruzMother.horizonSpeed * Time.deltaTime, gruzMother.vierticalSpeed * Time.deltaTime));
+                            gruzMother.render.flipX = true;
+                        }
                         break;
 
-                    case Dir.Down :
-                        if (horizonCheck == Dir.Left)
+                    case MoveDir.Down :
+                        if (horizonCheck == MoveDir.Left)
+                        {
                             gruzMother.transform.Translate(new Vector3(-gruzMother.horizonSpeed * Time.deltaTime, -gruzMother.vierticalSpeed * Time.deltaTime));
-                        else if (horizonCheck == Dir.Right)
+                            gruzMother.render.flipX = false;
+                        }
+                        else if (horizonCheck == MoveDir.Right)
+                        {
                             gruzMother.transform.Translate(new Vector3(gruzMother.horizonSpeed * Time.deltaTime, -gruzMother.vierticalSpeed * Time.deltaTime));
+                            gruzMother.render.flipX = true;
+                        }
                         break;
 
                     default :
                         break;
                 }
-                HorizonCheck();
-                VerticalCheck();
+
+                HorizonCheck(horizonCheck);
+                VerticalCheck(verticalCheck);
+
+                if (waitTiming)     // SetTrigger Bump를 위한 움직임 일시정지
+                {
+                    yield return new WaitForSeconds(0.25f);
+                    waitTiming = false;
+                }
 
                 yield return null;
             }
 
             gruzMother.ChangeState(StateGruzMother.Idle);
+
             yield break;
         }
     }

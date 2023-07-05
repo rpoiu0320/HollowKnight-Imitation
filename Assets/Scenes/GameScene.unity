@@ -1339,9 +1339,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7065238869293973092, guid: feea2ce35a0be8b449ce353ba5089ec8, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7065238869293973093, guid: feea2ce35a0be8b449ce353ba5089ec8, type: 3}
       propertyPath: m_IsTrigger
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065238869293973094, guid: feea2ce35a0be8b449ce353ba5089ec8, type: 3}
+      propertyPath: m_Constraints
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7065238869293973095, guid: feea2ce35a0be8b449ce353ba5089ec8, type: 3}
       propertyPath: m_Name
