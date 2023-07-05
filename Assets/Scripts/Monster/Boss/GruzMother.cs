@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using GruzMotherState;
 using System;
-using System.Linq;
-using UnityEditor;
 
 public class GruzMother : Monster
 {
@@ -150,7 +148,9 @@ namespace GruzMotherState
 
             if (idleTime > 3f)
             {
-                gruzMother.ChangeState((StateGruzMother)random);    // Rush, WildSlam 중 하나
+                //gruzMother.ChangeState((StateGruzMother)random);    // Rush, WildSlam 중 하나
+                //gruzMother.ChangeState(StateGruzMother.WildSlam);
+                gruzMother.ChangeState(StateGruzMother.Rush);
             }
         }
 
@@ -183,7 +183,7 @@ namespace GruzMotherState
     
         public override void Exit()
         {
-            gruzMother.animator.SetTrigger("EndRush");
+            
         }
 
         public Coroutine rushRoutine;
@@ -206,7 +206,9 @@ namespace GruzMotherState
                 yield return null;
             }
 
-            yield return new WaitForSeconds(1f);
+            gruzMother.animator.SetTrigger("EndRush");
+
+            yield return new WaitForSeconds(0.35f);
 
             gruzMother.ChangeState(StateGruzMother.Idle);
 
@@ -217,10 +219,11 @@ namespace GruzMotherState
     public class WildSlamState : StateBase
     {
         private GruzMother gruzMother;
-        private enum MoveDir { Up, Down, Left, Right }
+        private enum MoveDir { Up, Down, Left, Right, Null }
         private MoveDir horizonCheck;
         private MoveDir verticalCheck;
         private float wildSlamTime;
+        private float random;
         private bool waitTiming;
 
         public WildSlamState(GruzMother gruzMother)
@@ -232,8 +235,10 @@ namespace GruzMotherState
         {
             wildSlamRoutine = gruzMother.StartCoroutine(WildSlamRoutine());
             wildSlamTime = 0;
-            horizonCheck = MoveDir.Left;
-            verticalCheck = MoveDir.Down;
+            random = UnityEngine.Random.Range((float)MoveDir.Up, (float)MoveDir.Left);
+            verticalCheck = (MoveDir)random;
+            random = UnityEngine.Random.Range((float)MoveDir.Left, (float)MoveDir.Null);
+            horizonCheck = (MoveDir)random;
         }
     
         public override void Update()
