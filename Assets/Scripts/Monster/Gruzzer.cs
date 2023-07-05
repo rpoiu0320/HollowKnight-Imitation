@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class Gruzzer : Monster
 {
-    private int damage = 1;
-    private int curHp;
-
-    public Gruzzer(int curHp) : base()
+    private void Update()
     {
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -17,7 +15,7 @@ public class Gruzzer : Monster
         if (collision.tag == "Player")
         {
             IHittable hittable = collision.GetComponent<IHittable>();
-            hittable?.TakeHit(damage);
+            hittable?.TakeHit(1);
         }
     }
 }

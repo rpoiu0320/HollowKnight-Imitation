@@ -12,7 +12,7 @@ public class Flying : MonoBehaviour
     private Collider2D col;
     private SpriteRenderer render;
     private Vector2 moveDir;
-    private bool isFly;
+    [SerializeField] private bool isFly;
 
     private void Awake()
     {
@@ -94,6 +94,13 @@ public class Flying : MonoBehaviour
 
         //HorizonCheck();
         //VerticalCheck();
+    }
+
+    public bool IsFly(bool isFly)
+    {
+        this.isFly = isFly;
+
+        return this.isFly;
     }
 
     // 콜라이더에 부딪히면 반대 방향으로, 천장이나 땅에 부딛히면 반대로

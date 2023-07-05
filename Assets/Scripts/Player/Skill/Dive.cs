@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Dive : MonoBehaviour
 {
-    private Player player;
     private PlayerMover playerMover;
+    private PlayerData data;
     private Animator diveAnimator;
     private Collider2D collider2d;
     private ContactFilter2D contactFilter;
 
     private void OnEnable()
     {
-        player = GetComponent<Player>();
         playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
+        data = playerMover.GetComponent<Player>().data;
         diveAnimator = GetComponent<Animator>();
         collider2d = GetComponent<Collider2D>();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
@@ -39,7 +39,7 @@ public class Dive : MonoBehaviour
         if (target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
             IHittable hittable = target.GetComponent<IHittable>();
-            hittable?.TakeHit(player.data.Player[0].diveDagame);
+            hittable?.TakeHit(data.Player[0].diveDagame);
         }
     }
 }

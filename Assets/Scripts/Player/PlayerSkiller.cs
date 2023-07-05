@@ -124,7 +124,7 @@ public class PlayerSkiller : MonoBehaviour
     public void OnShotSoul()
     {
         ShotSoul shotSoul = GameManager.Resource.Instantiate<ShotSoul>
-            ("Prefab/Player/Skill/ShotSoul", playerMover.transform.position, GameObject.Find("PoolManager").transform);
+           ("Prefab/Player/Skill/ShotSoul", playerMover.transform.position, GameObject.Find("PoolManager").transform);
     }
 
     public void OnDive()

@@ -1,28 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShotSoul : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
 
-    private Player player;
     private PlayerMover playerMover;
+    private PlayerData data;
     private SpriteRenderer render;
     private Collider2D collider2d;
     private Animator shotSoulAnimator;
-    private ContactFilter2D contactFilter;
+    //private ContactFilter2D contactFilter;
     private float direction;
     private bool isBump = false;
 
     private void OnEnable()
     {
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
+        data = playerMover.GetComponent<Player>().data;
         render = GetComponent<SpriteRenderer>();
         collider2d = GetComponent<Collider2D>();
         shotSoulAnimator = GetComponent<Animator>();
-        contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
+        //contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
         direction = playerMover.LastDirX();
     }
 
@@ -69,7 +70,7 @@ public class ShotSoul : MonoBehaviour
         if(target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
             IHittable hittable = target.GetComponent<IHittable>();
-            hittable?.TakeHit(player.data.Player[0].shotSoulDamage);
+            hittable?.TakeHit(data.Player[0].shotSoulDamage);
         }
         else if(target.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {

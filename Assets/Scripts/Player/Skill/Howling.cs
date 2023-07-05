@@ -7,14 +7,14 @@ using UnityEngine;
 
 public class Howling : MonoBehaviour
 {
-    private Player player;
+    private PlayerData data;
     private ContactFilter2D contactFilter;
     private Collider2D collider2d;
     private float attackTime = 0;
 
     private void OnEnable()
     {
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        data = GameObject.FindWithTag("Player").GetComponent<Player>().data;
         collider2d = GetComponent<Collider2D>();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
         howlingRoutine = StartCoroutine(HowlingRoutine());
@@ -45,7 +45,7 @@ public class Howling : MonoBehaviour
         if (target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
             IHittable hittable = target.GetComponent<IHittable>();
-            hittable?.TakeHit(player.data.Player[0].howlingDamage);
+            hittable?.TakeHit(data.Player[0].howlingDamage);
         }
     }
 }

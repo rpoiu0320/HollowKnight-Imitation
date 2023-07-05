@@ -13,13 +13,18 @@ MonoBehaviour:
   m_Name: MonsterData
   m_EditorClassIdentifier: 
   monsters:
+  - monster: {fileID: 0}
+    name: None
+    description: None
+    maxHp: 0
+    haveGeo: 0
   - monster: {fileID: 2082984089308072640, guid: feea2ce35a0be8b449ce353ba5089ec8, type: 3}
     name: GruzMother
-    description: 
+    description: GruzMother Info
     maxHp: 90
     haveGeo: 50
   - monster: {fileID: 8977442162027844792, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
     name: Gruzzer
-    description: 
+    description: Gruzzer Info
     maxHp: 8
     haveGeo: 2
