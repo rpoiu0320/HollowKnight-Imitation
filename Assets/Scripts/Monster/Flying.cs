@@ -1,18 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Flying : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
     [SerializeField] LayerMask reversMask;
+    [SerializeField] private bool isFly;
 
+    private enum StartMoveDir { Up, Down, Left, Right, Null}
+    private StartMoveDir startMoveDir;
     private Monster monster;
     private Collider2D col;
     private SpriteRenderer render;
     private Vector2 moveDir;
-    [SerializeField] private bool isFly;
+    private int random;
 
     private void Awake()
     {
@@ -24,7 +27,7 @@ public class Flying : MonoBehaviour
 
     private void Start()
     {
-        moveDir = new Vector2 (-1, -1);
+        StartDir();
         isFly = true;
     }
 
@@ -38,6 +41,23 @@ public class Flying : MonoBehaviour
     {
         //HorizonCheck();
         //VerticalCheck();
+    }
+
+    private void StartDir()
+    {
+        random = UnityEngine.Random.Range((int)StartMoveDir.Up, (int)StartMoveDir.Left);
+
+        if ((StartMoveDir)random == StartMoveDir.Up)
+            moveDir.y = 1;
+        else if ((StartMoveDir)random == StartMoveDir.Down)
+            moveDir.y = -1;
+
+        random = UnityEngine.Random.Range((int)StartMoveDir.Left, (int)StartMoveDir.Null);
+
+        if ((StartMoveDir)random == StartMoveDir.Left)
+            moveDir.x = -1;
+        else if ((StartMoveDir)random == StartMoveDir.Right)
+            moveDir.x = 1;
     }
 
     private void Move()
