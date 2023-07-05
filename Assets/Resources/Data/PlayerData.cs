@@ -16,13 +16,13 @@ public class PlayerData : ScriptableObject
         public string name;
         public string description;
 
-        public float mapHp;
+        public int mapHp;
         public float curHp;
-        public float maxSoul;
+        public int maxSoul;
         public float curSoul;
-        public float attackDamage;
-        public float howlingDamage;
-        public float shotSoulDamage;
-        public float diveDagame;
+        public int attackDamage;
+        public int howlingDamage;
+        public int shotSoulDamage;
+        public int diveDagame;
     }
 }

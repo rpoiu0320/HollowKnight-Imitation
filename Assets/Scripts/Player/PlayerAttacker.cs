@@ -15,15 +15,18 @@ public class PlayerAttacker : MonoBehaviour
     [SerializeField] Animator attackUpAnimator;
     [SerializeField] Animator jumpAttackDownAnimator;
     [SerializeField] LayerMask hitMask;
+    [SerializeField] bool debug;
 
-    private PlayerData data;
+    private Player player;
     private Animator animator;
     private PlayerMover playerMover;
     private float attackCooldown;
     private bool isAttack;
+    
 
     private void Awake()
     {
+        player = GetComponent<Player>();
         animator = GetComponent<Animator>();
         playerMover = GetComponent<PlayerMover>();
     }
@@ -34,7 +37,7 @@ public class PlayerAttacker : MonoBehaviour
         {
             StopCoroutine(attackRoutine);
             attackCooldown = 0;
-        }   
+        }
     }
 
     private void OnAttack(InputValue value)
@@ -76,11 +79,11 @@ public class PlayerAttacker : MonoBehaviour
 
         foreach (Collider2D collider in collider2Ds)
         {
-            if (collider.tag == "Monster")
-            {
-                IHittable hittable = collider.GetComponent<IHittable>();
-                hittable?.TakeHit((int)data.Player[0].attackDamage);
-            }
+            if (collider.tag != "Monster")
+                continue;
+            
+            IHittable hittable = collider.GetComponent<IHittable>();
+            hittable?.TakeHit(player.data.Player[0].attackDamage);
         }
     }
 
@@ -92,11 +95,11 @@ public class PlayerAttacker : MonoBehaviour
 
         foreach (Collider2D collider in collider2Ds)
         {
-            if (collider.tag == "Monster")
-            {
-                IHittable hittable = collider.GetComponent<IHittable>();
-                hittable?.TakeHit((int)data.Player[0].attackDamage);
-            }
+            if (collider.tag != "Monster")
+                continue;
+
+            IHittable hittable = collider.GetComponent<IHittable>();
+            hittable?.TakeHit(player.data.Player[0].attackDamage);
         }
     }
 
@@ -108,16 +111,19 @@ public class PlayerAttacker : MonoBehaviour
 
         foreach (Collider2D collider in collider2Ds)
         {
-            if (collider.tag == "Monster")
-            {
-                IHittable hittable = collider.GetComponent<IHittable>();
-                hittable?.TakeHit((int)data.Player[0].attackDamage);
-            }
+            if (collider.tag != "Monster")
+                continue;
+            
+            IHittable hittable = collider.GetComponent<IHittable>();
+            hittable?.TakeHit(player.data.Player[0].attackDamage);
         }
     }
 
     private void OnDrawGizmos()
     {
+        if(!debug) 
+            return;
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(commonAttackPoint.position, commonAttackRange);
         Gizmos.DrawWireCube(attackUpPoint.position, attackUpRange);

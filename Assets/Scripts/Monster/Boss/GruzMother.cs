@@ -12,10 +12,18 @@ public class GruzMother : Monster
     private Collider2D col;
     private StateBase[] states;
     private StateGruzMother curState;
-    //private float curHp;
+
     private bool isGround;
 
     [NonSerialized] public Transform playerTransform;
+
+    private int curHp;
+    //GruzMother gruzMother = new GruzMother();
+
+    public GruzMother(int curHp) : base()
+    {
+        //this.curHp = data.Monsters[(int)name].maxHp;
+    }
 
     private void Awake()
     {
@@ -28,12 +36,16 @@ public class GruzMother : Monster
     {
         playerTransform = GameObject.FindWithTag("Player").transform;
         curState = StateGruzMother.Sleep;
-        curHp = data.Monsters[(int)MonsterData.monsterName.GruzMother].maxHp;
+       // Debug.Log(data.Monsters[(int)MonsterData.monsterName.GruzMother].maxHp);
+       //Debug.Log(data.Monsters[(int)MonsterData.monsterName.GruzMother].name);
+       // Debug.Log(data.Monsters[(int)MonsterData.monsterName.GruzMother].haveGeo);
     }
 
     private void Update()
     {
-        states[(int)curState].Update();
+        //states[(int)curState].Update();
+        //Debug.Log(curHp);
+        //Debug.Log(name);
     }
 
     public void ChangeState(StateGruzMother state)
@@ -42,8 +54,8 @@ public class GruzMother : Monster
         curState = state;
         states[(int)curState].Enter();
         states[(int)curState].Update();
-    }
 
+    }
 }
 
 namespace GruzMotherState

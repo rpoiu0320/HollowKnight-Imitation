@@ -6,7 +6,7 @@ public class ShotSoul : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
 
-    private PlayerData data;
+    private Player player;
     private PlayerMover playerMover;
     private SpriteRenderer render;
     private Collider2D collider2d;
@@ -17,6 +17,7 @@ public class ShotSoul : MonoBehaviour
 
     private void OnEnable()
     {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
         render = GetComponent<SpriteRenderer>();
         collider2d = GetComponent<Collider2D>();
@@ -68,7 +69,7 @@ public class ShotSoul : MonoBehaviour
         if(target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
             IHittable hittable = target.GetComponent<IHittable>();
-            hittable?.TakeHit((int)data.Player[0].shotSoulDamage);
+            hittable?.TakeHit(player.data.Player[0].shotSoulDamage);
         }
         else if(target.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {

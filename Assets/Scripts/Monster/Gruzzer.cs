@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Gruzzer : Monster
 {
-    int damage = 1;
+    private int damage = 1;
+    private int curHp;
+
+    public Gruzzer(int curHp) : base()
+    {
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

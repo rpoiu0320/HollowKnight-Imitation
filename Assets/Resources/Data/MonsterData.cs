@@ -18,7 +18,7 @@ public class MonsterData : ScriptableObject
         public string name;
         public string description;
         
-        public float maxHp;
-        public float haveGeo;
+        public int maxHp;
+        public int haveGeo;
     }
 }
