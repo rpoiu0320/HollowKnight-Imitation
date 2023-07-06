@@ -10,15 +10,11 @@ public class Monster : MonoBehaviour, IHittable
     [SerializeField] public MonsterData.MonsterName monsterName;
 
     [NonSerialized] public int curHp;
+    [NonSerialized] public bool alive = true;
 
     public void Awake()
     {
         curHp = data.Monsters[(int)monsterName].maxHp;
-    }
-
-    private void Update()
-    {
-        
     }
 
     public void TakeHit(int damage)

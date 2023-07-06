@@ -25,7 +25,6 @@ public class GruzMother : Monster
     [NonSerialized] public Transform playerTransform;
     [NonSerialized] public bool isFly;
     [NonSerialized] public bool isSleep;
-    [NonSerialized] public bool alive;
     public UnityEvent OnCameraNoise;
 
 
@@ -52,7 +51,6 @@ public class GruzMother : Monster
         flying.IsFly(isFly = false);
         curState = StateGruzMother.Sleep;
         isSleep = true;
-        alive = true;
     }
 
     private void Update()
@@ -404,7 +402,7 @@ namespace GruzMotherState
         public override void Enter()
         {
             gruzMother.gameObject.layer = LayerMask.NameToLayer("Default");
-            dieRoutine = gruzMother.StartCoroutine(DieRoutine());
+            gruzMotherDieRoutine = gruzMother.StartCoroutine(GruzMotherDieRoutine());
             isGround = false;
         }
     
@@ -418,8 +416,8 @@ namespace GruzMotherState
     
         }
 
-        Coroutine dieRoutine;
-        IEnumerator DieRoutine()
+        Coroutine gruzMotherDieRoutine;
+        IEnumerator GruzMotherDieRoutine()
         {
             // TODO : ÇÇ »Õ´Â Effect Ãß°¡ ÇÊ¿ä
             gruzMother.animator.SetTrigger("StartDie");     // ¹ß¾Ç
