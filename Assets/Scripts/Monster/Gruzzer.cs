@@ -15,7 +15,7 @@ public class Gruzzer : Monster
         if (collision.tag == "Player")
         {
             IHittable hittable = collision.GetComponent<IHittable>();
-            hittable?.TakeHit(1);
+            hittable?.TakeHit(0);
         }
     }
 }

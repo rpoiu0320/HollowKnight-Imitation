@@ -9,11 +9,11 @@ public class CameraController : MonoBehaviour
     private CinemachineVirtualCamera cmVC;
     private CinemachineFramingTransposer cmFT;
     private CinemachineConfiner2D cmConfiner2D;
+    private CinemachineBasicMultiChannelPerlin cmBMCP;
     private Player player;
     private PlayerMover playerMover;
     private PlayerAttacker playerAttacker;
     private PlayerSkiller playerSkiller;
-    
     private bool changeVertical;
 
     private void Awake()
@@ -22,6 +22,7 @@ public class CameraController : MonoBehaviour
         cmVC = GetComponent<CinemachineVirtualCamera>();
         cmFT = cmVC.GetCinemachineComponent<CinemachineFramingTransposer>();
         cmConfiner2D = cmVC.GetComponent<CinemachineConfiner2D>();
+        cmBMCP = cmVC.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         player = GameObject.Find("Player").GetComponent<Player>();
         playerMover = player.GetComponent<PlayerMover>();
         playerAttacker = player.GetComponent<PlayerAttacker>();
@@ -87,6 +88,23 @@ public class CameraController : MonoBehaviour
         {
             cmFT.m_TrackedObjectOffset.x = -10f;
         }
+    }
+
+    public void CameraNoise()
+    {
+        noiseRoutine = StartCoroutine(NoiseRoutine());
+    }
+
+    Coroutine noiseRoutine;
+    IEnumerator NoiseRoutine()
+    {
+        cmBMCP.m_AmplitudeGain = 5f;
+
+        yield return new WaitForSeconds(0.3f);
+
+        cmBMCP.m_AmplitudeGain = 0f;
+
+        yield break;
     }
 
     // TODO : 맵의 가장 맨 끝 Ground, Wall을 체크하여 맨 끝에 있는게 아니라면 Player가 화면 가운데에 위치, map크기에 맞는 polygon collier로 confiner2D를 설정하여 해결 가능 할 것 같음

@@ -390,6 +390,7 @@ namespace GruzMotherState
     
         public override void Enter()
         {
+            gruzMother.tag = "Untagged";
             dieRoutine = gruzMother.StartCoroutine(DieRoutine());
             isGround = false;
         }
@@ -440,7 +441,7 @@ namespace GruzMotherState
 
             yield return new WaitForSeconds(2f);
 
-            gruzMother.tag = "Untagged";
+            // Gruzzer »ý¼º
             gruzMother.StopCoroutine(dieRoutine);
 
             yield break;

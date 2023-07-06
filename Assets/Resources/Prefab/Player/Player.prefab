@@ -208,7 +208,6 @@ GameObject:
   - component: {fileID: 3930985119972215493}
   - component: {fileID: 1744370114}
   - component: {fileID: 4494496321729159397}
-  - component: {fileID: 7423922569775231123}
   - component: {fileID: 8075233255055065189}
   m_Layer: 3
   m_Name: Player
@@ -274,7 +273,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 100
   m_Sprite: {fileID: 327479226, guid: 66fdb0f651b703144922809ec8d75c16, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -306,7 +305,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 5
 --- !u!70 &318305914316868946
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -398,6 +397,7 @@ MonoBehaviour:
   hitMask:
     serializedVersion: 2
     m_Bits: 256
+  debug: 0
 --- !u!114 &3930985119972215493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,18 +446,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 466e4ee42045ea247bc3b19997891251, type: 2}
---- !u!114 &7423922569775231123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 318305914316868949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d48877fa6f10fa744be15ee0204bacfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  OnNoise:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: CameraNoise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8075233255055065189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,10 +476,10 @@ MonoBehaviour:
   OnInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7423922569775231123}
-        m_TargetAssemblyTypeName: PlayerHit, Assembly-CSharp
+      - m_Target: {fileID: 4494496321729159397}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: TakeHit
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
