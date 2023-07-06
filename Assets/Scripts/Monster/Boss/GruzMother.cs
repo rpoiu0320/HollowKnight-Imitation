@@ -16,6 +16,7 @@ public class GruzMother : Monster
     private bool isGround;
     private bool alive;
 
+    [NonSerialized] public Rigidbody2D rb;
     [NonSerialized] public SpriteRenderer render;
     [NonSerialized] public ContactFilter2D contactFilter;
     [NonSerialized] public Collider2D col;
@@ -29,6 +30,7 @@ public class GruzMother : Monster
     private new void Awake()
     {
         base.Awake();
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         render = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
@@ -53,10 +55,13 @@ public class GruzMother : Monster
 
     private void Update()
     {
-        if (curHp <= 0 && alive)
-            ChangeState(StateGruzMother.Die);
-
         states[(int)curState].Update();
+
+        if (curHp <= 0 && alive)
+        {
+            ChangeState(StateGruzMother.Die);
+            alive = false;
+        }
     }
 
     public void ChangeState(StateGruzMother state)
@@ -150,9 +155,9 @@ namespace GruzMotherState
 
             if (idleTime > 3f)
             {
-                //gruzMother.ChangeState((StateGruzMother)random);    // Rush, WildSlam 중 하나
+                gruzMother.ChangeState((StateGruzMother)random);    // Rush, WildSlam 중 하나
                 //gruzMother.ChangeState(StateGruzMother.WildSlam);
-                gruzMother.ChangeState(StateGruzMother.Rush);
+                //gruzMother.ChangeState(StateGruzMother.Rush);
             }
         }
 
@@ -215,8 +220,9 @@ namespace GruzMotherState
 
             gruzMother.animator.SetTrigger("EndRush");
 
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(0.5f);
 
+            gruzMother.animator.SetTrigger("EndRush");
             gruzMother.ChangeState(StateGruzMother.Idle);
 
             yield break;
@@ -365,6 +371,7 @@ namespace GruzMotherState
                 yield return null;
             }
 
+            gruzMother.animator.SetTrigger("EndWildSlam");
             gruzMother.ChangeState(StateGruzMother.Idle);
 
             yield break;
@@ -374,6 +381,7 @@ namespace GruzMotherState
     public class DieState : StateBase
     {
         private GruzMother gruzMother;
+        private bool isGround;
     
         public DieState(GruzMother gruzMother)
         {
@@ -382,8 +390,8 @@ namespace GruzMotherState
     
         public override void Enter()
         {
-            //dieRoutine = gruzMother.StartCoroutine(DieRoutine());
-            gruzMother.animator.SetTrigger("NextDieAnimation");
+            dieRoutine = gruzMother.StartCoroutine(DieRoutine());
+            isGround = false;
         }
     
         public override void Update()
@@ -399,12 +407,41 @@ namespace GruzMotherState
         Coroutine dieRoutine;
         IEnumerator DieRoutine()
         {
+            gruzMother.animator.SetTrigger("StartDie");     // 발악
+
+            yield return new WaitForSeconds(5f);
+
+            // TODO : 터지는 Effect 추가 필요
+            gruzMother.animator.SetTrigger("Boom");
+            gruzMother.rb.gravityScale = 5f;
+            gruzMother.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            gruzMother.rb.velocity = new Vector3(100, 100);
+
+            yield return new WaitForSeconds(0.35f);
+
+            gruzMother.animator.SetTrigger("BumpGround");
+
+            while (!isGround)   // GroundCheck
+            {
+                RaycastHit2D hit = Physics2D.Raycast(gruzMother.transform.position, Vector2.down, 4.5f, gruzMother.groundLayer);
+                Debug.DrawRay(gruzMother.transform.position, Vector2.down * 4.5f, Color.green);
+
+                if (hit.collider != null)
+                {
+                    isGround = true;
+                }
+
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(2f);
+
             gruzMother.animator.SetTrigger("NextDieAnimation");
 
-            //yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
 
-            // 여기에 터지는거
-            //gruzMother.animator.SetTrigger("NextDieAnimation");
+            gruzMother.tag = "Untagged";
+            gruzMother.StopCoroutine(dieRoutine);
 
             yield break;
         }

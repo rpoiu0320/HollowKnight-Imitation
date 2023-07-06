@@ -147,7 +147,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 7
 --- !u!114 &2082984089308072640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,8 +165,10 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  rushSpeed: 10
+  rushSpeed: 100
   wildSlamSpeed: 10
+  vierticalSpeed: 100
+  horizonSpeed: 10
 --- !u!114 &37167517
 MonoBehaviour:
   m_ObjectHideFlags: 0
