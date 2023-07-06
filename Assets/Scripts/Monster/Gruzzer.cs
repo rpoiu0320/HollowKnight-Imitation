@@ -8,14 +8,4 @@ public class Gruzzer : Monster
     {
 
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("ºÎµóÈû");
-        if (collision.tag == "Player")
-        {
-            IHittable hittable = collision.GetComponent<IHittable>();
-            hittable?.TakeHit(0);
-        }
-    }
 }

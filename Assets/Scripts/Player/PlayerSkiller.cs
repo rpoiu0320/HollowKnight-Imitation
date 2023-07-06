@@ -16,8 +16,6 @@ public class PlayerSkiller : MonoBehaviour
     private float chargeSkillTime;
     private bool isSkill;
 
-
-
     private void Awake()
     {
         playerMover = playerMover = GetComponent<PlayerMover>();
@@ -95,8 +93,6 @@ public class PlayerSkiller : MonoBehaviour
                     playerMover.LimitMove(false);
                 }
 
-                
-
                 yield break;
             }
         }
@@ -106,6 +102,9 @@ public class PlayerSkiller : MonoBehaviour
 
     private void OnSkill(InputValue value)
     {
+        if (playerMover.LimitMove())
+            return;
+
         isSkill = value.isPressed;
         
         if(isSkill)

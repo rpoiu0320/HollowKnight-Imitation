@@ -78,6 +78,9 @@ public class PlayerMover : MonoBehaviour
 
     private void Move()     // 실질적 이동
     {
+        if (limitMove)
+            return;
+
         if (inputDir.x > 0)
         {
             transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
@@ -219,6 +222,8 @@ public class PlayerMover : MonoBehaviour
 
             yield return null;
         }
+
+        yield break;
     }
 
     private void OnJump(InputValue value)
@@ -248,6 +253,7 @@ public class PlayerMover : MonoBehaviour
         dashTime = 0f;  // TODO : 대시 애니메이션과 시간 동기화 필요, 점프를 계속 누르고 있으면서 대시를 하면 대시 종료 후 점프하는 현상 수정 필요
         rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation; // 대시 중 중력 영향받아 떨어지는거 방지
         animator.SetTrigger("Dash");
+        gameObject.layer = LayerMask.NameToLayer("Default");    // 대시 시 무적 구현을 위함
 
         while (true)
         {
@@ -268,6 +274,10 @@ public class PlayerMover : MonoBehaviour
             }
             yield return null;
         }
+
+        gameObject.layer = LayerMask.NameToLayer("Player");
+
+        yield break;
     }
 
     private void OnDash(InputValue value)

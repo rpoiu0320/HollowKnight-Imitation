@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_Sprite: {fileID: -1412030052, guid: 81e4cf67616ef8445bea0882083d9f3c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -147,7 +147,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 7
 --- !u!114 &8977442162027844792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,6 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: b20f43b2bb03da84dac98bed051da5da, type: 2}
+  monsterName: 2
 --- !u!114 &71072501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +178,7 @@ MonoBehaviour:
   reversMask:
     serializedVersion: 2
     m_Bits: 320
+  isFly: 0
 --- !u!114 &8066086260267208721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +197,7 @@ MonoBehaviour:
       - m_Target: {fileID: 8977442162027844792}
         m_TargetAssemblyTypeName: Monster, Assembly-CSharp
         m_MethodName: TakeHit
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

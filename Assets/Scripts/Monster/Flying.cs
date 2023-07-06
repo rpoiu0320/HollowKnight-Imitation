@@ -108,9 +108,10 @@ public class Flying : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.contacts[0].normal.y != 0)
-            moveDir = new Vector2(moveDir.x, collision.contacts[0].normal.y);
+            moveDir.y = collision.contacts[0].normal.y;
         else if (collision.contacts[0].normal.x != 0)
-            moveDir = new Vector2(collision.contacts[0].normal.x, moveDir.y);
+
+            moveDir.x = collision.contacts[0].normal.x;
 
         //HorizonCheck();
         //VerticalCheck();

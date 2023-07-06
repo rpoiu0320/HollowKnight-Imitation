@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
         cmFT = cmVC.GetCinemachineComponent<CinemachineFramingTransposer>();
         cmConfiner2D = cmVC.GetComponent<CinemachineConfiner2D>();
         cmBMCP = cmVC.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        player = GameObject.Find("Player").GetComponent<Player>();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         playerMover = player.GetComponent<PlayerMover>();
         playerAttacker = player.GetComponent<PlayerAttacker>();
         playerSkiller = player.GetComponent<PlayerSkiller>();
