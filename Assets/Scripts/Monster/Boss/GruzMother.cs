@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GruzMotherState;
 using System;
+using UnityEngine.Events;
 
 public class GruzMother : Monster
 {
@@ -14,7 +15,6 @@ public class GruzMother : Monster
     private StateBase[] states;
     private StateGruzMother curState;
     private bool isGround;
-    private bool alive;
 
     [NonSerialized] public Rigidbody2D rb;
     [NonSerialized] public SpriteRenderer render;
@@ -25,6 +25,8 @@ public class GruzMother : Monster
     [NonSerialized] public Transform playerTransform;
     [NonSerialized] public bool isFly;
     [NonSerialized] public bool isSleep;
+    [NonSerialized] public bool alive;
+    public UnityEvent OnCameraNoise;
 
 
     private new void Awake()
@@ -210,10 +212,16 @@ namespace GruzMotherState
 
             while (rushTime < 1f)
             {
+                if (!gruzMother.alive)
+                    yield break;
+
                 gruzMother.transform.Translate(dir * gruzMother.rushSpeed * Time.deltaTime);
 
                 if (Physics2D.OverlapCircle(new Vector2(gruzMother.transform.position.x, gruzMother.transform.position.y + 0.5f), 4f, gruzMother.groundLayer))
+                {
+                    gruzMother.OnCameraNoise?.Invoke();
                     break;
+                }
 
                 yield return null;
             }
@@ -270,10 +278,11 @@ namespace GruzMotherState
             {                                   // and 밀림방지를 위해 rb.Constraints를 모두 ture로 하니 항상 Ray발사 시 비비적대는 현상이 있음, 이를 위한 Ray분할 발사
                 RaycastHit2D hitUp = Physics2D.Raycast(gruzMother.transform.position, Vector2.up, 5f, gruzMother.groundLayer);
 
-                if (hitUp.collider != null && hitUp.collider.gameObject != gruzMother.gameObject)
+                if (hitUp.collider != null)
                 {
                     gruzMother.animator.SetTrigger("BumpCeiling");
                     this.verticalCheck = MoveDir.Down;
+                    gruzMother.OnCameraNoise?.Invoke();
                     waitTiming = true;
                 }
             }
@@ -281,10 +290,11 @@ namespace GruzMotherState
             {
                 RaycastHit2D hitDown = Physics2D.Raycast(gruzMother.transform.position, Vector2.down, 4f, gruzMother.groundLayer);
 
-                if (hitDown.collider != null && hitDown.collider.gameObject != gruzMother.gameObject)
+                if (hitDown.collider != null)
                 {
                     gruzMother.animator.SetTrigger("BumpGround");
                     this.verticalCheck = MoveDir.Up;
+                    gruzMother.OnCameraNoise?.Invoke();
                     waitTiming = true;
                 }
             }
@@ -327,6 +337,9 @@ namespace GruzMotherState
 
             while (wildSlamTime < 8f)
             {
+                if (!gruzMother.alive)
+                    yield break;
+
                 switch (verticalCheck)
                 {
                     case MoveDir.Up :
@@ -390,7 +403,7 @@ namespace GruzMotherState
     
         public override void Enter()
         {
-            gruzMother.tag = "Untagged";
+            gruzMother.gameObject.layer = LayerMask.NameToLayer("Default");
             dieRoutine = gruzMother.StartCoroutine(DieRoutine());
             isGround = false;
         }
@@ -408,6 +421,7 @@ namespace GruzMotherState
         Coroutine dieRoutine;
         IEnumerator DieRoutine()
         {
+            // TODO : 피 뿜는 Effect 추가 필요
             gruzMother.animator.SetTrigger("StartDie");     // 발악
 
             yield return new WaitForSeconds(5f);
@@ -439,10 +453,16 @@ namespace GruzMotherState
 
             gruzMother.animator.SetTrigger("NextDieAnimation");
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1.5f);
 
-            // Gruzzer 생성
-            gruzMother.StopCoroutine(dieRoutine);
+            gruzMother.rb.simulated = false;
+
+            for (int i = 0; i < 7;) // Gruzzer 생성
+            {
+                GameManager.Resource.Instantiate<Gruzzer>
+                    ("Prefab/Monster/Gruzzer", gruzMother.transform.position, GameObject.Find("PoolManager").transform);
+                i++;
+            }
 
             yield break;
         }

@@ -14,7 +14,7 @@ public class Player : MonoBehaviour, IHittable
     private int twinklingCount;
     private int twinklingColor;
     public PlayerData data;
-    public UnityEvent OnNoise;
+    public UnityEvent OnCameraNoise;
 
     private void Awake()
     {
@@ -27,18 +27,23 @@ public class Player : MonoBehaviour, IHittable
     {
         Debug.Log("Player Hit");
         hitRoutine = StartCoroutine(HitRotine());
-        OnNoise?.Invoke();
     }
 
     Coroutine hitRoutine;
     IEnumerator HitRotine()
     {
         hitTime = 0;
+        OnCameraNoise?.Invoke();
         animator.SetTrigger("Hit");
         playerMover.LimitMove(true);
         gameObject.layer = LayerMask.NameToLayer("Default");
         isTwinkling = true;
         twinklingRoutine = StartCoroutine(TwinklingRoutine());
+        Time.timeScale = 0;
+
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        Time.timeScale = 1;
         
         while (hitTime < 0.2f)
         {
