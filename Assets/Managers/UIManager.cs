@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 public class UIManager : MonoBehaviour
 {
     private EventSystem eventSystem;
-
     private Canvas inGameCanvas;
 
     private void Awake()
