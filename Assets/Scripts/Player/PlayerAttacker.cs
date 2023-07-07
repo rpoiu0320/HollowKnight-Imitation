@@ -87,7 +87,7 @@ public class PlayerAttacker : MonoBehaviour
             IHittable hittable = collider.GetComponent<IHittable>();
             hittable?.TakeHit(player.data.Player[0].attackDamage);
             OnKnockBack?.Invoke(collider);
-            playerKnockBack = StartCoroutine(PlayerKnockBack());
+            playerKnockBackRoutine = StartCoroutine(PlayerKnockBackRoutine());
         }
     }
 
@@ -122,18 +122,23 @@ public class PlayerAttacker : MonoBehaviour
             
             IHittable hittable = collider.GetComponent<IHittable>();
             hittable?.TakeHit(player.data.Player[0].attackDamage);
-            OnKnockBack?.Invoke(collider);
-            playerKnockBack = StartCoroutine(PlayerKnockBack());
+
+            if (collider.gameObject.layer == LayerMask.NameToLayer("Monster"))
+                OnKnockBack?.Invoke(collider);
+
+            playerKnockBackRoutine = StartCoroutine(PlayerKnockBackRoutine());
         }
     }
 
-    Coroutine playerKnockBack;
-    IEnumerator PlayerKnockBack()
+    Coroutine playerKnockBackRoutine;
+    IEnumerator PlayerKnockBackRoutine()
     {
         knockBackTime = 0;
         
         while (knockBackTime < 0.2f)
         {
+            playerMover.StopJumpRoutine();
+
             if (isJumpAttackDown)
             {
                 rb.velocity = Vector3.zero;

@@ -359,6 +359,11 @@ public class PlayerMover : MonoBehaviour
         return limitMove;
     }
 
+    public void StopJumpRoutine()
+    {
+        StopCoroutine(jumpRoutine);
+    }
+
     /* TODO : isGround가 false일 때 isLook이 바뀌질 않음
 
     isCameraMove가 쓰이지 않고 있음, CameraController에서 쓸려고 했던 것 같은데 isLook이 바뀌면 CameraMove가 IsLook의 값을 받아서 현재 쓸 이유가 없음
