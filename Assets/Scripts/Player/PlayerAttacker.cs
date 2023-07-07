@@ -18,6 +18,7 @@ public class PlayerAttacker : MonoBehaviour
     [SerializeField] bool debug;
 
     private Player player;
+    private Rigidbody2D rb;
     private Animator animator;
     private PlayerMover playerMover;
     private float attackCooldown;
@@ -27,6 +28,7 @@ public class PlayerAttacker : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<Player>();
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerMover = GetComponent<PlayerMover>();
     }
@@ -80,11 +82,18 @@ public class PlayerAttacker : MonoBehaviour
 
         foreach (Collider2D collider in collider2Ds)
         {
-            if (collider.tag != "Monster")
+            if (collider.gameObject.layer != LayerMask.NameToLayer("Monster") || collider.gameObject.layer != LayerMask.NameToLayer("Spikes"))
                 continue;
-            
+
             IHittable hittable = collider.GetComponent<IHittable>();
             hittable?.TakeHit(player.data.Player[0].attackDamage);
+
+            
+
+            if (playerMover.LastDirX() > 0)
+                rb.velocity = Vector2.left * 10;
+            else if (playerMover.LastDirX() < 0)
+                rb.velocity = Vector2.right * 10;
         }
     }
 

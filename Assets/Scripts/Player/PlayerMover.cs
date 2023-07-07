@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,6 +24,9 @@ public class PlayerMover : MonoBehaviour
     private SpriteRenderer render;
     private Vector2 inputDir;
     private Vector2 lookDir = new Vector2(1, 0);
+    private UpDown upDown;
+    private DirX dirX;
+    private DirX lastDirXCheck;
     private float dashDir;                         // 방향키 입력 없으면 제자리 대시하는 현상 방지
     private float lookUpDownTime;
     private float jumpTime;
@@ -34,9 +38,6 @@ public class PlayerMover : MonoBehaviour
     private bool isJump;
     private bool isGround;
     private bool isCameraMove;
-    private UpDown upDown;
-    private DirX dirX;
-    private DirX lastDirXCheck;
 
     private void Awake()
     {
@@ -50,7 +51,7 @@ public class PlayerMover : MonoBehaviour
     private void Start()
     {
         dashDir = lookDir.x;
-        originCommonAttackPointX = commonAttackPoint.position.x;
+        originCommonAttackPointX = commonAttackPoint.localPosition.x;
         dirX = DirX.Right;
         lastDirXCheck = DirX.Right;
     }
@@ -196,10 +197,12 @@ public class PlayerMover : MonoBehaviour
 
     private void ChangeAttackPositionX()
     {
+        Debug.Log(originCommonAttackPointX + " originX");
+        Debug.Log(commonAttackPoint.localPosition.x + " curX");
         if (dirX == DirX.Right)
-            commonAttackPoint.Translate(new Vector3(originCommonAttackPointX * 2, 0));
+            commonAttackPoint.Translate(new Vector3(originCommonAttackPointX * 2f, 0));
         else if (dirX == DirX.Left)
-            commonAttackPoint.Translate(new Vector3(-originCommonAttackPointX * 2, 0));
+            commonAttackPoint.Translate(new Vector3(-originCommonAttackPointX * 2f, 0));
     }
 
     Coroutine jumpRoutine;
