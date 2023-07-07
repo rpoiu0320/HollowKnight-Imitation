@@ -33,11 +33,7 @@ public class PlayerAttacker : MonoBehaviour
 
     private void Update()
     {
-        if (attackCooldown >= 0.3f)
-        {
-            StopCoroutine(attackRoutine);
-            attackCooldown = 0;
-        }
+
     }
 
     private void OnAttack(InputValue value)
@@ -67,8 +63,13 @@ public class PlayerAttacker : MonoBehaviour
         while (attackCooldown < 0.3f)
         {
             attackCooldown += Time.deltaTime;
+
             yield return null;
         }
+
+        attackCooldown = 0;
+
+        yield break;
     }
 
     private void CommonAttack()

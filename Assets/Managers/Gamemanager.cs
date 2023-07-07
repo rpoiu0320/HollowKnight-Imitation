@@ -9,12 +9,14 @@ public class GameManager : MonoBehaviour
     private static ResourceManager resourceManager;
     private static UIManager uiManager;
     private static DataManager dataManager;
+    private static ParticleManager particleManager;
 
     public static GameManager Instance { get { return instance; } }
     public static PoolManager Pool {  get { return poolManager; } }
     public static ResourceManager Resource { get { return resourceManager; } }
     public static UIManager UI { get { return uiManager; } }
     public static DataManager Data {  get { return dataManager; } }
+    public static ParticleManager Particle { get { return particleManager; } }
 
     private GameManager() { }
 
@@ -58,5 +60,10 @@ public class GameManager : MonoBehaviour
         dataObj.name = "DataManager";
         dataObj.transform.parent = transform;
         dataManager = dataObj.AddComponent<DataManager>();
+
+        GameObject particleObj = new GameObject();
+        particleObj.name = "ParticleManager";
+        particleObj.transform.parent = transform;
+        particleManager = particleObj.AddComponent<ParticleManager>();
     }
 }
