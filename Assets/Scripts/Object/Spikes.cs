@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Thorn : MonoBehaviour, IHittable
+public class Spikes : MonoBehaviour, IHittable
 {
     public void TakeHit(int damage)
     {

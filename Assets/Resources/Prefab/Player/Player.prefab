@@ -398,6 +398,7 @@ MonoBehaviour:
   hitMask:
     serializedVersion: 2
     m_Bits: 256
+  debug: 0
 --- !u!114 &3930985119972215493
 MonoBehaviour:
   m_ObjectHideFlags: 0
