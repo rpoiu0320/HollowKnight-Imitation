@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 202832456}
   - component: {fileID: 202832455}
   - component: {fileID: 202832454}
+  - component: {fileID: 6875100943855938952}
   m_Layer: 0
   m_Name: ShotSoul
   m_TagString: Untagged
@@ -159,3 +160,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 100
+  OnKnockBack:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6875100943855938952}
+        m_TargetAssemblyTypeName: KnockBack, Assembly-CSharp
+        m_MethodName: OnKnockBackRoutine
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6875100943855938952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138788047359935550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5e7b474f196ac4ca147e41f7160b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

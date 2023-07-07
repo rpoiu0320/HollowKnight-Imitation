@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Dive : MonoBehaviour
+public class Dive : Skill
 {
     private PlayerMover playerMover;
     private PlayerData data;
     private Animator diveAnimator;
     private Collider2D collider2d;
     private ContactFilter2D contactFilter;
+    public UnityEvent<Collider2D> OnKnockBack;
 
     private void OnEnable()
     {
@@ -40,6 +42,7 @@ public class Dive : MonoBehaviour
         {
             IHittable hittable = target.GetComponent<IHittable>();
             hittable?.TakeHit(data.Player[0].diveDagame);
+            OnKnockBack?.Invoke(target);
         }
     }
 }

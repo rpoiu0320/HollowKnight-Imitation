@@ -84,7 +84,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.875, y: 7}
+  m_Size: {x: 4.5625, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -178,7 +178,7 @@ MonoBehaviour:
   reversMask:
     serializedVersion: 2
     m_Bits: 320
-  isFly: 0
+  isFly: 1
 --- !u!114 &8066086260267208721
 MonoBehaviour:
   m_ObjectHideFlags: 0

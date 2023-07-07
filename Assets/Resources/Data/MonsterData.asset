@@ -26,5 +26,5 @@ MonoBehaviour:
   - monster: {fileID: 8977442162027844792, guid: 725fb78b8a0cd5145a2460886c943bf5, type: 3}
     name: Gruzzer
     description: Gruzzer Info
-    maxHp: 8
+    maxHp: 80
     haveGeo: 2

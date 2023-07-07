@@ -197,8 +197,6 @@ public class PlayerMover : MonoBehaviour
 
     private void ChangeAttackPositionX()
     {
-        Debug.Log(originCommonAttackPointX + " originX");
-        Debug.Log(commonAttackPoint.localPosition.x + " curX");
         if (dirX == DirX.Right)
             commonAttackPoint.Translate(new Vector3(originCommonAttackPointX * 2f, 0));
         else if (dirX == DirX.Left)

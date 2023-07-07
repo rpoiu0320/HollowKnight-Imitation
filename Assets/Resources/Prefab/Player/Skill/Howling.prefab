@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 559457787965529295}
   - component: {fileID: 559457787965529294}
   - component: {fileID: 559457787965529292}
+  - component: {fileID: 7601125844623652782}
   m_Layer: 0
   m_Name: Howling
   m_TagString: Untagged
@@ -143,10 +144,10 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 9}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 16.8125, y: 17.1875}
     newSize: {x: 16.8125, y: 17.1875}
     adaptiveTilingThreshold: 0.5
@@ -168,4 +169,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41cf5bf299d84214485bcde445791ec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
+  OnKnockBack:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7601125844623652782}
+        m_TargetAssemblyTypeName: KnockBack, Assembly-CSharp
+        m_MethodName: OnKnockBackRoutine
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7601125844623652782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559457787965529289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5e7b474f196ac4ca147e41f7160b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

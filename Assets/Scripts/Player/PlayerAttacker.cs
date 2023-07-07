@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerAttacker : MonoBehaviour
@@ -18,24 +19,22 @@ public class PlayerAttacker : MonoBehaviour
     [SerializeField] bool debug;
 
     private Player player;
-    private Rigidbody2D rb;
     private Animator animator;
     private PlayerMover playerMover;
+    private Rigidbody2D rb;
     private float attackCooldown;
+    private float knockBackTime;
     private bool isAttack;
-    
+    private bool isJumpAttackDown = false;
+    public UnityEvent<Collider2D> OnKnockBack;
+
 
     private void Awake()
     {
         player = GetComponent<Player>();
-        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerMover = GetComponent<PlayerMover>();
-    }
-
-    private void Update()
-    {
-
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void OnAttack(InputValue value)
@@ -82,18 +81,13 @@ public class PlayerAttacker : MonoBehaviour
 
         foreach (Collider2D collider in collider2Ds)
         {
-            if (collider.gameObject.layer != LayerMask.NameToLayer("Monster") || collider.gameObject.layer != LayerMask.NameToLayer("Spikes"))
+            if (collider.gameObject.layer != LayerMask.NameToLayer("Monster") && collider.gameObject.layer != LayerMask.NameToLayer("Spikes"))
                 continue;
 
             IHittable hittable = collider.GetComponent<IHittable>();
             hittable?.TakeHit(player.data.Player[0].attackDamage);
-
-            
-
-            if (playerMover.LastDirX() > 0)
-                rb.velocity = Vector2.left * 10;
-            else if (playerMover.LastDirX() < 0)
-                rb.velocity = Vector2.right * 10;
+            OnKnockBack?.Invoke(collider);
+            playerKnockBack = StartCoroutine(PlayerKnockBack());
         }
     }
 
@@ -105,11 +99,12 @@ public class PlayerAttacker : MonoBehaviour
 
         foreach (Collider2D collider in collider2Ds)
         {
-            if (collider.tag != "Monster")
+            if (collider.tag != "Monster" && collider.gameObject.layer != LayerMask.NameToLayer("Spikes"))
                 continue;
 
             IHittable hittable = collider.GetComponent<IHittable>();
             hittable?.TakeHit(player.data.Player[0].attackDamage);
+            OnKnockBack?.Invoke(collider);
         }
     }
 
@@ -117,16 +112,49 @@ public class PlayerAttacker : MonoBehaviour
     {
         animator.SetTrigger("Attack");
         jumpAttackDownAnimator.SetTrigger("Attack");
+        isJumpAttackDown = true;
         Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(jumpAttackDownPoint.position, jumpAttackDownRange, 0, hitMask);
 
         foreach (Collider2D collider in collider2Ds)
         {
-            if (collider.tag != "Monster")
+            if (collider.tag != "Monster" && collider.gameObject.layer != LayerMask.NameToLayer("Spikes"))
                 continue;
             
             IHittable hittable = collider.GetComponent<IHittable>();
             hittable?.TakeHit(player.data.Player[0].attackDamage);
+            OnKnockBack?.Invoke(collider);
+            playerKnockBack = StartCoroutine(PlayerKnockBack());
         }
+    }
+
+    Coroutine playerKnockBack;
+    IEnumerator PlayerKnockBack()
+    {
+        knockBackTime = 0;
+        
+        while (knockBackTime < 0.2f)
+        {
+            if (isJumpAttackDown)
+            {
+                rb.velocity = Vector3.zero;
+                transform.Translate(new Vector3(0, 40 * Time.deltaTime, 0));
+            }
+            else
+            {
+                if (playerMover.LastDirX() > 0)
+                    transform.Translate(new Vector3(-20 * Time.deltaTime, 0, 0));
+                else if (playerMover.LastDirX() < 0)
+                    transform.Translate(new Vector3(20 * Time.deltaTime, 0, 0));
+            }
+
+            knockBackTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        isJumpAttackDown = false;
+
+        yield break;
     }
 
     private void OnDrawGizmos()

@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Howling : MonoBehaviour
+public class Howling : Skill
 {
     private PlayerData data;
     private ContactFilter2D contactFilter;
     private Collider2D collider2d;
     private float attackTime = 0;
+    public UnityEvent<Collider2D> OnKnockBack;
 
     private void OnEnable()
     {
@@ -46,6 +48,7 @@ public class Howling : MonoBehaviour
         {
             IHittable hittable = target.GetComponent<IHittable>();
             hittable?.TakeHit(data.Player[0].howlingDamage);
+            OnKnockBack?.Invoke(target.gameObject.GetComponent<Collider2D>());
         }
     }
 }
