@@ -32,6 +32,13 @@ public class ResourceManager : MonoBehaviour
         return Instantiate<T>(original, position, parent, pooling);
     }
 
+    public T Instantiate<T>(string path, bool pooling = false) where T : Object
+    {
+        T original = Load<T>(path);
+
+        return Instantiate<T>(original, Vector3.zero, null, pooling);
+    }
+
     public void Destory(GameObject gameObject)
     {
         if(GameManager.Pool.IsContain(gameObject))

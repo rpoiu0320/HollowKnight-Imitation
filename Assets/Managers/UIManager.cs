@@ -10,12 +10,12 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        //eventSystem = GameManager.Resource.Instantiate<EventSystem>("UI/EventSystem");
-        //eventSystem.transform.parent = transform;
-        //eventSystem.gameObject.name = "EventSystem";
+        eventSystem = GameManager.Resource.Instantiate<EventSystem>("Prefab/UI/EventSystem");
+        eventSystem.transform.parent = transform;
+        eventSystem.gameObject.name = "EventSystem";
 
-        //inGameCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
-        //inGameCanvas.gameObject.name = "InGameCanvas";
-        //inGameCanvas.sortingOrder = 0;
+        inGameCanvas = GameManager.Resource.Instantiate<Canvas>("Prefab/UI/Canvas");
+        inGameCanvas.gameObject.name = "InGameCanvas";
+        inGameCanvas.sortingOrder = 0;
     }
 }

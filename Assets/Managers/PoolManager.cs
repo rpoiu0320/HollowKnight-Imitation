@@ -1,19 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UIElements;
 
 public class PoolManager : MonoBehaviour
 {
     Dictionary<string, ObjectPool<GameObject>> poolDic;
     Dictionary<string, Transform> poolContainer;
     Transform poolRoot;
+    Canvas canvasRoot;
 
     private void Awake()
     {
         poolDic = new Dictionary<string, ObjectPool<GameObject>>();
         poolContainer = new Dictionary<string, Transform>();
         poolRoot = new GameObject("PoolRoot").transform;
+        canvasRoot = GameManager.Resource.Instantiate<Canvas>("Prefab/UI/Canvas");
     }
 
     public T Get<T>(T original, Vector3 position, Transform parent) where T : Object    // T is Object
@@ -144,6 +148,90 @@ public class PoolManager : MonoBehaviour
             {
                 gameObject.gameObject.SetActive(false);
                 gameObject.transform.parent = poolContainer[key];
+            },
+            actionOnDestroy: (GameObject gameObject) =>
+            {
+                Destroy(gameObject);
+            }
+            );
+        poolDic.Add(key, pool);
+    }
+
+    public T GetUI<T>(T original, Vector3 position) where T : Object
+    {
+        if (original is GameObject)
+        {
+            GameObject prefab = original as GameObject;
+            string key = prefab.name;
+
+            if (!poolDic.ContainsKey(key))
+                CreateUIPool(key, prefab);
+
+            GameObject gameObject = poolDic[key].Get();
+            gameObject.transform.position = position;
+            return gameObject as T;
+        }
+        else if (original is Component)
+        {
+            Component component = original as Component;
+            string key = component.gameObject.name;
+
+            if (!poolDic.ContainsKey(key))
+                CreateUIPool(key, component.gameObject);
+
+            GameObject gameObject = poolDic[key].Get();
+            gameObject.transform.position = position;
+            return gameObject.GetComponent<T>();
+        }
+        else
+            return null;
+    }
+
+    public T GetUI<T>(T original) where T : Object
+    {
+        if (original is GameObject)
+        {
+            GameObject prefab = original as GameObject;
+            string key = prefab.name;
+
+            if (!poolDic.ContainsKey(key))
+                CreateUIPool(key, prefab);
+
+            GameObject gameObject = poolDic[key].Get();
+            return gameObject as T;
+        }
+        else if (original is Component)
+        {
+            Component component = original as Component;
+            string key = component.gameObject.name;
+
+            if (!poolDic.ContainsKey(key))
+                CreateUIPool(key, component.gameObject);
+
+            GameObject gameObject = poolDic[key].Get();
+            return gameObject.GetComponent<T>();
+        }
+        else
+            return null;
+    }
+
+    private void CreateUIPool(string key, GameObject prefab)
+    {
+        ObjectPool<GameObject> pool = new ObjectPool<GameObject>(
+            createFunc: () =>
+            {
+                GameObject gameObject = Instantiate(prefab);
+                gameObject.name = key;
+                return gameObject;
+            },
+            actionOnGet: (GameObject gameObject) =>
+            {
+                gameObject.gameObject.SetActive(true);
+            },
+            actionOnRelease: (GameObject gameObject) =>
+            {
+                gameObject.SetActive(false);
+                gameObject.transform.SetParent(canvasRoot.transform, false);
             },
             actionOnDestroy: (GameObject gameObject) =>
             {
