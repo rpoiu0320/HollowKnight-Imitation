@@ -86,8 +86,9 @@ public class PlayerAttacker : MonoBehaviour
 
             IHittable hittable = collider.GetComponent<IHittable>();
             hittable?.TakeHit(player.data.Player[0].attackDamage);
-            OnKnockBack?.Invoke(collider);
-            playerKnockBackRoutine = StartCoroutine(PlayerKnockBackRoutine());
+
+            if (collider.gameObject.layer == LayerMask.NameToLayer("Monster"))
+                OnKnockBack?.Invoke(collider);
         }
     }
 
@@ -104,7 +105,9 @@ public class PlayerAttacker : MonoBehaviour
 
             IHittable hittable = collider.GetComponent<IHittable>();
             hittable?.TakeHit(player.data.Player[0].attackDamage);
-            OnKnockBack?.Invoke(collider);
+
+            if (collider.gameObject.layer == LayerMask.NameToLayer("Monster"))
+                OnKnockBack?.Invoke(collider);
         }
     }
 

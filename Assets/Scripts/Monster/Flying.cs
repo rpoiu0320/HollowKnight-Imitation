@@ -11,16 +11,12 @@ public class Flying : MonoBehaviour
 
     private enum StartMoveDir { Up, Down, Left, Right, Null}
     private StartMoveDir startMoveDir;
-    private Monster monster;
-    private Collider2D col;
     private SpriteRenderer render;
     private Vector2 moveDir;
     private int random;
 
     private void Awake()
     {
-        monster = GetComponent<Monster>();
-        col = GetComponent<Collider2D>();
         render = GetComponent<SpriteRenderer>();
         //groundMask = LayerMask.NameToLayer("Ground"); // layerMask 이상하게 들어감
     }
