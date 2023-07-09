@@ -6,9 +6,10 @@ using UnityEngine.Events;
 
 public class Player : MonoBehaviour, IHittable
 {
+    [SerializeField] Animator hitAnimator;
     private PlayerMover playerMover;
     private SpriteRenderer render;
-    private Animator animator;
+    private Animator playerAnimator;
     private float hitTime;
     private bool isTwinkling;
     private int twinklingCount;
@@ -20,12 +21,11 @@ public class Player : MonoBehaviour, IHittable
     {
         playerMover = GetComponent<PlayerMover>();
         render = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
+        playerAnimator = GetComponent<Animator>();
     }
 
     public void TakeHit(int damage)
     {
-        Debug.Log("Player Hit");
         hitRoutine = StartCoroutine(HitRotine());
     }
 
@@ -34,14 +34,15 @@ public class Player : MonoBehaviour, IHittable
     {
         hitTime = 0;
         OnCameraNoise?.Invoke();
-        animator.SetTrigger("Hit");
+        hitAnimator.SetTrigger("OnHit");
+        playerAnimator.SetTrigger("Hit");
         playerMover.LimitMove(true);
         gameObject.layer = LayerMask.NameToLayer("Default");
         isTwinkling = true;
         twinklingRoutine = StartCoroutine(TwinklingRoutine());
         Time.timeScale = 0;
 
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(0.2f);
 
         Time.timeScale = 1;
         
