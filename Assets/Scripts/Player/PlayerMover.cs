@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMover : MonoBehaviour
 {
+    [SerializeField] GameObject dashEffect;
     [SerializeField] Transform commonAttackPoint;
     [SerializeField] SpriteRenderer commonAttackRen;
     [SerializeField] SpriteRenderer attackUpRen;
@@ -18,10 +19,11 @@ public class PlayerMover : MonoBehaviour
     public enum DirX { Left, Right }
 
     private PlayerAttacker playerAttacker;
-    private PlayerSkiller playerSkiller;
     private Rigidbody2D rb;
     private Animator animator;
+    private Animator dashAnimator;
     private SpriteRenderer render;
+    private SpriteRenderer dashRender;
     private Vector2 inputDir;
     private Vector2 lookDir = new Vector2(1, 0);
     private UpDown upDown;
@@ -42,10 +44,11 @@ public class PlayerMover : MonoBehaviour
     private void Awake()
     {
         playerAttacker = GetComponent<PlayerAttacker>();
-        playerSkiller = GetComponent<PlayerSkiller>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        dashAnimator = dashEffect.GetComponent<Animator>();
         render = GetComponent<SpriteRenderer>();
+        dashRender = dashEffect.GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -86,6 +89,7 @@ public class PlayerMover : MonoBehaviour
         {
             transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
             render.flipX = false;
+            dashRender.flipX = true;
             commonAttackRen.flipX = false;
             attackUpRen.flipX = false;
             jumpAttackDownRen.flipX = false;
@@ -95,6 +99,7 @@ public class PlayerMover : MonoBehaviour
         {
             transform.Translate(new Vector3(-moveSpeed * Time.deltaTime, 0, 0));
             render.flipX = true;
+            dashRender.flipX = false;
             commonAttackRen.flipX = true;
             attackUpRen.flipX = true;
             jumpAttackDownRen.flipX = true;
@@ -254,6 +259,7 @@ public class PlayerMover : MonoBehaviour
         dashTime = 0f;  // TODO : 대시 애니메이션과 시간 동기화 필요, 점프를 계속 누르고 있으면서 대시를 하면 대시 종료 후 점프하는 현상 수정 필요
         rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation; // 대시 중 중력 영향받아 떨어지는거 방지
         animator.SetTrigger("Dash");
+        dashAnimator.SetTrigger("OnDashEffect");
         gameObject.layer = LayerMask.NameToLayer("Default");    // 대시 시 무적 구현을 위함
 
         while (true)
@@ -302,6 +308,11 @@ public class PlayerMover : MonoBehaviour
             isGround = false;
             animator.SetBool("IsGround", false);
         }
+    }
+
+    private void PlayerInteractor()
+    {
+
     }
 
     // 이하 함수들은 다른 컴포넌트들과 상호작용
