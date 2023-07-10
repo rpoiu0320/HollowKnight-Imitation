@@ -24,7 +24,7 @@ public class Monster : MonoBehaviour, IHittable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player") && alive)
         {
             IHittable hittable = collision.gameObject.GetComponent<IHittable>();
             hittable?.TakeHit(0);
@@ -33,7 +33,7 @@ public class Monster : MonoBehaviour, IHittable
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player") && alive)
         {
             IHittable hittable = collision.gameObject.GetComponent<IHittable>();
             hittable?.TakeHit(0);

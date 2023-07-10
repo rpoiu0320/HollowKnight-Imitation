@@ -14,7 +14,6 @@ public class GruzMother : Monster
     [SerializeField] public float horizonSpeed;
     private StateBase[] states;
     private StateGruzMother curState;
-    private bool isGround;
 
     [NonSerialized] public Rigidbody2D rb;
     [NonSerialized] public SpriteRenderer render;
@@ -421,6 +420,7 @@ namespace GruzMotherState
         {
             // TODO : 피 뿜는 Effect 추가 필요
             gruzMother.animator.SetTrigger("StartDie");     // 발악
+            gruzMother.gameObject.layer = LayerMask.NameToLayer("Default");     // Player에게 추가로 맞는거 방지
 
             yield return new WaitForSeconds(5f);
 
@@ -428,7 +428,7 @@ namespace GruzMotherState
             gruzMother.animator.SetTrigger("Boom");
             gruzMother.rb.gravityScale = 5f;
             gruzMother.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            gruzMother.rb.velocity = new Vector3(100, 100);
+            gruzMother.rb.velocity = new Vector2(30, 30);
 
             yield return new WaitForSeconds(0.35f);
 
@@ -458,7 +458,7 @@ namespace GruzMotherState
             for (int i = 0; i < 7;) // Gruzzer 생성
             {
                 GameManager.Resource.Instantiate<Gruzzer>
-                    ("Prefab/Monster/Gruzzer", gruzMother.transform.position, GameObject.Find("PoolManager").transform);
+                    ("Prefab/Monster/Gruzzer", new Vector2(gruzMother.transform.position.x + i / 2, gruzMother.transform.position.y + i * 3), GameObject.Find("PoolManager").transform);
                 i++;
             }
 

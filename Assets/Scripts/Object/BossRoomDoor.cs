@@ -12,7 +12,6 @@ public class BossRoomDoor : MonoBehaviour
 
     private void Update()
     {
-        GroundCheck();
         if (!boss.alive)
         {
             // 열리는거
@@ -26,18 +25,14 @@ public class BossRoomDoor : MonoBehaviour
     }
 
     private void GroundCheck()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(entranceDoor.position.x, entranceDoor.position.y - 8), Vector2.down, 0.5f, groundLayer);    // Enterance, Exit이 같은 y축을 가지고 있어 하나로만 판단
+    {    // Enterance, Exit이 같은 y축을 가지고 있어 하나로만 판단
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(entranceDoor.position.x, entranceDoor.position.y - 8), Vector2.down, 0.5f, groundLayer);
         Debug.DrawRay(new Vector2(entranceDoor.position.x, entranceDoor.position.y - 8), Vector2.down * 0.5f, Color.red);
 
         if (hit.collider != null)
-        {
             entranceDoorIsGround = true;
-        }
         else
-        {
             entranceDoorIsGround = false;
-        }
     }
 
     Coroutine doorRockRoutine;
