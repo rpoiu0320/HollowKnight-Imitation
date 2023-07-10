@@ -53,6 +53,7 @@ public class PlayerMover : MonoBehaviour
 
     private void Start()
     {
+        dashRender.flipX = true;
         dashDir = lookDir.x;
         originCommonAttackPointX = commonAttackPoint.localPosition.x;
         dirX = DirX.Right;
