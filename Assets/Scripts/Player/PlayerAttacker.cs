@@ -100,7 +100,7 @@ public class PlayerAttacker : MonoBehaviour
 
         foreach (Collider2D collider in collider2Ds)
         {
-            if (collider.tag != "Monster" && collider.gameObject.layer != LayerMask.NameToLayer("Spikes"))
+            if (collider.gameObject.layer != LayerMask.NameToLayer("Monster") && collider.gameObject.layer != LayerMask.NameToLayer("Spikes"))
                 continue;
 
             IHittable hittable = collider.GetComponent<IHittable>();
@@ -120,7 +120,7 @@ public class PlayerAttacker : MonoBehaviour
 
         foreach (Collider2D collider in collider2Ds)
         {
-            if (collider.tag != "Monster" && collider.gameObject.layer != LayerMask.NameToLayer("Spikes"))
+            if (collider.gameObject.layer != LayerMask.NameToLayer("Monster") && collider.gameObject.layer != LayerMask.NameToLayer("Spikes"))
                 continue;
             
             IHittable hittable = collider.GetComponent<IHittable>();
