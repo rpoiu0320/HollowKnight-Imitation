@@ -106,7 +106,6 @@ public class Flying : MonoBehaviour
         if (collision.contacts[0].normal.y != 0)
             moveDir.y = collision.contacts[0].normal.y;
         else if (collision.contacts[0].normal.x != 0)
-
             moveDir.x = collision.contacts[0].normal.x;
 
         //HorizonCheck();

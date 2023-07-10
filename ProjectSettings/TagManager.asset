@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MapBoundary
   - Monster
+  - Boss
   layers:
   - Default
   - TransparentFX

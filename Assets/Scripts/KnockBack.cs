@@ -20,7 +20,8 @@ public class KnockBack : MonoBehaviour
 
     public void OnKnockBackRoutine(Collider2D target)
     {
-        knockBackRoutine = StartCoroutine(KnockBackRoutine(target));
+        if (target.tag == "Monster")
+            knockBackRoutine = StartCoroutine(KnockBackRoutine(target));
     }
 
     Coroutine knockBackRoutine;
@@ -28,6 +29,7 @@ public class KnockBack : MonoBehaviour
     {
         knockBackTime = 0;
         Vector2 knockBackDir = (transform.position - target.transform.position).normalized;
+
         while (knockBackTime < 0.1f)
         {
             if (knockBackDir.x < 0)
