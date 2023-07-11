@@ -17,7 +17,7 @@ public class PoolManager : MonoBehaviour
         poolDic = new Dictionary<string, ObjectPool<GameObject>>();
         poolContainer = new Dictionary<string, Transform>();
         poolRoot = new GameObject("PoolRoot").transform;
-        canvasRoot = GameManager.Resource.Instantiate<Canvas>("Prefab/UI/Canvas");
+        //canvasRoot = GameManager.Resource.Instantiate<Canvas>("Prefab/UI/Canvas");
     }
 
     public T Get<T>(T original, Vector3 position, Transform parent) where T : Object    // T is Object
@@ -231,7 +231,7 @@ public class PoolManager : MonoBehaviour
             actionOnRelease: (GameObject gameObject) =>
             {
                 gameObject.SetActive(false);
-                gameObject.transform.SetParent(canvasRoot.transform, false);
+                //gameObject.transform.SetParent(canvasRoot.transform, false);
             },
             actionOnDestroy: (GameObject gameObject) =>
             {

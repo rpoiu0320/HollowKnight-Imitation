@@ -17,5 +17,5 @@ public class UIManager : MonoBehaviour
         inGameCanvas = GameManager.Resource.Instantiate<Canvas>("Prefab/UI/Canvas");
         inGameCanvas.gameObject.name = "InGameCanvas";
         inGameCanvas.sortingOrder = 0;
-    }
+    }   
 }

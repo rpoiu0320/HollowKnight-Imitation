@@ -7,6 +7,9 @@ using UnityEngine.Events;
 public class Player : MonoBehaviour, IHittable
 {
     [SerializeField] Animator hitAnimator;
+    // TODO : Data 연동 
+    public PlayerData data;
+    public DataManager dataManager;
     private PlayerMover playerMover;
     private SpriteRenderer render;
     private Animator playerAnimator;
@@ -14,15 +17,27 @@ public class Player : MonoBehaviour, IHittable
     private bool isTwinkling;
     private int twinklingCount;
     private int twinklingColor;
-    public PlayerData data;
+    private int curHp;
     public UnityEvent OnCameraNoise;
 
     private void Awake()
     {
+        // TODO : Data 연동 
+        data = new PlayerData();
+        dataManager = new DataManager();
         playerMover = GetComponent<PlayerMover>();
         render = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
-        //data = DataManager.playerData;
+    }
+
+    private void Start()
+    {
+        curHp = dataManager.CurHp;
+    }
+
+    private void Update()
+    {
+        Debug.Log(curHp);
     }
 
     public void TakeHit(int damage)

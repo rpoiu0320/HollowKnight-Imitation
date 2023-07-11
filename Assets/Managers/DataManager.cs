@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    private PlayerData playerData;
+    private PlayerData.PlayerInfo playerInfo;
     private int curHp;
     private int curSoul;
     private int attackDamage;
@@ -14,17 +14,13 @@ public class DataManager : MonoBehaviour
 
     private void Awake()
     {
-        playerData = GameManager.Resource.Instantiate<PlayerData>("Data/PlayerData", transform.position, transform);
-    }
-
-    public DataManager()
-    {
-        curHp = playerData.Player[0].curHp;
-        curSoul = playerData.Player[0].curSoul;
-        attackDamage = playerData.Player[0].attackDamage;
-        howlingDamage = playerData.Player[0].howlingDamage;
-        shotSoulDamage = playerData.Player[0].shotSoulDamage;
-        diveDagame = playerData.Player[0].diveDagame;
+        playerInfo = GameManager.Resource.Instantiate<PlayerData>("Data/PlayerData", Vector3.zero, transform).Player[0];
+        curHp = playerInfo.curHp;
+        curSoul = playerInfo.curSoul;
+        attackDamage = playerInfo.attackDamage;
+        howlingDamage = playerInfo.howlingDamage;
+        shotSoulDamage = playerInfo.shotSoulDamage;
+        diveDagame = playerInfo.diveDagame;
     }
 
     public int CurHp
