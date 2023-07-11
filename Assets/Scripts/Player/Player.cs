@@ -22,6 +22,7 @@ public class Player : MonoBehaviour, IHittable
         playerMover = GetComponent<PlayerMover>();
         render = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
+        //data = DataManager.playerData;
     }
 
     public void TakeHit(int damage)
