@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 public class Howling : Skill
 {
-    private PlayerData data;
+    private Player player;
     private ContactFilter2D contactFilter;
     private Collider2D collider2d;
     private float attackTime = 0;
@@ -16,7 +16,7 @@ public class Howling : Skill
 
     private void OnEnable()
     {
-        data = GameObject.FindWithTag("Player").GetComponent<Player>().data;
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         collider2d = GetComponent<Collider2D>();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
         howlingRoutine = StartCoroutine(HowlingRoutine());
@@ -50,7 +50,7 @@ public class Howling : Skill
                 OnKnockBack?.Invoke(target.gameObject.GetComponent<Collider2D>());
 
             IHittable hittable = target.GetComponent<IHittable>();
-            hittable?.TakeHit(data.Player[0].howlingDamage);
+            hittable?.TakeHit(player.HowlingDamage);
         }
     }
 }

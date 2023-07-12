@@ -7,8 +7,7 @@ using Cinemachine;
 public class PlayerHit : MonoBehaviour, IHittable
 {
     [SerializeField] Animator hitAnimator;
-    // TODO : Data ¿¬µ¿ 
-    public DataManager data;
+    private Player Player;
     private PlayerMover playerMover;
     private SpriteRenderer render;
     private Animator playerAnimator;
@@ -21,7 +20,7 @@ public class PlayerHit : MonoBehaviour, IHittable
 
     private void Awake()
     {
-        data = new DataManager();
+        Player = GetComponent<Player>();
         playerMover = GetComponent<PlayerMover>();
         render = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
@@ -29,7 +28,7 @@ public class PlayerHit : MonoBehaviour, IHittable
 
     private void Start()
     {
-        curHp = data.CurHp;
+        curHp = Player.CurHp;
     }
 
     private void Update()

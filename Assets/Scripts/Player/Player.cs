@@ -6,16 +6,54 @@ using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] Animator hitAnimator;
-    // TODO : Data 연동 
-    public PlayerData data;
-    public DataManager dataManager;
-    public UnityEvent OnCameraNoise;
+    private PlayerData.PlayerInfo playerInfo;
+    private int curHp;
+    private int curSoul;
+    private int attackDamage;
+    private int howlingDamage;
+    private int shotSoulDamage;
+    private int diveDagame;
 
     private void Awake()
     {
-        // TODO : Data 연동 
-        data = new PlayerData();
-        dataManager = new DataManager();
+        playerInfo = GameManager.Resource.Instantiate<PlayerData>("Data/PlayerData", Vector3.zero, transform).Player[0];
+        curHp = playerInfo.curHp;
+        curSoul = playerInfo.curSoul;
+        attackDamage = playerInfo.attackDamage;
+        howlingDamage = playerInfo.howlingDamage;
+        shotSoulDamage = playerInfo.shotSoulDamage;
+        diveDagame = playerInfo.diveDagame;
+    }
+
+    public int CurHp
+    {
+        get { return curHp; }
+        set { curHp += value; }
+    }
+
+    public int CurSoul
+    {
+        get { return curSoul; }
+        set { curSoul += value; }
+    }
+
+    public int AttackDamage
+    {
+        get { return attackDamage; }
+    }
+
+    public int HowlingDamage
+    {
+        get { return howlingDamage; }
+    }
+
+    public int ShotSoulDamage
+    {
+        get { return shotSoulDamage; }
+    }
+
+    public int DiveDagame
+    {
+        get { return diveDagame; }
     }
 }

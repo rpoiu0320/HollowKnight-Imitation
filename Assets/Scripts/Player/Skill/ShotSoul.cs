@@ -8,8 +8,8 @@ public class ShotSoul : Skill
 {
     [SerializeField] float moveSpeed;
 
+    private Player player;
     private PlayerMover playerMover;
-    private PlayerData data;
     private SpriteRenderer render;
     private Collider2D collider2d;
     private Animator shotSoulAnimator;
@@ -20,8 +20,8 @@ public class ShotSoul : Skill
 
     private void OnEnable()
     {
-        playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
-        data = playerMover.GetComponent<Player>().data;
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        playerMover = player.GetComponent<PlayerMover>();
         render = GetComponent<SpriteRenderer>();
         collider2d = GetComponent<Collider2D>();
         shotSoulAnimator = GetComponent<Animator>();
@@ -73,7 +73,7 @@ public class ShotSoul : Skill
         if(target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
             IHittable hittable = target.GetComponent<IHittable>();
-            hittable?.TakeHit(data.Player[0].shotSoulDamage);
+            hittable?.TakeHit(player.ShotSoulDamage);
             OnKnockBack?.Invoke(target);
         }
         else if(target.gameObject.layer == LayerMask.NameToLayer("Ground"))

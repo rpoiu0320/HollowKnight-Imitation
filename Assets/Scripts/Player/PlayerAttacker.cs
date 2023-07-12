@@ -85,7 +85,7 @@ public class PlayerAttacker : MonoBehaviour
                 continue;
 
             IHittable hittable = collider.GetComponent<IHittable>();
-            hittable?.TakeHit(player.data.Player[0].attackDamage);
+            hittable?.TakeHit(player.AttackDamage);
             ParticleSystem hitEffect = GameManager.Resource.Instantiate<ParticleSystem>
                 ("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
             hitEffect.Play();
@@ -107,7 +107,7 @@ public class PlayerAttacker : MonoBehaviour
                 continue;
 
             IHittable hittable = collider.GetComponent<IHittable>();
-            hittable?.TakeHit(player.data.Player[0].attackDamage);
+            hittable?.TakeHit(player.AttackDamage);
             ParticleSystem hitEffect = GameManager.Resource.Instantiate<ParticleSystem>
                 ("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
             hitEffect.Play();
@@ -130,7 +130,7 @@ public class PlayerAttacker : MonoBehaviour
                 continue;
             
             IHittable hittable = collider.GetComponent<IHittable>();
-            hittable?.TakeHit(player.data.Player[0].attackDamage);
+            hittable?.TakeHit(player.AttackDamage);
             ParticleSystem AttackhitEffect = GameManager.Resource.Instantiate<ParticleSystem>
                 ("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
             AttackhitEffect.Play();

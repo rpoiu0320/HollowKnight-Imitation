@@ -5,8 +5,8 @@ using UnityEngine.Events;
 
 public class Dive : Skill
 {
+    private Player player;
     private PlayerMover playerMover;
-    private PlayerData data;
     private Animator diveAnimator;
     private Collider2D collider2d;
     private ContactFilter2D contactFilter;
@@ -14,8 +14,8 @@ public class Dive : Skill
 
     private void OnEnable()
     {
-        playerMover = GameObject.FindWithTag("Player").GetComponent<PlayerMover>();
-        data = playerMover.GetComponent<Player>().data;
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        playerMover = player.GetComponent<PlayerMover>();
         diveAnimator = GetComponent<Animator>();
         collider2d = GetComponent<Collider2D>();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
@@ -41,7 +41,7 @@ public class Dive : Skill
         if (target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
             IHittable hittable = target.GetComponent<IHittable>();
-            hittable?.TakeHit(data.Player[0].diveDagame);
+            hittable?.TakeHit(player.DiveDagame);
             OnKnockBack?.Invoke(target);
         }
     }
