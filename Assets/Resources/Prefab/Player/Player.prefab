@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 1744370114}
   - component: {fileID: 4494496321729159397}
   - component: {fileID: 8075233255055065189}
+  - component: {fileID: 5881831094920375270}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -478,6 +479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitAnimator: {fileID: 3909761307196154163}
   data: {fileID: 11400000, guid: 466e4ee42045ea247bc3b19997891251, type: 2}
+  dataManager: {fileID: 0}
   OnCameraNoise:
     m_PersistentCalls:
       m_Calls:
@@ -512,6 +514,35 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: TakeHit
         m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5881831094920375270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318305914316868949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d48877fa6f10fa744be15ee0204bacfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitAnimator: {fileID: 3909761307196154163}
+  data: {fileID: 0}
+  OnCameraNoise:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: CameraNoise
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -845,7 +876,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 41.3125, y: 8.75}
+  m_Size: {x: 6.61, y: 1.4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
