@@ -18,7 +18,7 @@ public class PlayerSkiller : MonoBehaviour
 
     private void Awake()
     {
-        playerMover = playerMover = GetComponent<PlayerMover>();
+        playerMover = GetComponent<PlayerMover>();
         animator = GetComponent<Animator>();
     }
 
@@ -48,7 +48,6 @@ public class PlayerSkiller : MonoBehaviour
 
         if(!isSkill)
         {
-            Debug.Log(skillPressedTime);
             if (skillPressedTime < 0.4f)
             {
                 if(playerMover.InputDir().y > 0)

@@ -353,10 +353,9 @@ public class PlayerMover : MonoBehaviour
         return isGround;
     }
 
-    public bool LimitMove(bool limitMove)   // 입력값을 받지 못하게
+    public bool LimitMove(bool limitMove)
     {
         if (limitMove)  // 중력 영향 안받음, 점프 하자마자 대시하고 점프키를 계속 누르고있어도 대시 끝나면 바로 내려감
-
             rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
         else
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;

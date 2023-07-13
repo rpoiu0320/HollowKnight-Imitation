@@ -28,13 +28,13 @@ public class Player : MonoBehaviour
     public int CurHp
     {
         get { return curHp; }
-        set { curHp += value; }
+        set { curHp = value; }
     }
 
     public int CurSoul
     {
         get { return curSoul; }
-        set { curSoul += value; }
+        set { curSoul = value; }
     }
 
     public int AttackDamage

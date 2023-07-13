@@ -477,24 +477,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a7b41827a91a594b835279ebc823d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitAnimator: {fileID: 3909761307196154163}
-  data: {fileID: 11400000, guid: 466e4ee42045ea247bc3b19997891251, type: 2}
-  dataManager: {fileID: 0}
-  OnCameraNoise:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
-        m_MethodName: CameraNoise
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &8075233255055065189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,8 +492,8 @@ MonoBehaviour:
   OnInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4494496321729159397}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+      - m_Target: {fileID: 5881831094920375270}
+        m_TargetAssemblyTypeName: PlayerHit, Assembly-CSharp
         m_MethodName: TakeHit
         m_Mode: 3
         m_Arguments:
@@ -535,7 +517,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitAnimator: {fileID: 3909761307196154163}
-  data: {fileID: 0}
   OnCameraNoise:
     m_PersistentCalls:
       m_Calls:
