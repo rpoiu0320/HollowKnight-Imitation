@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 8300177070856067662}
   - component: {fileID: 196434418177520027}
   m_Layer: 5
-  m_Name: Soul
+  m_Name: SoulGauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -51,6 +51,19 @@ public class PlayerAttacker : MonoBehaviour
         }
     }
 
+    private void MonsterHitAttack(Collider2D collider)
+    {
+        IHittable hittable = collider.GetComponent<IHittable>();
+        hittable?.TakeHit(player.AttackDamage);
+        ParticleSystem hitEffect = GameManager.Resource.Instantiate<ParticleSystem>
+            ("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
+        hitEffect.Play();
+        player.CurSoul++;
+
+        if (collider.tag == "Monster")  // 보스 넉백 방지
+            OnKnockBack?.Invoke(collider);
+    }
+
     Coroutine attackRoutine;
     IEnumerator AttackRoutine()
     {
@@ -84,14 +97,7 @@ public class PlayerAttacker : MonoBehaviour
             if (collider.gameObject.layer != LayerMask.NameToLayer("Monster") && collider.gameObject.layer != LayerMask.NameToLayer("Spikes"))
                 continue;
 
-            IHittable hittable = collider.GetComponent<IHittable>();
-            hittable?.TakeHit(player.AttackDamage);
-            ParticleSystem hitEffect = GameManager.Resource.Instantiate<ParticleSystem>
-                ("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
-            hitEffect.Play();
-
-            if (collider.tag == "Monster")  // 보스 넉백 방지
-                OnKnockBack?.Invoke(collider);
+            MonsterHitAttack(collider);
         }
     }
 
@@ -106,14 +112,7 @@ public class PlayerAttacker : MonoBehaviour
             if (collider.gameObject.layer != LayerMask.NameToLayer("Monster") && collider.gameObject.layer != LayerMask.NameToLayer("Spikes"))
                 continue;
 
-            IHittable hittable = collider.GetComponent<IHittable>();
-            hittable?.TakeHit(player.AttackDamage);
-            ParticleSystem hitEffect = GameManager.Resource.Instantiate<ParticleSystem>
-                ("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
-            hitEffect.Play();
-
-            if (collider.tag == "Monster")
-                OnKnockBack?.Invoke(collider);
+            MonsterHitAttack(collider);
         }
     }
 
@@ -128,16 +127,8 @@ public class PlayerAttacker : MonoBehaviour
         {
             if (collider.gameObject.layer != LayerMask.NameToLayer("Monster") && collider.gameObject.layer != LayerMask.NameToLayer("Spikes"))
                 continue;
-            
-            IHittable hittable = collider.GetComponent<IHittable>();
-            hittable?.TakeHit(player.AttackDamage);
-            ParticleSystem AttackhitEffect = GameManager.Resource.Instantiate<ParticleSystem>
-                ("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
-            AttackhitEffect.Play();
 
-            if (collider.tag == "Monster")
-                OnKnockBack?.Invoke(collider);
-
+            MonsterHitAttack(collider);
             playerKnockBackRoutine = StartCoroutine(PlayerKnockBackRoutine());
         }
     }

@@ -26,17 +26,6 @@ public class PlayerHit : MonoBehaviour, IHittable
         hpUI = GameObject.Find("Hp").GetComponent<HpUI>();
     }
 
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-        Debug.Log(player.MaxHp + "MaxHp");
-        Debug.Log(player.CurHp + "CurHp");
-    }
-
     public void TakeHit(int damage)
     {
         hitRoutine = StartCoroutine(HitRotine());

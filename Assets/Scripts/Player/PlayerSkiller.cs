@@ -9,6 +9,7 @@ public class PlayerSkiller : MonoBehaviour
 {
     [SerializeField] float diveSpeed;
 
+    private Player player;
     private ChargeSkill chargeSkill;
     private PlayerMover playerMover;
     private Animator animator;
@@ -18,6 +19,7 @@ public class PlayerSkiller : MonoBehaviour
 
     private void Awake()
     {
+        player = GetComponent<Player>();
         playerMover = GetComponent<PlayerMover>();
         animator = GetComponent<Animator>();
     }
@@ -92,16 +94,18 @@ public class PlayerSkiller : MonoBehaviour
                     playerMover.LimitMove(false);
                 }
 
+                player.CurSoul -= 3;
+
                 yield break;
             }
         }
 
-        StopCoroutine(skillRoutine);
+        yield break;
     }
 
     private void OnSkill(InputValue value)
     {
-        if (playerMover.LimitMove())
+        if (playerMover.LimitMove() || player.CurSoul < 3)
             return;
 
         isSkill = value.isPressed;
