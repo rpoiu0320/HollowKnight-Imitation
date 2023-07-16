@@ -18,7 +18,7 @@ MonoBehaviour:
     description: PlayerInfo
     maxHp: 3
     curHp: 3
-    maxSoul: 9
+    maxSoul: 10
     curSoul: 3
     attackDamage: 5
     howlingDamage: 2

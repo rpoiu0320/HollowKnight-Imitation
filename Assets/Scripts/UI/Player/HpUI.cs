@@ -35,7 +35,7 @@ public class HpUI : PlayerUI
     {
         player.MaxHp++;
         Image newHpImage = GameManager.Resource.Instantiate<Image>("Prefab/UI/HpImage", Vector3.zero, GameObject.Find("Hp").transform);
-        newHpImage.rectTransform.anchoredPosition = new Vector3(maxHp.Peek().rectTransform.anchoredPosition.x + 65, maxHp.Peek().rectTransform.anchoredPosition.y);
+        newHpImage.rectTransform.anchoredPosition = new Vector2(maxHp.Peek().rectTransform.anchoredPosition.x + 65, maxHp.Peek().rectTransform.anchoredPosition.y);
         newHpImage.name = maxHp.Peek().name.Substring(0, maxHp.Peek().name.Length - 1) + (maxHp.Count + 1);
         maxHp.Push(newHpImage);
         curHp.Add(newHpImage);

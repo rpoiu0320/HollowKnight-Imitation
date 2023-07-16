@@ -19,6 +19,7 @@ public class PlayerAttacker : MonoBehaviour
     [SerializeField] bool debug;
 
     private Player player;
+    private SoulUI soulUI;
     private Animator animator;
     private PlayerMover playerMover;
     private Rigidbody2D rb;
@@ -32,6 +33,7 @@ public class PlayerAttacker : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<Player>();
+        soulUI = GameObject.Find("SoulGauge").GetComponent<SoulUI>();
         animator = GetComponent<Animator>();
         playerMover = GetComponent<PlayerMover>();
         rb = GetComponent<Rigidbody2D>();
@@ -59,6 +61,7 @@ public class PlayerAttacker : MonoBehaviour
             ("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
         hitEffect.Play();
         player.CurSoul++;
+        soulUI.ChangeCurSoul();
 
         if (collider.tag == "Monster")  // 보스 넉백 방지
             OnKnockBack?.Invoke(collider);

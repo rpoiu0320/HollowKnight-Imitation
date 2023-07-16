@@ -10,6 +10,7 @@ public class PlayerSkiller : MonoBehaviour
     [SerializeField] float diveSpeed;
 
     private Player player;
+    private SoulUI soulUI;
     private ChargeSkill chargeSkill;
     private PlayerMover playerMover;
     private Animator animator;
@@ -20,6 +21,7 @@ public class PlayerSkiller : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<Player>();
+        soulUI = GameObject.Find("SoulGauge").GetComponent<SoulUI>();
         playerMover = GetComponent<PlayerMover>();
         animator = GetComponent<Animator>();
     }
@@ -52,7 +54,10 @@ public class PlayerSkiller : MonoBehaviour
         {
             if (skillPressedTime < 0.4f)
             {
-                if(playerMover.InputDir().y > 0)
+                player.CurSoul -= 3;
+                soulUI.ChangeCurSoul();
+
+                if (playerMover.InputDir().y > 0)
                 {
                     // TODO : 공중에서 Howling사용 시 스킬이 끝나도 내려오지 않음, 공격 및 위, 아래를 제외한 다른 입력을 해야 내려옴
 
@@ -93,8 +98,6 @@ public class PlayerSkiller : MonoBehaviour
 
                     playerMover.LimitMove(false);
                 }
-
-                player.CurSoul -= 3;
 
                 yield break;
             }
