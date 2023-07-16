@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using Cinemachine;
 
 public class PlayerHit : MonoBehaviour, IHittable
 {
@@ -11,11 +10,11 @@ public class PlayerHit : MonoBehaviour, IHittable
     private PlayerMover playerMover;
     private SpriteRenderer render;
     private Animator playerAnimator;
+    private HpUI hpUI;
     private float hitTime;
     private bool isTwinkling;
     private int twinklingCount;
     private int twinklingColor;
-    private int curHp;
     public UnityEvent OnCameraNoise;
 
     private void Awake()
@@ -24,6 +23,7 @@ public class PlayerHit : MonoBehaviour, IHittable
         playerMover = GetComponent<PlayerMover>();
         render = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
+        hpUI = GameObject.Find("Hp").GetComponent<HpUI>();
     }
 
     private void Start()
@@ -33,7 +33,8 @@ public class PlayerHit : MonoBehaviour, IHittable
 
     private void Update()
     {
-        Debug.Log(player.CurHp);
+        Debug.Log(player.MaxHp + "MaxHp");
+        Debug.Log(player.CurHp + "CurHp");
     }
 
     public void TakeHit(int damage)
@@ -50,7 +51,8 @@ public class PlayerHit : MonoBehaviour, IHittable
         playerAnimator.SetTrigger("Hit");
         playerMover.LimitMove(true);
         gameObject.layer = LayerMask.NameToLayer("Default");    // 판단을 layer를 기준으로 하기에 피격 시 일시 무적을 위함
-        player.CurHp -= 1;
+        hpUI.DecreaseHp();
+
         isTwinkling = true;
         twinklingRoutine = StartCoroutine(TwinklingRoutine());
         Time.timeScale = 0;
