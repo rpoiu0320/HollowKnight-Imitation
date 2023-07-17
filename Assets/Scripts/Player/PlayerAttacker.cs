@@ -60,7 +60,7 @@ public class PlayerAttacker : MonoBehaviour
         ParticleSystem hitEffect = GameManager.Resource.Instantiate<ParticleSystem>
             ("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
         hitEffect.Play();
-        player.CurSoul++;
+        player.IncreaseCurSoul();
         soulUI.ChangeCurSoul();
 
         if (collider.tag == "Monster")  // 보스 넉백 방지

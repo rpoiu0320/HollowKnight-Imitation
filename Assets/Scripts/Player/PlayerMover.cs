@@ -311,11 +311,6 @@ public class PlayerMover : MonoBehaviour
         }
     }
 
-    private void PlayerInteractor()
-    {
-
-    }
-
     // 이하 함수들은 다른 컴포넌트들과 상호작용
 
     public UpDown LookingUpDown()

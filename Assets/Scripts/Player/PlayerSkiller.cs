@@ -54,7 +54,7 @@ public class PlayerSkiller : MonoBehaviour
         {
             if (skillPressedTime < 0.4f)
             {
-                player.CurSoul -= 3;
+                player.DecreaseCurSoul();
                 soulUI.ChangeCurSoul();
 
                 if (playerMover.InputDir().y > 0)

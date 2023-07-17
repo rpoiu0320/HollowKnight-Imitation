@@ -38,7 +38,17 @@ public class Player : MonoBehaviour
     public int CurHp
     {
         get { return curHp; }
-        set { curHp = value; }
+    }
+
+    public void IncreaseCurHp()
+    {
+        if (curHp < maxHp)
+            curHp++;
+    }
+
+    public void DecreaseCurHp()
+    {
+        curHp--;
     }
 
     public int MaxSoul
@@ -50,7 +60,18 @@ public class Player : MonoBehaviour
     public int CurSoul
     {
         get { return curSoul; }
-        set { curSoul = value; }
+    }
+
+    public void IncreaseCurSoul()
+    {
+        if (curSoul < maxSoul)
+            curSoul++;
+    }
+
+    public void DecreaseCurSoul()
+    {
+        if (curSoul > 0)
+            curSoul -= 3;
     }
 
     public int AttackDamage

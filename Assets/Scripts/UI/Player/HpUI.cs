@@ -47,6 +47,6 @@ public class HpUI : PlayerUI
     public void DecreaseHp()
     {
         curHp[player.CurHp - 1].sprite = NonHpImage;
-        player.CurHp--;
+        player.DecreaseCurHp();
     }
 }
