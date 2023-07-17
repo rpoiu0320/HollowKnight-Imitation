@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerSkiller : Player
 {
+    [SerializeField] Animator healingAnimator;
     [SerializeField] float diveSpeed;
 
     private HpUI hpUI;
@@ -16,7 +17,7 @@ public class PlayerSkiller : Player
     private Animator animator;
     private float skillPressedTime;
     private float chargeSkillTime;
-    private bool isSkill;
+    private bool isSkill = false;
 
     private void Awake()
     {
@@ -55,7 +56,7 @@ public class PlayerSkiller : Player
             if (skillPressedTime < 0.4f)
             {
                 GameManager.Data.DecreaseCurSoul();
-                soulUI.ChangeCurSoul();
+                soulUI.RenewalCurSoulUI();
 
                 if (playerMover.InputDir().y > 0)
                 {
@@ -108,10 +109,10 @@ public class PlayerSkiller : Player
 
     private void OnSkill(InputValue value)
     {
+        isSkill = value.isPressed;
+
         if (playerMover.LimitMove() || GameManager.Data.CurSoul < 3)
             return;
-
-        isSkill = value.isPressed;
 
         if (isSkill)
         {
@@ -153,15 +154,19 @@ public class PlayerSkiller : Player
         OnChargeSkill();
         chargeSkillTime = 0;
 
-        while (isSkill)
+        while (isSkill && GameManager.Data.CurSoul >= 3)
         {
             chargeSkillTime += Time.deltaTime;
 
             if (chargeSkillTime > 0.5f)
             {
-                Debug.Log("Èú");
-                GameManager.Data.IncreaseCurSoul();
-                hpUI.RenewalHp();
+                healingAnimator.SetTrigger("OnHealing");
+                GameManager.Data.IncreaseCurHp();
+                hpUI.RenewalHpUI();
+                GameManager.Data.DecreaseCurSoul();
+                soulUI.RenewalCurSoulUI();
+
+                chargeSkillTime = 0;
             }
 
             yield return null;
@@ -169,7 +174,8 @@ public class PlayerSkiller : Player
 
         animator.SetBool("IsChargeSkill", false);
         GameManager.Resource.Destory(chargeSkill.gameObject);
-        StopCoroutine(chargeSkillRoutine);
+
+        yield break;
     }
 
     public bool IsSkill

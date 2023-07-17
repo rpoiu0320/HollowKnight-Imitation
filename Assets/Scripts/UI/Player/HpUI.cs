@@ -8,25 +8,28 @@ public class HpUI : MonoBehaviour
     [SerializeField] Image curHpImage1;
     [SerializeField] Image curHpImage2;
     [SerializeField] Image curHpImage3;
-    [SerializeField] Sprite OnHpImage;
-    [SerializeField] Sprite NonHpImage;
-    private Stack<Image> maxHp;
-    private List<Image> curHp;
+    [SerializeField] Sprite onHpImage;
+    [SerializeField] Sprite nonHpImage;
+
+    private Stack<Image> maxHpStack;
+    private List<Image> curHpList;
+    private int curHpCount;
 
     private void Awake()
     {
-        maxHp = new Stack<Image>();
-        maxHp.Push(curHpImage1);
-        maxHp.Push(curHpImage2);
-        maxHp.Push(curHpImage3);
-        curHp = new List<Image>();
-        curHp.Add(curHpImage1);
-        curHp.Add(curHpImage2);
-        curHp.Add(curHpImage3);
+        maxHpStack = new Stack<Image>();
+        maxHpStack.Push(curHpImage1);
+        maxHpStack.Push(curHpImage2);
+        maxHpStack.Push(curHpImage3);
+        curHpList = new List<Image>();
+        curHpList.Add(curHpImage1);
+        curHpList.Add(curHpImage2);
+        curHpList.Add(curHpImage3);
     }
 
     private void Start()
     {
+        curHpCount = GameManager.Data.CurHp;
         AddMaxHp();
     }
 
@@ -34,17 +37,24 @@ public class HpUI : MonoBehaviour
     {
         GameManager.Data.MaxHp++;
         Image newHpImage = GameManager.Resource.Instantiate<Image>("Prefab/UI/HpImage", Vector3.zero, GameObject.Find("Hp").transform);
-        newHpImage.rectTransform.anchoredPosition = new Vector2(maxHp.Peek().rectTransform.anchoredPosition.x + 65, maxHp.Peek().rectTransform.anchoredPosition.y);
-        newHpImage.name = maxHp.Peek().name.Substring(0, maxHp.Peek().name.Length - 1) + (maxHp.Count + 1);
-        maxHp.Push(newHpImage);
-        curHp.Add(newHpImage);
-
-        if (GameManager.Data.CurHp < GameManager.Data.MaxHp)
-            newHpImage.sprite = NonHpImage;
+        newHpImage.rectTransform.anchoredPosition = new Vector2(maxHpStack.Peek().rectTransform.anchoredPosition.x + 65, maxHpStack.Peek().rectTransform.anchoredPosition.y);
+        newHpImage.name = maxHpStack.Peek().name.Substring(0, maxHpStack.Peek().name.Length - 1) + (maxHpStack.Count + 1);
+        maxHpStack.Push(newHpImage);
+        curHpList.Add(newHpImage);
+        newHpImage.sprite = nonHpImage;
     }
 
-    public void RenewalHp()
+    public void RenewalHpUI()
     {
-        curHp[GameManager.Data.CurHp].sprite = NonHpImage;
+        if (GameManager.Data.CurHp > curHpCount)
+        {
+            curHpList[GameManager.Data.CurHp - 1].sprite = onHpImage;
+            curHpCount++;
+        }
+        else if (GameManager.Data.CurHp < curHpCount)
+        {
+            curHpList[GameManager.Data.CurHp].sprite = nonHpImage;
+            curHpCount--;
+        }
     }
 }

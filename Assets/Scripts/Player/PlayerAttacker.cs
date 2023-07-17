@@ -59,7 +59,7 @@ public class PlayerAttacker : MonoBehaviour
             ("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
         hitEffect.Play();
         GameManager.Data.IncreaseCurSoul();
-        soulUI.ChangeCurSoul();
+        soulUI.RenewalCurSoulUI();
 
         if (collider.tag == "Monster")  // 보스 넉백 방지
             OnKnockBack?.Invoke(collider);

@@ -9,10 +9,14 @@ public class SoulUI : MonoBehaviour
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        ChangeCurSoul();
     }
 
-    public void ChangeCurSoul()
+    private void Start()
+    {
+        RenewalCurSoulUI();
+    }
+
+    public void RenewalCurSoulUI()
     {
         rectTransform.anchoredPosition = new Vector2(0, GameManager.Data.CurSoul * 12 - 120);
     }
