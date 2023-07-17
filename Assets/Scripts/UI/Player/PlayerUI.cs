@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class PlayerUI : MonoBehaviour
 {
-    protected Player player;
-
-    public void Start()
+    protected void Awake()
     {
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+
     }
 }

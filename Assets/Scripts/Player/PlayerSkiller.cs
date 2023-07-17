@@ -5,11 +5,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class PlayerSkiller : MonoBehaviour
+public class PlayerSkiller : Player
 {
     [SerializeField] float diveSpeed;
 
-    private Player player;
+    private HpUI hpUI;
     private SoulUI soulUI;
     private ChargeSkill chargeSkill;
     private PlayerMover playerMover;
@@ -20,7 +20,7 @@ public class PlayerSkiller : MonoBehaviour
 
     private void Awake()
     {
-        player = GetComponent<Player>();
+        hpUI = GameObject.Find("Hp").GetComponent<HpUI>();
         soulUI = GameObject.Find("SoulGauge").GetComponent<SoulUI>();
         playerMover = GetComponent<PlayerMover>();
         animator = GetComponent<Animator>();
@@ -28,7 +28,7 @@ public class PlayerSkiller : MonoBehaviour
 
     private void Update()
     {
-        if(isSkill)
+        if (isSkill)
         {
             skillPressedTime += Time.deltaTime;
         }
@@ -36,11 +36,11 @@ public class PlayerSkiller : MonoBehaviour
 
     Coroutine skillRoutine;
     IEnumerator SkillRoutine()
-    {        
+    {
         while (isSkill)
         {
             skillPressedTime += Time.deltaTime;
-            
+
             if (skillPressedTime >= 0.4f && playerMover.IsGround())
             {
                 chargeSkillRoutine = StartCoroutine(ChargeSkillRoutine());
@@ -50,11 +50,11 @@ public class PlayerSkiller : MonoBehaviour
             yield return null;
         }
 
-        if(!isSkill)
+        if (!isSkill)
         {
             if (skillPressedTime < 0.4f)
             {
-                player.DecreaseCurSoul();
+                GameManager.Data.DecreaseCurSoul();
                 soulUI.ChangeCurSoul();
 
                 if (playerMover.InputDir().y > 0)
@@ -69,7 +69,7 @@ public class PlayerSkiller : MonoBehaviour
 
                     playerMover.LimitMove(false);
                 }
-                else if(playerMover.InputDir().y < 0 && !playerMover.IsGround())
+                else if (playerMover.InputDir().y < 0 && !playerMover.IsGround())
                 {
                     OnDive();
                     animator.SetTrigger("Skill");
@@ -108,12 +108,12 @@ public class PlayerSkiller : MonoBehaviour
 
     private void OnSkill(InputValue value)
     {
-        if (playerMover.LimitMove() || player.CurSoul < 3)
+        if (playerMover.LimitMove() || GameManager.Data.CurSoul < 3)
             return;
 
         isSkill = value.isPressed;
-        
-        if(isSkill)
+
+        if (isSkill)
         {
             skillPressedTime = 0;
             skillRoutine = StartCoroutine(SkillRoutine());
@@ -157,9 +157,11 @@ public class PlayerSkiller : MonoBehaviour
         {
             chargeSkillTime += Time.deltaTime;
 
-            if(chargeSkillTime > 0.5f)
+            if (chargeSkillTime > 0.5f)
             {
                 Debug.Log("Èú");
+                GameManager.Data.IncreaseCurSoul();
+                hpUI.RenewalHp();
             }
 
             yield return null;
@@ -170,8 +172,8 @@ public class PlayerSkiller : MonoBehaviour
         StopCoroutine(chargeSkillRoutine);
     }
 
-    public bool IsSkill()
+    public bool IsSkill
     {
-        return isSkill;
+        get { return isSkill; }
     }
 }

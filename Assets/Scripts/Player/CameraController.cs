@@ -58,7 +58,7 @@ public class CameraController : MonoBehaviour
             return;
         }
 
-        if (playerSkiller.IsSkill())
+        if (playerSkiller.IsSkill)
         {
             cmFT.m_TrackedObjectOffset.y = 0f;
             return;

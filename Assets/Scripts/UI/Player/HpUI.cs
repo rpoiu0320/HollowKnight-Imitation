@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HpUI : PlayerUI
+public class HpUI : MonoBehaviour
 {
     [SerializeField] Image curHpImage1;
     [SerializeField] Image curHpImage2;
@@ -25,28 +25,26 @@ public class HpUI : PlayerUI
         curHp.Add(curHpImage3);
     }
 
-    private new void Start()
+    private void Start()
     {
-        base.Start();
         AddMaxHp();
     }
 
     public void AddMaxHp() // 최대체력 증가
     {
-        player.MaxHp++;
+        GameManager.Data.MaxHp++;
         Image newHpImage = GameManager.Resource.Instantiate<Image>("Prefab/UI/HpImage", Vector3.zero, GameObject.Find("Hp").transform);
         newHpImage.rectTransform.anchoredPosition = new Vector2(maxHp.Peek().rectTransform.anchoredPosition.x + 65, maxHp.Peek().rectTransform.anchoredPosition.y);
         newHpImage.name = maxHp.Peek().name.Substring(0, maxHp.Peek().name.Length - 1) + (maxHp.Count + 1);
         maxHp.Push(newHpImage);
         curHp.Add(newHpImage);
 
-        if (player.CurHp < player.MaxHp)
+        if (GameManager.Data.CurHp < GameManager.Data.MaxHp)
             newHpImage.sprite = NonHpImage;
     }
 
-    public void DecreaseHp()
+    public void RenewalHp()
     {
-        curHp[player.CurHp - 1].sprite = NonHpImage;
-        player.DecreaseCurHp();
+        curHp[GameManager.Data.CurHp].sprite = NonHpImage;
     }
 }

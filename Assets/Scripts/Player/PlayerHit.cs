@@ -6,7 +6,6 @@ using UnityEngine.Events;
 public class PlayerHit : MonoBehaviour, IHittable
 {
     [SerializeField] Animator hitAnimator;
-    private Player player;
     private PlayerMover playerMover;
     private SpriteRenderer render;
     private Animator playerAnimator;
@@ -19,7 +18,6 @@ public class PlayerHit : MonoBehaviour, IHittable
 
     private void Awake()
     {
-        player = GetComponent<Player>();
         playerMover = GetComponent<PlayerMover>();
         render = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
@@ -40,7 +38,8 @@ public class PlayerHit : MonoBehaviour, IHittable
         playerAnimator.SetTrigger("Hit");
         playerMover.LimitMove(true);
         gameObject.layer = LayerMask.NameToLayer("Default");    // 판단을 layer를 기준으로 하기에 피격 시 일시 무적을 위함
-        hpUI.DecreaseHp();
+        GameManager.Data.DecreaseCurHp();
+        hpUI.RenewalHp();
 
         isTwinkling = true;
         twinklingRoutine = StartCoroutine(TwinklingRoutine());

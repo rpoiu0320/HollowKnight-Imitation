@@ -18,7 +18,6 @@ public class PlayerAttacker : MonoBehaviour
     [SerializeField] LayerMask hitMask;
     [SerializeField] bool debug;
 
-    private Player player;
     private SoulUI soulUI;
     private Animator animator;
     private PlayerMover playerMover;
@@ -32,7 +31,6 @@ public class PlayerAttacker : MonoBehaviour
 
     private void Awake()
     {
-        player = GetComponent<Player>();
         soulUI = GameObject.Find("SoulGauge").GetComponent<SoulUI>();
         animator = GetComponent<Animator>();
         playerMover = GetComponent<PlayerMover>();
@@ -56,11 +54,11 @@ public class PlayerAttacker : MonoBehaviour
     private void MonsterHitAttack(Collider2D collider)
     {
         IHittable hittable = collider.GetComponent<IHittable>();
-        hittable?.TakeHit(player.AttackDamage);
+        hittable?.TakeHit(GameManager.Data.AttackDamage);
         ParticleSystem hitEffect = GameManager.Resource.Instantiate<ParticleSystem>
             ("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
         hitEffect.Play();
-        player.IncreaseCurSoul();
+        GameManager.Data.IncreaseCurSoul();
         soulUI.ChangeCurSoul();
 
         if (collider.tag == "Monster")  // 보스 넉백 방지
