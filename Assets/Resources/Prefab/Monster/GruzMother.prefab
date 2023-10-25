@@ -169,6 +169,9 @@ MonoBehaviour:
   wildSlamSpeed: 10
   vierticalSpeed: 100
   horizonSpeed: 10
+  OnCameraNoise:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &37167517
 MonoBehaviour:
   m_ObjectHideFlags: 0
