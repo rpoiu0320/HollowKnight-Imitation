@@ -24,14 +24,15 @@ public class Monster : MonoBehaviour, IHittable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player") && alive)
-        {
-            IHittable hittable = collision.gameObject.GetComponent<IHittable>();
-            hittable?.TakeHit(0);
-        }
+        BumpIntoPlayer(collision);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
+    {
+        BumpIntoPlayer(collision);
+    }
+
+    private void BumpIntoPlayer(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player") && alive)
         {

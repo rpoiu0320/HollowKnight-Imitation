@@ -28,3 +28,8 @@ MonoBehaviour:
     description: Gruzzer Info
     maxHp: 8
     haveGeo: 2
+  - monster: {fileID: 3075652770801836089, guid: 8d0783df6b6bc0848a60f3529dae8079, type: 3}
+    name: HuskHornhead
+    description: HuskHornhead Info
+    maxHp: 13
+    haveGeo: 5

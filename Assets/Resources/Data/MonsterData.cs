@@ -9,7 +9,7 @@ public class MonsterData : ScriptableObject
     [SerializeField] MonsterInfo[] monsters;
     public MonsterInfo[] Monsters { get { return monsters; } }
 
-    public enum MonsterName { None, GruzMother, Gruzzer };
+    public enum MonsterName { None, GruzMother, Gruzzer, HuskHornhead };
 
     [Serializable]
     public class MonsterInfo

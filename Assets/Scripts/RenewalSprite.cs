@@ -9,6 +9,7 @@ public class RenewalSprite : MonoBehaviour
 {
     [SerializeField] private SpriteAtlas baseAtlas;         // 만들어놓은 SpriteAtlas
     [SerializeField] private float delayTime;               // 다음 이미지로 변경 될 때 까지의 시간
+
     private Sprite[] atlasArray;                            // SpriteAtlas에 추가되어있는 이미지들을 배열에 저장할 곳
     private Image image;                                    // 이미지 변경이 이루어질곳
                                                             // SpriteAtlas는 원하는 이미지를 사용하려면 해당 이미지의 이름을 지정해야하기에 Image를 배열로 관리
@@ -18,10 +19,6 @@ public class RenewalSprite : MonoBehaviour
         baseAtlas.GetSprites(atlasArray);                   // SpriteAtlas의 이미지들을 배열에 저장
         image = GetComponent<Image>();
         spriteRoutine = StartCoroutine(SpritesRoutine());
-    }
-
-    private void Update()
-    {
     }
 
     Coroutine spriteRoutine;
