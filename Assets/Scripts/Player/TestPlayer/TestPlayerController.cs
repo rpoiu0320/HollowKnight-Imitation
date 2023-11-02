@@ -79,8 +79,6 @@ public class TestPlayerController : MonoBehaviour
         }
 
         player.camera.ResetVertical();
-
-        yield return null;
     }
     #endregion
 
@@ -146,8 +144,6 @@ public class TestPlayerController : MonoBehaviour
 
             yield return null;
         }
-
-        yield return null;
     }
     #endregion
 

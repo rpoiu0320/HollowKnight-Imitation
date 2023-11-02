@@ -52,7 +52,6 @@ public class CameraController : MonoBehaviour
 
     public void UpDownVertical(float dirY)
     {
-        Debug.Log(dirY);
         if (dirY > 0)
             cmFT.m_TrackedObjectOffset.y = 15f;
         else if (dirY < 0)
@@ -73,8 +72,6 @@ public class CameraController : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
 
         cmBMCP.m_AmplitudeGain = 0f;
-
-        yield break;
     }
     #endregion
 }
