@@ -99,6 +99,7 @@ public class TestPlayerController : MonoBehaviour
         float dashTime = 0;
         player.actionLimite = true;
         gameObject.layer = 1 >> gameObject.layer;
+        player.animator.SetTrigger("Dash");
 
         while (dashTime < 0.5f)
         {
@@ -117,8 +118,6 @@ public class TestPlayerController : MonoBehaviour
         player.rb.velocity = new Vector2(0, 0);
         player.actionLimite = false;
         gameObject.layer = 3 << gameObject.layer;
-
-        yield return null;
     }
     #endregion
 
@@ -159,15 +158,9 @@ public class TestPlayerController : MonoBehaviour
         Debug.DrawRay(transform.position, Vector2.down * 4f, Color.red);
 
         if (hit.collider != null)
-        {
-            player.isGround = true;
-            player.animator.SetBool("IsGround", true);
-        }
+            player.animator.SetBool("IsGround", player.isGround = true);
         else
-        {
-            player.isGround = false;
-            player.animator.SetBool("IsGround", false);
-        }
+            player.animator.SetBool("IsGround", player.isGround = false);
     }
     #endregion
 }
