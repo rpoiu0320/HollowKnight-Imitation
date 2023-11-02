@@ -24,5 +24,6 @@ public class PlayerData : ScriptableObject
         public int howlingDamage;
         public int shotSoulDamage;
         public int diveDagame;
+        public int geo;
     }
 }

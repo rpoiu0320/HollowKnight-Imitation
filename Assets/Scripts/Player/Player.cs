@@ -8,8 +8,6 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    public enum UpDown { None, Up, Down }
-
     //protected SoulUI soulUi;  DataManager를 통해 연동
     //protected HpUI hpUi;
     [NonSerialized] public Animator animator;
@@ -17,22 +15,24 @@ public class Player : MonoBehaviour
     [NonSerialized] public Collider2D col;
     [NonSerialized] public SpriteRenderer render;
     [NonSerialized] public GameObject attackPoint;
+    [NonSerialized] public CameraController camera;
     [NonSerialized] public Vector2 inputDir;
     [NonSerialized] public LayerMask groundLayer;
-    [NonSerialized] public UpDown upDown;
-    [NonSerialized] public bool actionLimite;
-    [NonSerialized] public bool isGround;
+    [NonSerialized] public bool actionLimite = false;
+    [NonSerialized] public bool isGround = false;
 
-    protected void Awake()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         render = GetComponent<SpriteRenderer>();
         groundLayer = 1 << LayerMask.NameToLayer("Ground");
-        actionLimite = false;
-        isGround = false;
-        upDown = UpDown.None;
+    }
+
+    private void Start()
+    {
+        camera = GameObject.FindWithTag("CMcamera").GetComponent<CameraController>();
     }
 
     private void OnMove(InputValue value)
