@@ -33,6 +33,11 @@ public class CameraController : MonoBehaviour
         RenewalHorizon(player.inputDir.x);
     }
 
+    #region Moving Camera
+    /// <summary>
+    /// 캐릭터가 바라보는 가로 방향으로 Camera 이동
+    /// </summary>
+    /// <param name="dirX"></param>
     private void RenewalHorizon(float dirX)
     {
         if (dirX > 0)
@@ -42,7 +47,6 @@ public class CameraController : MonoBehaviour
     }
 
     /// <summary>
-    /// <para>
     /// Camera 세로축 초기화
     /// </summary>
     public void ResetVertical()
@@ -50,6 +54,10 @@ public class CameraController : MonoBehaviour
         cmFT.m_TrackedObjectOffset.y = 0f;
     }
 
+    /// <summary>
+    /// Camera 세로축으로 일정거리 이동
+    /// </summary>
+    /// <param name="dirY"></param>
     public void UpDownVertical(float dirY)
     {
         if (dirY > 0)
@@ -57,14 +65,22 @@ public class CameraController : MonoBehaviour
         else if (dirY < 0)
             cmFT.m_TrackedObjectOffset.y = -15f;
     }
+    #endregion
 
     #region CameraNoise
+    /// <summary>
+    /// NoiseRoutine을 실행시켜줌
+    /// </summary>
     public void CameraNoise()
     {
         noiseRoutine = StartCoroutine(NoiseRoutine());
     }
 
     Coroutine noiseRoutine;
+    /// <summary>
+    /// 일정 시간동안 화면 진동
+    /// </summary>
+    /// <returns></returns>
     IEnumerator NoiseRoutine()
     {
         cmBMCP.m_AmplitudeGain = 5f;
