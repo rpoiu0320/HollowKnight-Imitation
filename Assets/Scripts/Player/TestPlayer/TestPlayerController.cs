@@ -1,22 +1,19 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class TestPlayerController : MonoBehaviour
 {
+    [Header("Player")]
     [SerializeField] private Player player;
+    [Header("Speed")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float dashSpeed;
     [SerializeField] private float jumpSpeed;
-    private bool isLook = false;
-    private float lookTime = 0;
 
     private bool pressJumpKey;
+    private bool isLook = false;
+    private float lookTime = 0;
 
     private void Update()
     {
@@ -71,7 +68,7 @@ public class TestPlayerController : MonoBehaviour
     IEnumerator LookRoutine(float dirY)
     {
         player.animator.SetBool("IsLook", isLook = true);
-        player.camera.UpDownVertical(dirY);
+        player.cameraController.UpDownVertical(dirY);
 
         while (true)
         {
@@ -85,7 +82,7 @@ public class TestPlayerController : MonoBehaviour
             yield return null;
         }
 
-        player.camera.ResetVertical();
+        player.cameraController.ResetVertical();
     }
     #endregion
 
@@ -108,7 +105,7 @@ public class TestPlayerController : MonoBehaviour
     {
         float dashTime = 0;
         player.actionLimite = true;
-        gameObject.layer = 1 >> gameObject.layer;
+        gameObject.layer = 1 >> gameObject.layer;                               // Layer 변경으로 대시 중 무적 구현
         player.animator.SetTrigger("Dash");
 
         while (dashTime < 0.5f)

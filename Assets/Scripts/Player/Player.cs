@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     [NonSerialized] public Collider2D col;
     [NonSerialized] public SpriteRenderer render;
     [NonSerialized] public GameObject attackPoint;
-    [NonSerialized] public CameraController camera;
+    [NonSerialized] public CameraController cameraController;
     [NonSerialized] public Vector2 inputDir;
     [NonSerialized] public LayerMask groundLayer;
     [NonSerialized] public bool actionLimite = false;
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        camera = GameObject.FindWithTag("CMcamera").GetComponent<CameraController>();
+        cameraController = GameObject.FindWithTag("CMcamera").GetComponent<CameraController>();
     }
 
     private void OnMove(InputValue value)

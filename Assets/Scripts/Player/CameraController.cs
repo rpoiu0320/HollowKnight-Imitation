@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    private Player player;
     private Collider2D mapBoundary;
     private CinemachineVirtualCamera cmVC;
     private CinemachineFramingTransposer cmFT;
     private CinemachineConfiner2D cmConfiner2D;
     private CinemachineBasicMultiChannelPerlin cmBMCP;
-    private Player player;
 
     private void Awake()
     {
         mapBoundary = GameObject.FindWithTag("MapBoundary").GetComponent<Collider2D>();
-        cmVC = GameObject.FindWithTag("CMcamera").GetComponent<CinemachineVirtualCamera>();
+        cmVC = GetComponent<CinemachineVirtualCamera>();
         cmFT = cmVC.GetCinemachineComponent<CinemachineFramingTransposer>();
         cmBMCP = cmVC.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cmConfiner2D = cmVC.GetComponent<CinemachineConfiner2D>();
