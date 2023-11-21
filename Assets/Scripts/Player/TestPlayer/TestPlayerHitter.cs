@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestPlayerHitter : MonoBehaviour
+public class TestPlayerHitter : MonoBehaviour, IHittable
 {
-    // Start is called before the first frame update
-    void Start()
+    public void TakeHit(int damage)
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

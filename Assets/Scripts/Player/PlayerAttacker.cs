@@ -44,7 +44,6 @@ public class PlayerAttacker : MonoBehaviour
 
         isAttack = value.isPressed;
 
-
         if (isAttack && attackCooldown == 0)
         {
             attackRoutine = StartCoroutine(AttackRoutine());

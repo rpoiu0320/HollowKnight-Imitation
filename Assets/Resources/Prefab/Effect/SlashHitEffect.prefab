@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8989256939334590269}
   - component: {fileID: 7234736648934628413}
   m_Layer: 9
-  m_Name: AttackHitEffect
+  m_Name: SlashHitEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4785,7 +4785,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 102
+  m_SortingOrder: 103
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0

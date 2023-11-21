@@ -49,17 +49,6 @@ public class DataManager : MonoBehaviour
         get { return curHp; }
     }
 
-    public void IncreaseCurHp()
-    {
-        if (curHp < maxHp)
-            curHp++;
-    }
-
-    public void DecreaseCurHp()
-    {
-        curHp--;
-    }
-
     public int MaxSoul
     {
         get { return maxSoul; }
@@ -69,6 +58,18 @@ public class DataManager : MonoBehaviour
     public int CurSoul
     {
         get { return curSoul; }
+    }
+
+    public void IncreaseCurHp()
+    {
+        if (curHp < maxHp)
+            curHp++;
+    }
+
+    public void DecreaseCurHp()
+    {
+        if (curHp > 0)
+        curHp--;
     }
 
     public void IncreaseCurSoul()
