@@ -12,11 +12,12 @@ public class TestPlayerAttacker : MonoBehaviour
     [SerializeField] private AttackInfo bottomAttackInfo;
     [Header("Etc")]
     [SerializeField] private float attackCooldown;
-    [SerializeField] private Player player;
+    [SerializeField] private GameObject attackBox;
+    [SerializeField] private Animator attackAnimator;
+    [SerializeField] private SpriteRenderer attackRenderer;
 
     private LayerMask assailableLayer;
-    private Animator attackAnimator;
-    private SpriteRenderer attackRenderer;
+    private Player player;
     private float curCooldown = 0;
 
     [Serializable]
@@ -29,18 +30,27 @@ public class TestPlayerAttacker : MonoBehaviour
     private void Awake()
     {
         assailableLayer = LayerMask.GetMask("Monster", "Spikes");
-        attackAnimator = GetComponent<Animator>();
-        attackRenderer = GetComponent<SpriteRenderer>();
+        player = GetComponent<Player>();
     }
 
     private void Update()
     {
-        attackRenderer.flipX = player.render.flipX ? true : false;
+        if (player.render.flipX)
+        {
+            attackRenderer.flipX = true ;
+            attackBox.transform.position = new Vector2(normalAttackInfo.attackPoint.x, normalAttackInfo.attackPoint.y);     
+        }
+        else
+        {
+            attackRenderer.flipX = false;
+            attackBox.transform.position = new Vector2(-normalAttackInfo.attackPoint.x, normalAttackInfo.attackPoint.y);
+        }
+
     }
 
     private void OnAttack(InputValue value)
     {
-        if (player.actionLimite && curCooldown != 0)
+        if (player.actionLimite || curCooldown != 0)
             return;
 
         attackRoutine = StartCoroutine(AttackRoutine());
@@ -69,17 +79,19 @@ public class TestPlayerAttacker : MonoBehaviour
         if (!isGround && dirY < 0)
         {
             attackAnimator.SetTrigger("BottomAttack");
-            collider2Ds = Physics2D.OverlapBoxAll(bottomAttackInfo.attackPoint, bottomAttackInfo.attackRange, 0, assailableLayer);
+            attackBox.transform.position = new Vector2(bottomAttackInfo.attackPoint.x, bottomAttackInfo.attackPoint.y);
+            collider2Ds = Physics2D.OverlapBoxAll(attackBox.transform.position, bottomAttackInfo.attackRange, 0, assailableLayer);
         }
         else if (dirY > 0)
         {
             attackAnimator.SetTrigger("TopAttack");
-            collider2Ds = Physics2D.OverlapBoxAll(topAttackInfo.attackPoint, topAttackInfo.attackRange, 0, assailableLayer);
+            attackBox.transform.position = new Vector2(topAttackInfo.attackPoint.x, topAttackInfo.attackPoint.y);
+            collider2Ds = Physics2D.OverlapBoxAll(attackBox.transform.position, topAttackInfo.attackRange, 0, assailableLayer);
         }
         else
         {
             attackAnimator.SetTrigger("NormalAttack");
-            collider2Ds = Physics2D.OverlapBoxAll(normalAttackInfo.attackPoint, normalAttackInfo.attackRange, 0, assailableLayer);
+            collider2Ds = Physics2D.OverlapBoxAll(attackBox.transform.position, normalAttackInfo.attackRange, 0, assailableLayer);
         }
 
         OverlapBoxCheck(collider2Ds);
@@ -114,8 +126,8 @@ public class TestPlayerAttacker : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(normalAttackInfo.attackPoint, normalAttackInfo.attackRange);
-        Gizmos.DrawWireCube(topAttackInfo.attackPoint, topAttackInfo.attackRange);
-        Gizmos.DrawWireCube(bottomAttackInfo.attackPoint, bottomAttackInfo.attackRange);
+        Gizmos.DrawWireCube((Vector2)player.transform.position + normalAttackInfo.attackPoint, normalAttackInfo.attackRange);
+        Gizmos.DrawWireCube((Vector2)player.transform.position + topAttackInfo.attackPoint, topAttackInfo.attackRange);
+        Gizmos.DrawWireCube((Vector2)player.transform.position + bottomAttackInfo.attackPoint, bottomAttackInfo.attackRange);
     }
 }

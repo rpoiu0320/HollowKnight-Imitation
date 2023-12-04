@@ -160,6 +160,9 @@ public class TestPlayerController : MonoBehaviour
                 player.rb.velocity = new Vector2(player.rb.velocity.x, jumpSpeed);        // 일정한 점프속도 보장
             
             jumpTime += Time.deltaTime;
+            lookTime = 0; 
+            player.animator.SetBool("IsLook", isLook = false);
+            player.cameraController.ResetVertical();
 
             yield return null;
         }
