@@ -36,11 +36,17 @@ public class TestPlayerController : MonoBehaviour
 
         if (player.inputDir.x > 0)
         {
+            lookTime = 0;
+            player.animator.SetBool("IsLook", isLook = false);
+            player.cameraController.ResetVertical();
             player.render.flipX = false;
             transform.Translate(new Vector2(moveSpeed * Time.deltaTime, 0));
         }
         else if (player.inputDir.x < 0)
         {
+            lookTime = 0;
+            player.animator.SetBool("IsLook", isLook = false);
+            player.cameraController.ResetVertical();
             player.render.flipX = true;
             transform.Translate(new Vector2(-moveSpeed * Time.deltaTime, 0));
         }
