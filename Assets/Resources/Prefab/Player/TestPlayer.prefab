@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 320145796336008766}
   - component: {fileID: 5395274943836910356}
   - component: {fileID: 4558989439409521713}
-  - component: {fileID: 3073566223504104407}
   m_Layer: 0
   m_Name: AttackBox
   m_TagString: Untagged
@@ -27,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2165908303279243931}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -107,29 +106,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3073566223504104407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2165908303279243931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c774f03f73bf244e88207e1042167fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  normalAttackInfo:
-    attackPoint: {x: 5, y: 1}
-    attackRange: {x: 13, y: 10}
-  topAttackInfo:
-    attackPoint: {x: 0, y: 3}
-    attackRange: {x: 10, y: 10}
-  bottomAttackInfo:
-    attackPoint: {x: 0, y: -4}
-    attackRange: {x: 10, y: 12}
-  attackCooldown: 0.5
-  player: {fileID: 6932034864163768082}
 --- !u!1 &6487147083088194210
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,6 +124,7 @@ GameObject:
   - component: {fileID: 6932034864163768093}
   - component: {fileID: 6932034864163768092}
   - component: {fileID: 6932034864163768083}
+  - component: {fileID: 1532085486}
   m_Layer: 3
   m_Name: TestPlayer
   m_TagString: Player
@@ -363,3 +340,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3693a2fb3c0b27540873511e3bb6d87f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1532085486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6487147083088194210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c774f03f73bf244e88207e1042167fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalAttackInfo:
+    attackPoint: {x: 5, y: 1}
+    attackRange: {x: 13, y: 10}
+  topAttackInfo:
+    attackPoint: {x: 0, y: 3}
+    attackRange: {x: 10, y: 10}
+  bottomAttackInfo:
+    attackPoint: {x: 0, y: -4}
+    attackRange: {x: 10, y: 12}
+  attackCooldown: 0.5
+  attackBox: {fileID: 2165908303279243931}
+  attackAnimator: {fileID: 4558989439409521713}
+  attackRenderer: {fileID: 5395274943836910356}

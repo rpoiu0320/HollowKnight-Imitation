@@ -35,17 +35,22 @@ public class TestPlayerAttacker : MonoBehaviour
 
     private void Update()
     {
+        if (player.inputDir.x != 0)
+         ResetAttackBoxPosition();
+    }
+
+    private void ResetAttackBoxPosition()
+    {
         if (player.render.flipX)
         {
-            attackRenderer.flipX = true ;
-            attackBox.transform.position = new Vector2(normalAttackInfo.attackPoint.x, normalAttackInfo.attackPoint.y);     
+            attackRenderer.flipX = true;
+            attackBox.transform.localPosition = new Vector2(-normalAttackInfo.attackPoint.x, normalAttackInfo.attackPoint.y);
         }
         else
         {
             attackRenderer.flipX = false;
-            attackBox.transform.position = new Vector2(-normalAttackInfo.attackPoint.x, normalAttackInfo.attackPoint.y);
+            attackBox.transform.localPosition = new Vector2(normalAttackInfo.attackPoint.x, normalAttackInfo.attackPoint.y);
         }
-
     }
 
     private void OnAttack(InputValue value)
@@ -68,6 +73,7 @@ public class TestPlayerAttacker : MonoBehaviour
             yield return null;
         }
 
+        ResetAttackBoxPosition();
         curCooldown = 0;
     }
 
@@ -79,13 +85,13 @@ public class TestPlayerAttacker : MonoBehaviour
         if (!isGround && dirY < 0)
         {
             attackAnimator.SetTrigger("BottomAttack");
-            attackBox.transform.position = new Vector2(bottomAttackInfo.attackPoint.x, bottomAttackInfo.attackPoint.y);
+            attackBox.transform.localPosition = new Vector2(bottomAttackInfo.attackPoint.x, bottomAttackInfo.attackPoint.y);
             collider2Ds = Physics2D.OverlapBoxAll(attackBox.transform.position, bottomAttackInfo.attackRange, 0, assailableLayer);
         }
         else if (dirY > 0)
         {
             attackAnimator.SetTrigger("TopAttack");
-            attackBox.transform.position = new Vector2(topAttackInfo.attackPoint.x, topAttackInfo.attackPoint.y);
+            attackBox.transform.localPosition = new Vector2(topAttackInfo.attackPoint.x, topAttackInfo.attackPoint.y);
             collider2Ds = Physics2D.OverlapBoxAll(attackBox.transform.position, topAttackInfo.attackRange, 0, assailableLayer);
         }
         else
@@ -126,8 +132,8 @@ public class TestPlayerAttacker : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube((Vector2)player.transform.position + normalAttackInfo.attackPoint, normalAttackInfo.attackRange);
-        Gizmos.DrawWireCube((Vector2)player.transform.position + topAttackInfo.attackPoint, topAttackInfo.attackRange);
-        Gizmos.DrawWireCube((Vector2)player.transform.position + bottomAttackInfo.attackPoint, bottomAttackInfo.attackRange);
+        Gizmos.DrawWireCube(attackBox.transform.position, normalAttackInfo.attackRange);
+        Gizmos.DrawWireCube(attackBox.transform.position, topAttackInfo.attackRange);
+        Gizmos.DrawWireCube(attackBox.transform.position, bottomAttackInfo.attackRange);
     }
 }
