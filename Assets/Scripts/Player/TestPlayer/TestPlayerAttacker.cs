@@ -35,8 +35,10 @@ public class TestPlayerAttacker : MonoBehaviour
 
     private void Update()
     {
-        if (player.inputDir.x != 0)
+        if (player.inputDir.x != 0 && player.inputDir.y == 0)
          ResetAttackBoxPosition();
+        Debug.Log(GameManager.Data.CurSoul);
+            
     }
 
     private void ResetAttackBoxPosition()
@@ -122,9 +124,9 @@ public class TestPlayerAttacker : MonoBehaviour
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
-            ParticleSystem hitEffect = GameManager.Resource.Instantiate<ParticleSystem>
-            ("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
-            hitEffect.Play();
+            //ParticleSystem hitEffect = GameManager.Resource.Instantiate<ParticleSystem>
+            //("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
+            //hitEffect.Play();
             GameManager.Data.IncreaseCurSoul();
         }
     }

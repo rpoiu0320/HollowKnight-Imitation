@@ -27,17 +27,6 @@ public class DataManager : MonoBehaviour
         diveDagame = playerInfo.diveDagame;
     }
 
-    private void Update()
-    {
-        Debug.Log(maxHp + "DataManager maxHp");
-        Debug.Log(curHp + "DataManager curHp");
-    }
-
-    //public PlayerData.PlayerInfo PlayerInfo
-    //{
-    //    get { return playerInfo; }  
-    //}
-
     public int MaxHp
     {
         get { return maxHp; }

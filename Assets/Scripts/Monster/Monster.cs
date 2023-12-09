@@ -18,8 +18,9 @@ public class Monster : MonoBehaviour, IHittable
     {
         curHp -= damage;
         ParticleSystem hitEffect = GameManager.Resource.Instantiate<ParticleSystem>
-            ("Prefab/Effect/MonsterHitEffect", transform.position, transform);
+            ("Prefab/Effect/MonsterHitEffect", transform.position, true);
         hitEffect.Play();
+        GameManager.Resource.Destory(hitEffect.gameObject, 2f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

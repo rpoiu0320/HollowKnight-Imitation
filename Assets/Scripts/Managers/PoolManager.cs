@@ -22,18 +22,18 @@ public class PoolManager : MonoBehaviour
 
     public T Get<T>(T original, Vector3 position, Transform parent) where T : Object    // T is Object
     {
-        if(original is GameObject)  // 형변환(Casting) 이 가능하면 true
+        if(original is GameObject)                          // 형변환(Casting) 이 가능하면 true
         {
             GameObject prefab = original as GameObject;     // original 을 GameObject로 Casting
             string key = prefab.name;
 
-            if (!poolDic.ContainsKey(key))      // poolDic에 없으면 새로 생성
+            if (!poolDic.ContainsKey(key))                  // poolDic에 없으면 새로 생성
                 CreatePool(key, prefab);
 
-            GameObject gameObject = poolDic[key].Get();    // use ObjectPool
+            GameObject gameObject = poolDic[key].Get();     // use ObjectPool
             gameObject.transform.parent = parent;
             gameObject.transform.position = position;
-            return gameObject as T;                    // T로 Casting 후 return
+            return gameObject as T;                         // T로 Casting 후 return
         }
         else if (original is Component)
         {
@@ -130,7 +130,7 @@ public class PoolManager : MonoBehaviour
         GameObject root = new GameObject(key);
         root.gameObject.name = $"{key}Container";
         root.transform.parent = poolRoot;
-        poolContainer.Add(key, root.transform);
+        //poolContainer.Add(key, root.transform);
 
         ObjectPool<GameObject> pool = new ObjectPool<GameObject>(
             createFunc: () =>
@@ -147,7 +147,7 @@ public class PoolManager : MonoBehaviour
             actionOnRelease: (GameObject gameObject) =>
             {
                 gameObject.gameObject.SetActive(false);
-                gameObject.transform.parent = poolContainer[key];
+                //gameObject.transform.parent = poolContainer[key];
             },
             actionOnDestroy: (GameObject gameObject) =>
             {
@@ -231,7 +231,7 @@ public class PoolManager : MonoBehaviour
             actionOnRelease: (GameObject gameObject) =>
             {
                 gameObject.SetActive(false);
-                //gameObject.transform.SetParent(canvasRoot.transform, false);
+                gameObject.transform.SetParent(canvasRoot.transform, false);
             },
             actionOnDestroy: (GameObject gameObject) =>
             {

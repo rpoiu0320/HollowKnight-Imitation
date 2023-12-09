@@ -29,6 +29,7 @@ public class ResourceManager : MonoBehaviour
     public T Instantiate<T>(string path, Vector3 position, Transform parent, bool pooling = false) where T : Object
     {
         T original = Load<T>(path);
+
         return Instantiate<T>(original, position, parent, pooling);
     }
 
@@ -37,6 +38,13 @@ public class ResourceManager : MonoBehaviour
         T original = Load<T>(path);
 
         return Instantiate<T>(original, Vector3.zero, null, pooling);
+    }
+
+    public T Instantiate<T>(string path, Vector3 position, bool pooling = false) where T : Object
+    {
+        T original = Load<T>(path);
+
+        return Instantiate<T>(original, position, null, pooling);
     }
 
     public void Destory(GameObject gameObject)
