@@ -21,10 +21,12 @@ public class HpUI : MonoBehaviour
         maxHpStack.Push(curHpImage1);
         maxHpStack.Push(curHpImage2);
         maxHpStack.Push(curHpImage3);
-        curHpList = new List<Image>();
-        curHpList.Add(curHpImage1);
-        curHpList.Add(curHpImage2);
-        curHpList.Add(curHpImage3);
+        curHpList = new List<Image>
+        {
+            curHpImage1,
+            curHpImage2,
+            curHpImage3
+        };
     }
 
     private void Start()

@@ -8,8 +8,6 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    //protected SoulUI soulUi;  DataManager를 통해 연동
-    //protected HpUI hpUi;
     [NonSerialized] public Animator animator;
     [NonSerialized] public Rigidbody2D rb;
     [NonSerialized] public Collider2D col;

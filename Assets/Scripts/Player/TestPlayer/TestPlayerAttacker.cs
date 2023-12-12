@@ -123,12 +123,7 @@ public class TestPlayerAttacker : MonoBehaviour
         hittable?.TakeHit(GameManager.Data.AttackDamage);
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("Monster"))
-        {
-            //ParticleSystem hitEffect = GameManager.Resource.Instantiate<ParticleSystem>
-            //("Prefab/Effect/AttackHitEffect", collider.gameObject.transform.position, GameObject.Find("PoolManager").transform);
-            //hitEffect.Play();
             GameManager.Data.IncreaseCurSoul();
-        }
     }
 
     private void OnDrawGizmos()
