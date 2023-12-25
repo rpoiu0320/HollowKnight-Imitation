@@ -37,8 +37,6 @@ public class TestPlayerAttacker : MonoBehaviour
     {
         if (player.inputDir.x != 0 && player.inputDir.y == 0)
          ResetAttackBoxPosition();
-        Debug.Log(GameManager.Data.CurSoul);
-            
     }
 
     private void ResetAttackBoxPosition()

@@ -16,7 +16,7 @@ MonoBehaviour:
   - player: {fileID: 4494496321729159397, guid: 136bdfeb170530c40a544fdbfef32b64, type: 3}
     name: Player
     description: PlayerInfo
-    maxHp: 3
+    maxHp: 5
     curHp: 3
     maxSoul: 10
     curSoul: 3
@@ -24,3 +24,4 @@ MonoBehaviour:
     howlingDamage: 2
     shotSoulDamage: 2
     diveDagame: 2
+    geo: 0

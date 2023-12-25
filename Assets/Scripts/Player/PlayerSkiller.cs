@@ -162,7 +162,7 @@ public class PlayerSkiller : Player
             {
                 healingAnimator.SetTrigger("OnHealing");
                 GameManager.Data.IncreaseCurHp();
-                hpUI.RenewalHpUI();
+                //hpUI.RenewalHpUI();
                 GameManager.Data.DecreaseCurSoul();
                 soulUI.RenewalCurSoulUI();
 

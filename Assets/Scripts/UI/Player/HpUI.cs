@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,58 +6,40 @@ using UnityEngine.UI;
 
 public class HpUI : MonoBehaviour
 {
-    [SerializeField] Image curHpImage1;
-    [SerializeField] Image curHpImage2;
-    [SerializeField] Image curHpImage3;
+    [SerializeField] Image hpPrefab;
     [SerializeField] Sprite onHpImage;
     [SerializeField] Sprite nonHpImage;
 
-    private Stack<Image> maxHpStack;
-    private List<Image> curHpList;
-    private int curHpCount;
-
-    private void Awake()
-    {
-        maxHpStack = new Stack<Image>();
-        maxHpStack.Push(curHpImage1);
-        maxHpStack.Push(curHpImage2);
-        maxHpStack.Push(curHpImage3);
-        curHpList = new List<Image>
-        {
-            curHpImage1,
-            curHpImage2,
-            curHpImage3
-        };
-    }
+    private Image[] hpImages; 
 
     private void Start()
     {
-        curHpCount = GameManager.Data.CurHp;
-        AddMaxHp();
+        hpImages = new Image[GameManager.Data.MaxHp];           // Data, UI Manager끼리 충돌 방지를 위해 Awake 대신 Start
+        SetUpHp();
+        Debug.Log(GameManager.Data.MaxHp);
+        Debug.Log(GameManager.Data.CurHp);
     }
 
-    public void AddMaxHp() // 최대체력 증가
+    private void SetUpHp()
     {
-        GameManager.Data.MaxHp++;
-        Image newHpImage = GameManager.Resource.Instantiate<Image>("Prefab/UI/HpImage", Vector3.zero, GameObject.Find("Hp").transform);
-        newHpImage.rectTransform.anchoredPosition = new Vector2(maxHpStack.Peek().rectTransform.anchoredPosition.x + 65, maxHpStack.Peek().rectTransform.anchoredPosition.y);
-        newHpImage.name = maxHpStack.Peek().name.Substring(0, maxHpStack.Peek().name.Length - 1) + (maxHpStack.Count + 1);
-        maxHpStack.Push(newHpImage);
-        curHpList.Add(newHpImage);
-        newHpImage.sprite = nonHpImage;
+        for (int i = 0; i < hpImages.Length; i++)
+        {
+            Image hpImage = Instantiate(hpPrefab, transform);           // UI - Hp의 하위로 생성
+            hpImage.rectTransform.anchoredPosition                      // 위치 조정
+                = new Vector2(hpImage.rectTransform.anchoredPosition.x + 65 * i, hpImage.rectTransform.anchoredPosition.y);
+
+            if (GameManager.Data.CurHp > i)
+                hpImage.sprite = onHpImage;
+            else
+                hpImage.sprite = nonHpImage;
+
+            hpImage.gameObject.name = $"HpImage{i}";
+            hpImages[i] = hpImage;
+        }
     }
 
-    public void RenewalHpUI()
+    public void RenewalCurHpUI()
     {
-        if (GameManager.Data.CurHp > curHpCount)
-        {
-            curHpList[GameManager.Data.CurHp - 1].sprite = onHpImage;
-            curHpCount++;
-        }
-        else if (GameManager.Data.CurHp < curHpCount)
-        {
-            curHpList[GameManager.Data.CurHp].sprite = nonHpImage;
-            curHpCount--;
-        }
+
     }
 }

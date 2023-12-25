@@ -5611,6 +5611,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6487147083088194215, guid: eef91e19fc1f3e245b9d47969a6777d5, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932034864163768093, guid: eef91e19fc1f3e245b9d47969a6777d5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6932034864163768093, guid: eef91e19fc1f3e245b9d47969a6777d5, type: 3}
       propertyPath: hitAnimator
       value: 

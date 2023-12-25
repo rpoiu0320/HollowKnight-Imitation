@@ -27,6 +27,16 @@ public class DataManager : MonoBehaviour
         diveDagame = playerInfo.diveDagame;
     }
 
+    private void RenewalCurHp()
+    {
+        GameManager.UI.hpUI.RenewalCurHpUI();
+    }
+
+    private void RenewalCurSoul()
+    {
+        GameManager.UI.soulUI.RenewalCurSoulUI();
+    }
+
     public int MaxHp
     {
         get { return maxHp; }
@@ -64,13 +74,19 @@ public class DataManager : MonoBehaviour
     public void IncreaseCurSoul()
     {
         if (curSoul < maxSoul)
+        {
             curSoul++;
+            RenewalCurSoul();
+        }
     }
 
     public void DecreaseCurSoul()
     {
-        if (curSoul > 0)
+        if (curSoul >= 3)
+        {
             curSoul -= 3;
+            RenewalCurSoul();
+        }
     }
 
     public int AttackDamage

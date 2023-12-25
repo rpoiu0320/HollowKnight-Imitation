@@ -39,7 +39,7 @@ public class PlayerHit : MonoBehaviour, IHittable
         playerMover.LimitMove(true);
         gameObject.layer = LayerMask.NameToLayer("Default");    // 판단을 layer를 기준으로 하기에 피격 시 일시 무적을 위함
         GameManager.Data.DecreaseCurHp();
-        hpUI.RenewalHpUI();
+        //hpUI.RenewalHpUI();
 
         isTwinkling = true;
         twinklingRoutine = StartCoroutine(TwinklingRoutine());
