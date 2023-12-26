@@ -16,8 +16,6 @@ public class HpUI : MonoBehaviour
     {
         hpImages = new Image[GameManager.Data.MaxHp];           // Data, UI Manager끼리 충돌 방지를 위해 Awake 대신 Start
         SetUpHp();
-        Debug.Log(GameManager.Data.MaxHp);
-        Debug.Log(GameManager.Data.CurHp);
     }
 
     private void SetUpHp()
@@ -38,8 +36,13 @@ public class HpUI : MonoBehaviour
         }
     }
 
-    public void RenewalCurHpUI()
+    public void IncreaseCurHpUI()
     {
-
+        hpImages[GameManager.Data.CurHp + 1].sprite = onHpImage;
+    }
+    
+    public void DecreaseCurHpUI()
+    {
+        hpImages[GameManager.Data.CurHp].sprite = nonHpImage;
     }
 }

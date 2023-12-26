@@ -27,11 +27,6 @@ public class DataManager : MonoBehaviour
         diveDagame = playerInfo.diveDagame;
     }
 
-    private void RenewalCurHp()
-    {
-        GameManager.UI.hpUI.RenewalCurHpUI();
-    }
-
     private void RenewalCurSoul()
     {
         GameManager.UI.soulUI.RenewalCurSoulUI();
@@ -63,12 +58,16 @@ public class DataManager : MonoBehaviour
     {
         if (curHp < maxHp)
             curHp++;
+
+        GameManager.UI.hpUI.IncreaseCurHpUI();
     }
 
     public void DecreaseCurHp()
     {
         if (curHp > 0)
-        curHp--;
+            curHp--;
+
+        GameManager.UI.hpUI.DecreaseCurHpUI();
     }
 
     public void IncreaseCurSoul()

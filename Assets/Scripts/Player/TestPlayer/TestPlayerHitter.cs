@@ -13,10 +13,6 @@ public class TestPlayerHitter : MonoBehaviour, IHittable
         player = GetComponent<Player>();
         playerLayer = LayerMask.NameToLayer("Player");
     }
-    private void Update()
-    {
-        //Debug.Log(GameManager.Data.CurHp);
-    }
 
     public void TakeHit(int damage)
     {
