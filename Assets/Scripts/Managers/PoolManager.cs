@@ -130,7 +130,7 @@ public class PoolManager : MonoBehaviour
         GameObject root = new GameObject(key);
         root.gameObject.name = $"{key}Container";
         root.transform.parent = poolRoot;
-        //poolContainer.Add(key, root.transform);
+        poolContainer.Add(key, root.transform);
 
         ObjectPool<GameObject> pool = new ObjectPool<GameObject>(
             createFunc: () =>
@@ -147,7 +147,7 @@ public class PoolManager : MonoBehaviour
             actionOnRelease: (GameObject gameObject) =>
             {
                 gameObject.gameObject.SetActive(false);
-                //gameObject.transform.parent = poolContainer[key];
+                gameObject.transform.parent = poolContainer[key];
             },
             actionOnDestroy: (GameObject gameObject) =>
             {

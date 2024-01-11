@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class ChargeSkill : Skill
 {
-    
+    protected override void TakeAttack(Collider2D collision)
+    {
+        throw new System.NotImplementedException();
+    }
 }

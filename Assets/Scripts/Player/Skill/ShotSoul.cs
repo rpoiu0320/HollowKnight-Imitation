@@ -8,16 +8,11 @@ public class ShotSoul : Skill
 {
     [SerializeField] float moveSpeed;
 
-    private Collider2D collider2d;
-    private Animator shotSoulAnimator;
     private bool isBump = false;
-    public UnityEvent<Collider2D> OnKnockBack;
 
     private void OnEnable()
     {
         collider2d = GetComponent<Collider2D>();
-        shotSoulAnimator = GetComponent<Animator>();
-        //contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
     }
 
     private void Update()
@@ -38,7 +33,7 @@ public class ShotSoul : Skill
     IEnumerator BumpRoutine()
     {
         isBump = true;
-        shotSoulAnimator.SetTrigger("IsBump");
+        animator.SetTrigger("IsBump");
         collider2d.enabled = false;
 
         if (!render.flipX)
@@ -53,7 +48,7 @@ public class ShotSoul : Skill
         yield break;
     }
 
-    private void OnTriggerEnter2D(Collider2D target)
+    protected override void TakeAttack(Collider2D target)
     {
         if(target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {

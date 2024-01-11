@@ -5,27 +5,28 @@ using UnityEngine.Events;
 
 public class Dive : Skill
 {
-    private PlayerMover playerMover;
-    private Animator diveAnimator;
-    private Collider2D collider2d;
+    public Dive(bool isGround)
+    {
+        this.isGround = isGround;
+    }
+
     private ContactFilter2D contactFilter;
-    public UnityEvent<Collider2D> OnKnockBack;
+    private bool isGround;
 
     private void OnEnable()
     {
-        playerMover = GameObject.Find("Player").GetComponent<PlayerMover>();
-        diveAnimator = GetComponent<Animator>();
-        collider2d = GetComponent<Collider2D>();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
+    }
+
+    public void DiveToGround()
+    {
         diveRoutine = StartCoroutine(DiveRoutine());
     }
 
     Coroutine diveRoutine;
     IEnumerator DiveRoutine()
     {
-        yield return new WaitUntil(() => playerMover.IsGround() == true);
-
-        diveAnimator.SetTrigger("GroundCheck");
+        animator.SetTrigger("GroundCheck");
         collider2d.enabled = true;
 
         yield return new WaitForSeconds(0.35f);
@@ -34,7 +35,7 @@ public class Dive : Skill
         StopCoroutine(diveRoutine);
     }
 
-    private void OnTriggerEnter2D(Collider2D target)
+    protected override void TakeAttack(Collider2D target)
     {
         if (target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {

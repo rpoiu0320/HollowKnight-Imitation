@@ -9,9 +9,7 @@ using UnityEngine.Events;
 public class Howling : Skill
 {
     private ContactFilter2D contactFilter;
-    private Collider2D collider2d;
     private float attackTime = 0;
-    public UnityEvent<Collider2D> OnKnockBack;
 
     private void OnEnable()
     {
@@ -37,10 +35,9 @@ public class Howling : Skill
         }
 
         GameManager.Resource.Destory(gameObject);
-        StopCoroutine(howlingRoutine);
     }
 
-    private void OnTriggerEnter2D(Collider2D target)
+    protected override void TakeAttack(Collider2D target)
     {
         if (target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
