@@ -19,8 +19,8 @@ public abstract class Skill : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        TakeAttack(collision);
+        SkillActive(collision);
     }
 
-    protected abstract void TakeAttack(Collider2D collision);
+    protected abstract void SkillActive(Collider2D collision);
 }

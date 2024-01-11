@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TestPlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Player")]
     [SerializeField] private Player player;

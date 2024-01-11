@@ -48,7 +48,7 @@ public class ShotSoul : Skill
         yield break;
     }
 
-    protected override void TakeAttack(Collider2D target)
+    protected override void SkillActive(Collider2D target)
     {
         if(target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {

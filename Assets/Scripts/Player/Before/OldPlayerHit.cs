@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerHit : MonoBehaviour, IHittable
+public class OldPlayerHit : MonoBehaviour, IHittable
 {
     [SerializeField] Animator hitAnimator;
-    private PlayerMover playerMover;
+    private OldPlayerMover playerMover;
     private SpriteRenderer render;
     private Animator playerAnimator;
     private HpUI hpUI;
@@ -18,7 +18,7 @@ public class PlayerHit : MonoBehaviour, IHittable
 
     private void Awake()
     {
-        playerMover = GetComponent<PlayerMover>();
+        playerMover = GetComponent<OldPlayerMover>();
         render = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
         hpUI = GameObject.Find("Hp").GetComponent<HpUI>();

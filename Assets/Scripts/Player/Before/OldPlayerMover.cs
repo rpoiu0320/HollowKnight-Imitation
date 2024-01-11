@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMover : MonoBehaviour
+public class OldPlayerMover : MonoBehaviour
 {
     [SerializeField] GameObject dashEffect;
     [SerializeField] Transform commonAttackPoint;
@@ -18,7 +18,7 @@ public class PlayerMover : MonoBehaviour
     public enum UpDown { None, Up, Down }
     public enum DirX { Left, Right }
 
-    private PlayerAttacker playerAttacker;
+    private OldPlayerAttacker playerAttacker;
     private Rigidbody2D rb;
     private Animator animator;
     private Animator dashAnimator;
@@ -43,7 +43,7 @@ public class PlayerMover : MonoBehaviour
 
     private void Awake()
     {
-        playerAttacker = GetComponent<PlayerAttacker>();
+        playerAttacker = GetComponent<OldPlayerAttacker>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         dashAnimator = dashEffect.GetComponent<Animator>();

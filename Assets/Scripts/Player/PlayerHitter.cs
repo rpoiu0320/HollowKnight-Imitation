@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestPlayerHitter : MonoBehaviour, IHittable
+public class PlayerHitter : MonoBehaviour, IHittable
 {
     [SerializeField] Animator hitAnimator;
     private Player player;
