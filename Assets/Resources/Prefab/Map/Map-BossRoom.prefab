@@ -1969,6 +1969,8 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: b9396fa961ee31e44a712de8f4c8d9ad, type: 2}
   - m_RefCount: 5
     m_Data: {fileID: 11400000, guid: 4b87f6151838ab045bb918a29e36668f, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
   - m_RefCount: 14
     m_Data: {fileID: -2118798966, guid: 2c9be2376d91f7346880d5da9911d925, type: 3}
@@ -1978,6 +1980,8 @@ Tilemap:
     m_Data: {fileID: -1510489344, guid: 2c9be2376d91f7346880d5da9911d925, type: 3}
   - m_RefCount: 5
     m_Data: {fileID: -1191686357, guid: 2c9be2376d91f7346880d5da9911d925, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 40
     m_Data:

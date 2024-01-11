@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     [NonSerialized] public LayerMask groundLayer;
     [NonSerialized] public bool actionLimite = false;
     [NonSerialized] public bool isGround = false;
+    [NonSerialized] public Vector2 lastStep;
 
     private void Awake()
     {

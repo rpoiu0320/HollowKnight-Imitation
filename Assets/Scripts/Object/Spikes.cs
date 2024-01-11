@@ -22,8 +22,9 @@ public class Spikes : MonoBehaviour, IHittable
     {
         if (collision.gameObject.layer == playerLayer)
         {
-            IHittable hittable = collision.gameObject.GetComponent<IHittable>();
+            PlayerHitter hittable = collision.gameObject.GetComponent<PlayerHitter>();
             hittable?.TakeHit(spikesDamage);
+            hittable?.HitBySpikes(spikesDamage);
         }
     }
 }

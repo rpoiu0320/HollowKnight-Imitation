@@ -14,16 +14,39 @@ public class PlayerHitter : MonoBehaviour, IHittable
         playerLayer = LayerMask.NameToLayer("Player");
     }
 
+    private void Update()
+    {
+        Debug.Log(player.lastStep);
+    }
+
     public void TakeHit(int damage)
     {
         hitRoutine = StartCoroutine(HitRoutine());
     }
 
+    public void HitBySpikes(int damage)
+    {
+        hitRoutine = StartCoroutine(HitRoutine());
+        locationRenwalRoutine = StartCoroutine(LocationRenwalRoutine());
+    }
+
+    Coroutine locationRenwalRoutine;
+    IEnumerator LocationRenwalRoutine()
+    {
+        GameManager.UI.fadeInOut.FadeOut();
+
+        yield return new WaitForSeconds(0.5f);
+
+        GameManager.UI.fadeInOut.FadeIn();
+
+        player.transform.position = player.lastStep;
+    }
+
     Coroutine hitRoutine;
     IEnumerator HitRoutine()
     {
-        float knockBackTime = 0;
         gameObject.layer = gameObject.layer >> 2;
+        float knockBackTime = 0;
         hitAnimator.SetTrigger("OnHit");
         player.animator.SetTrigger("Hit");
         GameManager.Data.DecreaseCurHp();

@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpSpeed;
 
     private bool pressJumpKey;
+    private bool lastSetpCheck = false;
     private bool isLook = false;
     private float lookTime = 0;
 
@@ -179,14 +180,20 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(transform.position, Vector2.down * 4f, Color.red);
 
         if (hit.collider != null)
+        {
             player.animator.SetBool("IsGround", player.isGround = true);
+            lastSetpCheck = true;
+        }
         else
+        {
             player.animator.SetBool("IsGround", player.isGround = false);
+
+            if (lastSetpCheck)
+            {
+                player.lastStep = transform.position;
+                lastSetpCheck = false;
+            }
+        }
     }
     #endregion
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        player.actionLimite = true;
-    }
 }
