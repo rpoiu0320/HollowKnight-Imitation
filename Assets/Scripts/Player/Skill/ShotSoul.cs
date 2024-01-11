@@ -8,23 +8,16 @@ public class ShotSoul : Skill
 {
     [SerializeField] float moveSpeed;
 
-    private PlayerMover playerMover;
-    private SpriteRenderer render;
     private Collider2D collider2d;
     private Animator shotSoulAnimator;
-    //private ContactFilter2D contactFilter;
-    private float direction;
     private bool isBump = false;
     public UnityEvent<Collider2D> OnKnockBack;
 
     private void OnEnable()
     {
-        playerMover = GameObject.Find("Player").GetComponent<PlayerMover>();
-        render = GetComponent<SpriteRenderer>();
         collider2d = GetComponent<Collider2D>();
         shotSoulAnimator = GetComponent<Animator>();
         //contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
-        direction = playerMover.LastDirX();
     }
 
     private void Update()
@@ -35,16 +28,10 @@ public class ShotSoul : Skill
 
     private void Move()
     {
-        if (direction > 0)
-        {
+        if (!render.flipX)
             transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0, 0));
-            render.flipX = false;
-        }
-        else if (direction < 0)
-        {
+        else
             transform.Translate(new Vector3(-moveSpeed * Time.deltaTime, 0, 0));
-            render.flipX = true;
-        }
     }
 
     Coroutine bumpRoutine;
@@ -54,9 +41,9 @@ public class ShotSoul : Skill
         shotSoulAnimator.SetTrigger("IsBump");
         collider2d.enabled = false;
 
-        if (direction > 0)
+        if (!render.flipX)
             transform.Translate(new Vector3(7f, 0, 0));
-        else if (direction < 0)
+        else
             transform.Translate(new Vector3(-4f, 0, 0));
 
         yield return new WaitForSeconds(0.4f);

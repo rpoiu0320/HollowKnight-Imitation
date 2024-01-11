@@ -19,7 +19,7 @@ MonoBehaviour:
     maxHp: 5
     curHp: 3
     maxSoul: 10
-    curSoul: 3
+    curSoul: 9
     attackDamage: 5
     howlingDamage: 2
     shotSoulDamage: 2

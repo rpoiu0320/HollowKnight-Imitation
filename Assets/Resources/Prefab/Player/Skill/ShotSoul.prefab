@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 202832455}
   - component: {fileID: 202832454}
   - component: {fileID: 6875100943855938952}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ShotSoul
   m_TagString: Untagged
   m_Icon: {fileID: 0}

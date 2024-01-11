@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 559457787965529294}
   - component: {fileID: 559457787965529292}
   - component: {fileID: 7601125844623652782}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Howling
   m_TagString: Untagged
   m_Icon: {fileID: 0}

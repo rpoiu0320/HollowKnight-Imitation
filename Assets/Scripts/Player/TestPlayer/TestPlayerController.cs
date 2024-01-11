@@ -184,4 +184,9 @@ public class TestPlayerController : MonoBehaviour
             player.animator.SetBool("IsGround", player.isGround = false);
     }
     #endregion
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        player.actionLimite = true;
+    }
 }

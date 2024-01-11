@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5547421310372064896}
   - component: {fileID: 6567629394646248808}
   - component: {fileID: 1092718739132749739}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Dive
   m_TagString: Untagged
   m_Icon: {fileID: 0}
