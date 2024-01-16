@@ -54,6 +54,10 @@ public class PlayerController : MonoBehaviour
         else if (player.inputDir.y != 0)
         {
             player.animator.SetFloat("LookUpDown", player.inputDir.y);
+
+            if (!player.isGround)
+                return;
+
             lookTime += Time.deltaTime;
 
             if (lookTime > 1.5f && !isLook)

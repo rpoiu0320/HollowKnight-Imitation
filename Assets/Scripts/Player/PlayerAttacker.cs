@@ -128,6 +128,16 @@ public class PlayerAttacker : MonoBehaviour
             GameManager.Data.IncreaseCurSoul();
             knockback.OnKnockBackRoutine(collider);
         }
+
+        if (player.inputDir.y < 0)
+            player.rb.velocity = new Vector2(player.rb.velocity.x, 40);
+        else if (player.inputDir.y == 0)
+        {
+            if (player.render.flipX)
+                player.rb.velocity = new Vector2(20, player.rb.velocity.y);
+            else
+                player.rb.velocity = new Vector2(-20, player.rb.velocity.y);
+        }
     }
 
     private void OnDrawGizmos()
