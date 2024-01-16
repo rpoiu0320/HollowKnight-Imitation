@@ -41,7 +41,7 @@ public class Dive : Skill
         {
             IHittable hittable = target.GetComponent<IHittable>();
             hittable?.TakeHit(GameManager.Data.DiveDagame);
-            OnKnockBack?.Invoke(target);
+            knockBack.OnKnockBackRoutine(target);
         }
     }
 }

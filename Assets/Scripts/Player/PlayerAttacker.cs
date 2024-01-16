@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerAttacker : MonoBehaviour
@@ -16,8 +17,9 @@ public class PlayerAttacker : MonoBehaviour
     [SerializeField] private Animator attackAnimator;
     [SerializeField] private SpriteRenderer attackRenderer;
 
-    private LayerMask assailableLayer;
     private Player player;
+    private KnockBack knockback;
+    private LayerMask assailableLayer;
     private float curCooldown = 0;
 
     [Serializable]
@@ -31,6 +33,7 @@ public class PlayerAttacker : MonoBehaviour
     {
         assailableLayer = LayerMask.GetMask("Monster", "Spikes");
         player = GetComponent<Player>();
+        knockback = GetComponent<KnockBack>();
     }
 
     private void Update()
@@ -121,7 +124,10 @@ public class PlayerAttacker : MonoBehaviour
         hittable?.TakeHit(GameManager.Data.AttackDamage);
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("Monster"))
+        {
             GameManager.Data.IncreaseCurSoul();
+            knockback.OnKnockBackRoutine(collider);
+        }
     }
 
     private void OnDrawGizmos()

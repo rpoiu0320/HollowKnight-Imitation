@@ -14,11 +14,6 @@ public class PlayerHitter : MonoBehaviour, IHittable
         playerLayer = LayerMask.NameToLayer("Player");
     }
 
-    private void Update()
-    {
-        Debug.Log(player.lastStep);
-    }
-
     public void TakeHit(int damage)
     {
         hitRoutine = StartCoroutine(HitRoutine());

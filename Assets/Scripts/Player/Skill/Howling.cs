@@ -42,7 +42,7 @@ public class Howling : Skill
         if (target.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
             if (target.tag == "Monster")
-                OnKnockBack?.Invoke(target.gameObject.GetComponent<Collider2D>());
+                knockBack.OnKnockBackRoutine(target);
 
             IHittable hittable = target.GetComponent<IHittable>();
             hittable?.TakeHit(GameManager.Data.HowlingDamage);

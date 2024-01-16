@@ -54,7 +54,7 @@ public class ShotSoul : Skill
         {
             IHittable hittable = target.GetComponent<IHittable>();
             hittable?.TakeHit(GameManager.Data.ShotSoulDamage);
-            OnKnockBack?.Invoke(target);
+            knockBack.OnKnockBackRoutine(target);
         }
         else if(target.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
