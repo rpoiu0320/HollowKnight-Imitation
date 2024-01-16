@@ -5516,7 +5516,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 206377515, guid: 1177fb0e5a49a1541a2a4273a200e08c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1913370505, guid: 1177fb0e5a49a1541a2a4273a200e08c, type: 3}
+      propertyPath: m_ShowMaskGraphic
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8300177069517360708, guid: 1177fb0e5a49a1541a2a4273a200e08c, type: 3}
       propertyPath: m_Pivot.x
