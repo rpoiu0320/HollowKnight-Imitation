@@ -12,18 +12,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpSpeed;
 
     private bool pressJumpKey;
-    private bool lastSetpCheck = false;
     private bool isLook = false;
     private float lookTime = 0;
 
     private void Update()
     {
         Move();
-    }
-
-    private void FixedUpdate()
-    {
-        GroundCheck();
     }
 
     #region Move and Look
@@ -170,33 +164,6 @@ public class PlayerController : MonoBehaviour
             player.cameraController.ResetVertical();
 
             yield return null;
-        }
-    }
-    #endregion
-
-    #region GroundCheck
-    /// <summary>
-    /// Raycast를 사용해 Player 아래 Ground를 체크
-    /// </summary>
-    private void GroundCheck()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 4f, player.groundLayer);
-        Debug.DrawRay(transform.position, Vector2.down * 4f, Color.red);
-
-        if (hit.collider != null)
-        {
-            player.animator.SetBool("IsGround", player.isGround = true);
-            lastSetpCheck = true;
-        }
-        else
-        {
-            player.animator.SetBool("IsGround", player.isGround = false);
-
-            if (lastSetpCheck)
-            {
-                player.lastStep = transform.position;
-                lastSetpCheck = false;
-            }
         }
     }
     #endregion

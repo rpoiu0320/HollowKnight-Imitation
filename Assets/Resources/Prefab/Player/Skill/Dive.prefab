@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5547421310372064896}
   - component: {fileID: 6567629394646248808}
   - component: {fileID: 1092718739132749739}
+  - component: {fileID: -8841480986600603807}
   m_Layer: 12
   m_Name: Dive
   m_TagString: Untagged
@@ -138,7 +139,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5547421310372064900}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -169,21 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b72f135e8a9f7c842878c780a6c84264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnKnockBack:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1092718739132749739}
-        m_TargetAssemblyTypeName: KnockBack, Assembly-CSharp
-        m_MethodName: OnKnockBackRoutine
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1092718739132749739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,3 +182,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5e7b474f196ac4ca147e41f7160b4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-8841480986600603807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5547421310372064900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80fa0120f2725f44387daccc39242dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerLength: 4

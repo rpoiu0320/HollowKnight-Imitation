@@ -1,18 +1,14 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class Howling : Skill
+public class Howling : AttackSkill
 {
     private ContactFilter2D contactFilter;
     private float attackTime = 0;
 
-    private void OnEnable()
+    private new void Awake()
     {
+        base.Awake();
         collider2d = GetComponent<Collider2D>();
         contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
         howlingRoutine = StartCoroutine(HowlingRoutine());

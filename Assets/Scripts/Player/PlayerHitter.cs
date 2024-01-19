@@ -30,7 +30,7 @@ public class PlayerHitter : MonoBehaviour, IHittable
     {
         GameManager.UI.fadeInOut.FadeOut();
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
 
         GameManager.UI.fadeInOut.FadeIn();
 

@@ -14,11 +14,12 @@ public class Player : MonoBehaviour
     [NonSerialized] public SpriteRenderer render;
     [NonSerialized] public GameObject attackPoint;
     [NonSerialized] public CameraController cameraController;
+    [NonSerialized] public GroundCheck groundCheck;
     [NonSerialized] public Vector2 inputDir;
-    [NonSerialized] public LayerMask groundLayer;
+    [NonSerialized] public Vector2 lastStep;
     [NonSerialized] public bool actionLimite = false;
     [NonSerialized] public bool isGround = false;
-    [NonSerialized] public Vector2 lastStep;
+    [NonSerialized] public bool lastSetpCheck = false;
 
     private void Awake()
     {
@@ -26,7 +27,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         render = GetComponent<SpriteRenderer>();
-        groundLayer = 1 << LayerMask.NameToLayer("Ground");
+        groundCheck = GetComponent<GroundCheck>();
     }
 
     private void Start()
@@ -34,8 +35,37 @@ public class Player : MonoBehaviour
         cameraController = GameObject.FindWithTag("CMcamera").GetComponent<CameraController>();
     }
 
+    private void FixedUpdate()
+    {
+        PlayerGroundCheck();
+    }
+
     private void OnMove(InputValue value)
     {
         inputDir = value.Get<Vector2>();
     }
+
+    #region GroundCheck
+    /// <summary>
+    /// Raycast를 사용해 Player 아래 Ground를 체크
+    /// </summary>
+    private void PlayerGroundCheck()
+    {
+        if (isGround = groundCheck.GroundLayerCheck())
+        {
+            animator.SetBool("IsGround", isGround = true);
+            lastSetpCheck = true;
+        }
+        else
+        {
+            animator.SetBool("IsGround", isGround = false);
+
+            if (lastSetpCheck)
+            {
+                lastStep = transform.position;
+                lastSetpCheck = false;
+            }
+        }
+    }
+    #endregion
 }

@@ -19,11 +19,6 @@ public class HpUI : MonoBehaviour
         SetUpHp();
     }
 
-    private void Update()
-    {
-        Debug.Log(curHpImages.Count);
-    }
-
     private void SetUpHp()
     {
         for (int i = 0; i < maxHpImages.Length; i++)

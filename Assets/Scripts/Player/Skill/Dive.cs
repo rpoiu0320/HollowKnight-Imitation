@@ -1,21 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class Dive : Skill
+public class Dive : AttackSkill
 {
-    public Dive(bool isGround)
+    private GroundCheck groundCheck;
+    private ContactFilter2D contactFilter;
+
+    private new void Awake()
     {
-        this.isGround = isGround;
+        base.Awake();
+        groundCheck = GetComponent<GroundCheck>();
+        contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
     }
 
-    private ContactFilter2D contactFilter;
-    private bool isGround;
-
-    private void OnEnable()
+    private void FixedUpdate()
     {
-        contactFilter.SetLayerMask(LayerMask.GetMask("Monster"));
+        if (groundCheck.GroundLayerCheck())
+            DiveToGround();
     }
 
     public void DiveToGround()

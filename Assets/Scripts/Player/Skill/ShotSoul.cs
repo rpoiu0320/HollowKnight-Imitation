@@ -1,17 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class ShotSoul : Skill
+public class ShotSoul : AttackSkill
 {
-    [SerializeField] float moveSpeed;
+    [SerializeField] private float moveSpeed;
 
     private bool isBump = false;
+    public SpriteRenderer render;
 
-    private void OnEnable()
+    private new void Awake()
     {
+        base.Awake();
+        render = GetComponent<SpriteRenderer>();
         collider2d = GetComponent<Collider2D>();
     }
 
