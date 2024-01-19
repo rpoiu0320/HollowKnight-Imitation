@@ -231,6 +231,8 @@ GameObject:
   - component: {fileID: 6932034864163768092}
   - component: {fileID: 6932034864163768083}
   - component: {fileID: 1532085486}
+  - component: {fileID: 2050757916}
+  - component: {fileID: 2050757927}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -473,3 +475,28 @@ MonoBehaviour:
   attackBox: {fileID: 2165908303279243931}
   attackAnimator: {fileID: 4558989439409521713}
   attackRenderer: {fileID: 5395274943836910356}
+--- !u!114 &2050757916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6487147083088194210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5e7b474f196ac4ca147e41f7160b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2050757927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6487147083088194210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80fa0120f2725f44387daccc39242dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerLength: 4

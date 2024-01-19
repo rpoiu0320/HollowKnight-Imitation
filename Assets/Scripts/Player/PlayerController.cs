@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Move();
+        player.animator.SetFloat("Move", Mathf.Abs(player.inputDir.x));
     }
 
     #region Move and Look

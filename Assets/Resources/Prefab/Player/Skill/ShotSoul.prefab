@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 8
+  m_SortingOrder: 99
   m_Sprite: {fileID: -1368618416, guid: 02069ee6aa5be494f8b522c1b8e85737, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -160,21 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 100
-  OnKnockBack:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6875100943855938952}
-        m_TargetAssemblyTypeName: KnockBack, Assembly-CSharp
-        m_MethodName: OnKnockBackRoutine
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  render: {fileID: 0}
 --- !u!114 &6875100943855938952
 MonoBehaviour:
   m_ObjectHideFlags: 0
