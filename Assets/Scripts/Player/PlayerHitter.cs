@@ -1,12 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerHitter : MonoBehaviour, IHittable
 {
-    [SerializeField] Animator hitAnimator;
+    [SerializeField] private Animator hitAnimator;
+    
     private Player player;
     private LayerMask playerLayer;
+    
+    public UnityEvent OnCameraNoise;
 
     private void Awake()
     {
@@ -53,6 +56,7 @@ public class PlayerHitter : MonoBehaviour, IHittable
         yield return new WaitForSecondsRealtime(0.2f);
 
         Time.timeScale = 1;
+        OnCameraNoise?.Invoke();
 
         while (knockBackTime < 0.2f)
         {

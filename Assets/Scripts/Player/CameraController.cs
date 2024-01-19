@@ -83,7 +83,7 @@ public class CameraController : MonoBehaviour
     /// <returns></returns>
     IEnumerator NoiseRoutine()
     {
-        cmBMCP.m_AmplitudeGain = 5f;
+        cmBMCP.m_AmplitudeGain = 10f;
 
         yield return new WaitForSeconds(0.3f);
 

@@ -271,7 +271,7 @@ namespace GruzMotherState
 
         private void VerticalCheck(MoveDir verticalCheck)
         {
-            if (verticalCheck == MoveDir.Up)    // 부하를 줄이기 위해 필요한 상황에서만 해당 방향으로 Ray발사, 얼마나 부하 걸리는지는 모름
+            if (verticalCheck == MoveDir.Up)    // 부하를 줄이기 위해 필요한 상황에서만 해당 방향으로 Ray발사
             {                                   // and 밀림방지를 위해 rb.Constraints를 모두 ture로 하니 항상 Ray발사 시 비비적대는 현상이 있음, 이를 위한 Ray분할 발사
                 RaycastHit2D hitUp = Physics2D.Raycast(gruzMother.transform.position, Vector2.up, 5f, gruzMother.groundLayer);
 
@@ -458,7 +458,9 @@ namespace GruzMotherState
             for (int i = 0; i < 7;) // Gruzzer 생성
             {
                 GameManager.Resource.Instantiate<Gruzzer>
-                    ("Prefab/Monster/Gruzzer", new Vector2(gruzMother.transform.position.x + i / 2, gruzMother.transform.position.y + i * 3), GameObject.Find("PoolManager").transform);
+                    ("Prefab/Monster/Gruzzer", 
+                    new Vector2(gruzMother.transform.position.x + i / 2, gruzMother.transform.position.y + i * 3), 
+                    GameObject.Find("PoolManager").transform);
                 i++;
             }
 
