@@ -16,12 +16,7 @@ public class Dive : AttackSkill
     private void FixedUpdate()
     {
         if (groundCheck.GroundLayerCheck())
-            DiveToGround();
-    }
-
-    public void DiveToGround()
-    {
-        diveRoutine = StartCoroutine(DiveRoutine());
+            diveRoutine = StartCoroutine(DiveRoutine());
     }
 
     Coroutine diveRoutine;

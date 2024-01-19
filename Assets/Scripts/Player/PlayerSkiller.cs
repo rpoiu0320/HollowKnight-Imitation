@@ -54,8 +54,6 @@ public class PlayerSkiller : MonoBehaviour
 
         yield return new WaitUntil(() => player.isGround == true);
 
-        dive.DiveToGround();
-
         yield return new WaitForSeconds(0.4f);
     }
 
