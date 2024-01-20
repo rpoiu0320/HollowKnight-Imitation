@@ -17,6 +17,13 @@ public class PlayerAttacker : MonoBehaviour
     [SerializeField] private Animator attackAnimator;
     [SerializeField] private SpriteRenderer attackRenderer;
 
+    private Animator Animator { get { return player.animator; } }
+    private Rigidbody2D Rb { get { return player.rb; } }
+    private SpriteRenderer Render { get { return player.render; } }
+    private Vector2 InputDIr { get { return player.inputDir; } }
+    private bool ActionLimite { get { return player.actionLimite; } }
+    private bool IsGround { get { return player.isGround; } }
+
     private Player player;
     private KnockBack knockback;
     private LayerMask assailableLayer;
@@ -38,13 +45,13 @@ public class PlayerAttacker : MonoBehaviour
 
     private void Update()
     {
-        if (player.inputDir.x != 0 && player.inputDir.y == 0)
+        if (InputDIr.x != 0 && InputDIr.y == 0)
          ResetAttackBoxPosition();
     }
 
     private void ResetAttackBoxPosition()
     {
-        if (player.render.flipX)
+        if (Render.flipX)
         {
             attackRenderer.flipX = true;
             attackBox.transform.localPosition = new Vector2(-normalAttackInfo.attackPoint.x, normalAttackInfo.attackPoint.y);
@@ -58,7 +65,7 @@ public class PlayerAttacker : MonoBehaviour
 
     private void OnAttack(InputValue value)
     {
-        if (player.actionLimite || curCooldown != 0)
+        if (ActionLimite || curCooldown != 0)
             return;
 
         attackRoutine = StartCoroutine(AttackRoutine());
@@ -67,7 +74,7 @@ public class PlayerAttacker : MonoBehaviour
     Coroutine attackRoutine;
     IEnumerator AttackRoutine()
     {
-        Attack(player.inputDir.y, player.isGround);
+        Attack(InputDIr.y, IsGround);
 
         while (curCooldown < attackCooldown)
         {
@@ -83,7 +90,7 @@ public class PlayerAttacker : MonoBehaviour
     private void Attack(float dirY, bool isGround)
     {
         Collider2D[] collider2Ds;
-        player.animator.SetTrigger("Attack");
+        Animator.SetTrigger("Attack");
 
         if (!isGround && dirY < 0)
         {
@@ -129,14 +136,14 @@ public class PlayerAttacker : MonoBehaviour
             knockback.OnKnockBackRoutine(collider);
         }
 
-        if (player.inputDir.y < 0)
-            player.rb.velocity = new Vector2(player.rb.velocity.x, 40);
-        else if (player.inputDir.y == 0)
+        if (InputDIr.y < 0)
+            Rb.velocity = new Vector2(Rb.velocity.x, 40);
+        else if (InputDIr.y == 0)
         {
-            if (player.render.flipX)
-                player.rb.velocity = new Vector2(20, player.rb.velocity.y);
+            if (Render.flipX)
+                Rb.velocity = new Vector2(20, Rb.velocity.y);
             else
-                player.rb.velocity = new Vector2(-20, player.rb.velocity.y);
+                Rb.velocity = new Vector2(-20, Rb.velocity.y);
         }
     }
 

@@ -5,7 +5,12 @@ using UnityEngine.Events;
 public class PlayerHitter : MonoBehaviour, IHittable
 {
     [SerializeField] private Animator hitAnimator;
-    
+
+    private Vector2 LastStep { get { return player.lastStep; } }
+    private Animator Animator { get { return player.animator; } }
+    private SpriteRenderer Render { get { return player.render; } }
+    private bool ActionLimite { set { player.actionLimite = value; } }
+
     private Player player;
     private LayerMask playerLayer;
     
@@ -37,7 +42,7 @@ public class PlayerHitter : MonoBehaviour, IHittable
 
         GameManager.UI.fadeInOut.FadeIn();
 
-        player.transform.position = player.lastStep;
+        transform.position = LastStep;
     }
 
     Coroutine hitRoutine;
@@ -46,9 +51,9 @@ public class PlayerHitter : MonoBehaviour, IHittable
         gameObject.layer = gameObject.layer >> 2;
         float knockBackTime = 0;
         hitAnimator.SetTrigger("OnHit");
-        player.animator.SetTrigger("Hit");
+        Animator.SetTrigger("Hit");
         GameManager.Data.DecreaseCurHp();
-        player.actionLimite = true;
+        ActionLimite = true;
         twinkleRoutine = StartCoroutine(TwinkleRoutine());
         
         Time.timeScale = 0;
@@ -66,12 +71,12 @@ public class PlayerHitter : MonoBehaviour, IHittable
             yield return null;
         }
 
-        player.actionLimite = false;
+        ActionLimite = false;
     }
 
     private void PlayerKnockBack()
     {
-        if (player.render.flipX)
+        if (Render.flipX)
             transform.Translate(new Vector3(30 * Time.deltaTime, 0));
         else
             transform.Translate(new Vector3(-30 * Time.deltaTime, 0));
@@ -88,13 +93,13 @@ public class PlayerHitter : MonoBehaviour, IHittable
             switch (twinklingCount % 3)
             {
                 case 0:
-                    player.render.color = new Color(0, 0, 0);
+                    Render.color = new Color(0, 0, 0);
                     break;
                 case 1:
-                    player.render.color = new Color(125, 125, 125);
+                    Render.color = new Color(125, 125, 125);
                     break;
                 case 2:
-                    player.render.color = new Color(255, 255, 255);
+                    Render.color = new Color(255, 255, 255);
                     break;
                 default:
                     break;
@@ -106,7 +111,7 @@ public class PlayerHitter : MonoBehaviour, IHittable
             yield return new WaitForSeconds(0.1f);
         }
 
-        player.render.color = new Color(255, 255, 255);
+        Render.color = new Color(255, 255, 255);
         gameObject.layer = playerLayer;
     }
 }

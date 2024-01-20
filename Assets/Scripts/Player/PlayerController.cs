@@ -11,6 +11,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashSpeed;
     [SerializeField] private float jumpSpeed;
 
+    private bool ActionLimite { get { return player.actionLimite; } set { player.actionLimite = value; } }
+    private Animator Animator { get { return player.animator; } }
+    private Rigidbody2D Rb { get { return player.rb; } }
+    private SpriteRenderer Render { get { return player.render; } }
+    private CameraController CameraController { get { return player.cameraController; } }
+    private Vector2 InputDIr { get { return player.inputDir; } }
+    private bool IsGround { get { return player.isGround; } }
+
     private bool pressJumpKey;
     private bool isLook = false;
     private float lookTime = 0;
@@ -18,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Move();
-        player.animator.SetFloat("Move", Mathf.Abs(player.inputDir.x));
+        Animator.SetFloat("Move", Mathf.Abs(InputDIr.x));
     }
 
     #region Move and Look
@@ -27,40 +35,40 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        if (player.actionLimite)
+        if (ActionLimite)
             return;
 
-        if (player.inputDir.x > 0)
+        if (InputDIr.x > 0)
         {
             lookTime = 0;
-            player.animator.SetBool("IsLook", isLook = false);
-            player.cameraController.ResetVertical();
-            player.render.flipX = false;
+            Animator.SetBool("IsLook", isLook = false);
+            CameraController.ResetVertical();
+            Render.flipX = false;
             transform.Translate(new Vector2(moveSpeed * Time.deltaTime, 0));
         }
-        else if (player.inputDir.x < 0)
+        else if (InputDIr.x < 0)
         {
             lookTime = 0;
-            player.animator.SetBool("IsLook", isLook = false);
-            player.cameraController.ResetVertical();
-            player.render.flipX = true;
+            Animator.SetBool("IsLook", isLook = false);
+            CameraController.ResetVertical();
+            Render.flipX = true;
             transform.Translate(new Vector2(-moveSpeed * Time.deltaTime, 0));
         }
-        else if (player.inputDir.y != 0)
+        else if (InputDIr.y != 0)
         {
-            player.animator.SetFloat("LookUpDown", player.inputDir.y);
+            Animator.SetFloat("LookUpDown", InputDIr.y);
 
-            if (!player.isGround)
+            if (!IsGround)
                 return;
 
             lookTime += Time.deltaTime;
 
             if (lookTime > 1.5f && !isLook)
-                lookRoutine = StartCoroutine(LookRoutine(player.inputDir.y));
+                lookRoutine = StartCoroutine(LookRoutine(InputDIr.y));
         }
-        else if (player.inputDir.y == 0 || player.actionLimite)
+        else if (InputDIr.y == 0 || ActionLimite)
         {
-            player.animator.SetFloat("LookUpDown", 0);
+            Animator.SetFloat("LookUpDown", 0);
             lookTime = 0;
         }
     }
@@ -73,14 +81,14 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     IEnumerator LookRoutine(float dirY)
     {
-        player.animator.SetBool("IsLook", isLook = true);
-        player.cameraController.UpDownVertical(dirY);
+        Animator.SetBool("IsLook", isLook = true);
+        CameraController.UpDownVertical(dirY);
 
         while (true)
         {
-            if (player.inputDir.y == 0 || player.actionLimite)
+            if (InputDIr.y == 0 || ActionLimite)
             {
-                player.animator.SetBool("IsLook", isLook = false);
+                Animator.SetBool("IsLook", isLook = false);
 
                 break;
             }
@@ -88,14 +96,14 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        player.cameraController.ResetVertical();
+        CameraController.ResetVertical();
     }
     #endregion
 
     #region Dash
     private void OnDash(InputValue value)
     {
-        if (player.actionLimite)
+        if (ActionLimite)
             return;
 
         dashRoutine = StartCoroutine(DashRoutine());
@@ -110,27 +118,27 @@ public class PlayerController : MonoBehaviour
     IEnumerator DashRoutine()
     {
         float dashTime = 0;
-        player.actionLimite = true;
+        ActionLimite = true;
         gameObject.layer = 1 >> gameObject.layer;                               // Layer 변경으로 대시 중 무적 구현
-        player.animator.SetTrigger("Dash");
+        Animator.SetTrigger("Dash");
 
         while (dashTime < 0.5f)
         {
-            player.rb.velocity = new Vector2(player.rb.velocity.x, 0);                // 대시 중 하강 방지
+            Rb.velocity = new Vector2(Rb.velocity.x, 0);                // 대시 중 하강 방지
 
-            if (player.render.flipX == false)                                  // 바라보는 방향으로 대시
-                player.rb.velocity = new Vector2(dashSpeed, 0);
+            if (Render.flipX == false)                                  // 바라보는 방향으로 대시
+                Rb.velocity = new Vector2(dashSpeed, 0);
             else
-                player.rb.velocity = new Vector2(-dashSpeed, 0);
+                Rb.velocity = new Vector2(-dashSpeed, 0);
 
             dashTime += Time.deltaTime;
 
             yield return null;
         }
 
-        player.rb.velocity = new Vector2(0, 0);
+        Rb.velocity = new Vector2(0, 0);
         gameObject.layer = 3 << gameObject.layer;
-        player.actionLimite = false;
+        ActionLimite = false;
     }
     #endregion
 
@@ -139,7 +147,7 @@ public class PlayerController : MonoBehaviour
     {
         pressJumpKey = value.isPressed;
 
-        if (pressJumpKey && !player.actionLimite && player.isGround)
+        if (pressJumpKey && !ActionLimite && IsGround)
             jumpRoutine = StartCoroutine(JumpRoutine());
     }
 
@@ -152,17 +160,17 @@ public class PlayerController : MonoBehaviour
     {
         float jumpTime = 0;
 
-        while (pressJumpKey && !player.actionLimite)
+        while (pressJumpKey && !ActionLimite)
         {
             if (jumpTime > 0.4f)
                 break;
             else
-                player.rb.velocity = new Vector2(player.rb.velocity.x, jumpSpeed);        // 일정한 점프속도 보장
+                Rb.velocity = new Vector2(Rb.velocity.x, jumpSpeed);        // 일정한 점프속도 보장
             
             jumpTime += Time.deltaTime;
             lookTime = 0; 
-            player.animator.SetBool("IsLook", isLook = false);
-            player.cameraController.ResetVertical();
+            Animator.SetBool("IsLook", isLook = false);
+            CameraController.ResetVertical();
 
             yield return null;
         }

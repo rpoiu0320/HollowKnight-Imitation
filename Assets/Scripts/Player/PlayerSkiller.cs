@@ -6,6 +6,12 @@ using UnityEngine.InputSystem;
 public class PlayerSkiller : MonoBehaviour
 {
     private Player player;
+    private bool ActionLimite { get { return player.actionLimite; } set { player.actionLimite = value; } }
+    private Animator Animator { get { return player.animator; } }
+    private Rigidbody2D Rb { get { return player.rb; } }
+    private SpriteRenderer Render { get { return player.render; } }
+    private Vector2 InputDIr { get { return player.inputDir; } }
+    private bool IsGround { get { return player.isGround; } }
 
     private void Awake()
     {
@@ -16,18 +22,18 @@ public class PlayerSkiller : MonoBehaviour
     {
         bool isSkill = value.isPressed;
 
-        if (GameManager.Data.CurSoul < 3 || player.actionLimite)
+        if (GameManager.Data.CurSoul < 3 || ActionLimite)
             return;
 
         if (isSkill)
-            skillRoutine = StartCoroutine(SkillRoutine(player.inputDir.y, player.isGround));
+            skillRoutine = StartCoroutine(SkillRoutine(InputDIr.y, IsGround));
     }
 
     Coroutine skillRoutine;
     IEnumerator SkillRoutine(float dirY, bool isGround)
     {
         GameManager.Data.DecreaseCurSoul();
-        player.actionLimite = true;
+        ActionLimite = true;
 
         if (!isGround && dirY < 0)
             yield return StartCoroutine(DiveRoutine());
@@ -36,51 +42,51 @@ public class PlayerSkiller : MonoBehaviour
         else
             yield return StartCoroutine(ShotSoulRoutine());
 
-        player.actionLimite = false;
+        ActionLimite = false;
     }
 
     IEnumerator DiveRoutine()
     {
-        player.animator.SetTrigger("Skill");
+        Animator.SetTrigger("Skill");
         Dive dive = GameManager.Resource.Instantiate<Dive>
             ("Prefab/Player/Skill/Dive", transform.position, transform);
 
-        player.rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        Rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
         yield return new WaitForSeconds(0.4f);
 
-        player.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-        player.rb.velocity = new Vector2(0f, -60f);
+        Rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        Rb.velocity = new Vector2(0f, -60f);
 
-        yield return new WaitUntil(() => player.isGround == true);
+        yield return new WaitUntil(() => IsGround == true);
 
         yield return new WaitForSeconds(0.4f);
     }
 
     IEnumerator HowlingRoutine()
     {
-        player.animator.SetTrigger("Skill");
+        Animator.SetTrigger("Skill");
         GameManager.Resource.Instantiate<Howling>("Prefab/Player/Skill/Howling", transform.position);
-        player.rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        Rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
         yield return new WaitForSeconds(1f);
 
-        player.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-        player.rb.velocity = new Vector2(0f, -0.01f);
+        Rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        Rb.velocity = new Vector2(0f, -0.01f);
     }
 
     IEnumerator ShotSoulRoutine()
     {
-        player.animator.SetTrigger("Skill");
+        Animator.SetTrigger("Skill");
         ShotSoul shotSoul = GameManager.Resource.Instantiate<ShotSoul>
             ("Prefab/Player/Skill/ShotSoul", transform.position);
 
-        shotSoul.render.flipX = player.render.flipX;
-        player.rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        shotSoul.render.flipX = Render.flipX;
+        Rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
         yield return new WaitForSeconds(0.4f);
 
-        player.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-        player.rb.velocity = new Vector2(0f, -0.01f);
+        Rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        Rb.velocity = new Vector2(0f, -0.01f);
     }
 }

@@ -9,8 +9,8 @@ public class CameraController : MonoBehaviour
     private Collider2D mapBoundary;
     private CinemachineVirtualCamera cmVC;
     private CinemachineFramingTransposer cmFT;
-    private CinemachineConfiner2D cmConfiner2D;
     private CinemachineBasicMultiChannelPerlin cmBMCP;
+    private CinemachineConfiner2D cmConfiner2D;
 
     private void Awake()
     {
