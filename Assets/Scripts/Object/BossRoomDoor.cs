@@ -20,8 +20,8 @@ public class BossRoomDoor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("BoosRoomEnter");
-        doorRockRoutine = StartCoroutine(DoorRockRoutine());
+        if (collision.tag == "Player")
+            doorRockRoutine = StartCoroutine(DoorRockRoutine());
     }
 
     private void GroundCheck()

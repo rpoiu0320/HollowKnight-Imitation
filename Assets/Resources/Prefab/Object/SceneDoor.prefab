@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2118176735}
   m_Layer: 11
   m_Name: SceneDoor
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

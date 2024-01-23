@@ -6,8 +6,8 @@ using UnityEngine;
 public class Flying : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
-    [SerializeField] LayerMask reversMask;
     [SerializeField] private bool isFly;
+    //[SerializeField] LayerMask reversMask;
 
     private enum StartMoveDir { Up, Down, Left, Right, Null}
     private StartMoveDir startMoveDir;

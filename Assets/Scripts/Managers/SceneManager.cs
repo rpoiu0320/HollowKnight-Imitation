@@ -5,14 +5,18 @@ using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public class SceneManager : MonoBehaviour
 {
+    private string beforeSceneName;
+
     private void Awake()
     {
         UnitySceneManager.activeSceneChanged += OnSceneChanged;
+        UnitySceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public void ChangeScene(string sceneName)
+    public void ChangeScene(string curSceneName, string nextSceneName)
     {
-        changeSceneRoutine = StartCoroutine(ChangeSceneRoutine(sceneName));
+        beforeSceneName = curSceneName;
+        changeSceneRoutine = StartCoroutine(ChangeSceneRoutine(nextSceneName));
     }
 
     private void OnSceneChanged(Scene currentScene, Scene nextScene)
@@ -20,11 +24,25 @@ public class SceneManager : MonoBehaviour
         LoadUI();
     }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        string doorName = beforeSceneName + "Door";
+
+        foreach (GameObject sceneDoor in GameObject.FindGameObjectsWithTag("Door"))
+        {
+            if (sceneDoor.name == doorName)
+            {
+                GameObject player = GameObject.FindWithTag("Player");
+                player.transform.position = sceneDoor.transform.position;
+            }
+        }
+    }
+
     private void LoadUI()
     {
         Scene scene = UnitySceneManager.GetActiveScene();
 
-        if (scene.name == "GameScene1" || scene.name == "GameScene2")
+        if (scene.name != "TitleScene")
             GameManager.UI.LoadHpNSoul();
     }
 
@@ -35,13 +53,7 @@ public class SceneManager : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        UnitySceneManager.LoadScene("LoadingScene");
-
-        yield return new WaitForSeconds(2f);
-
-        AsyncOperation asyncOper =  UnitySceneManager.LoadSceneAsync(sceneName);
+        AsyncOperation asyncOper = UnitySceneManager.LoadSceneAsync(sceneName);
         asyncOper.allowSceneActivation = true;
-
-        yield return null;
     }
 }
