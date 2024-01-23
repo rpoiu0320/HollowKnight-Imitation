@@ -25,10 +25,10 @@ public class KnockBack : MonoBehaviour
             else if (knockBackDir.x > 0)
                 target.transform.Translate(new Vector3(-30 * Time.deltaTime, 0));
 
-            if (knockBackDir.y > 0.3)
-                target.transform.Translate(new Vector3(0, -30 * Time.deltaTime));
-            else if (knockBackDir.y < -0.3)
-                target.transform.Translate(new Vector3(0, 30 * Time.deltaTime));
+            //if (knockBackDir.y > 0.3)
+            //    target.transform.Translate(new Vector3(0, -30 * Time.deltaTime));
+            //else if (knockBackDir.y < -0.3)
+            //    target.transform.Translate(new Vector3(0, 30 * Time.deltaTime));
 
             knockBackTime += Time.deltaTime;
 
