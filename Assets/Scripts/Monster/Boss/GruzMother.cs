@@ -154,9 +154,9 @@ namespace GruzMotherState
 
             if (idleTime > 3f)
             {
-                gruzMother.ChangeState((StateGruzMother)random);    // Rush, WildSlam 중 하나
+                gruzMother.ChangeState((StateGruzMother)random);    // Attack, WildSlam 중 하나
                 //gruzMother.ChangeState(StateGruzMother.WildSlam);
-                //gruzMother.ChangeState(StateGruzMother.Rush);
+                //gruzMother.ChangeState(StateGruzMother.Attack);
             }
         }
 

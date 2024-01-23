@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3352329835867843545}
   - component: {fileID: 4959377943610595737}
   - component: {fileID: 3352329835867843544}
+  - component: {fileID: 71831492949485115}
   - component: {fileID: 3075652770801836089}
   m_Layer: 8
   m_Name: Husk Hornhead
@@ -124,6 +125,27 @@ CapsuleCollider2D:
   m_Offset: {x: 0.31458282, y: -1.415627}
   m_Size: {x: 6.6833344, y: 9.168746}
   m_Direction: 0
+--- !u!50 &71831492949485115
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3352329835867843543}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &3075652770801836089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,3 +160,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: b20f43b2bb03da84dac98bed051da5da, type: 2}
   monsterName: 3
+  moveSpeed: 4
+  rushSpeed: 8
+  attackRange: {x: 10, y: 10}
