@@ -6,7 +6,7 @@ public class Button : MonoBehaviour
 {
     public void LoadGameScene()
     {
-        GameManager.Scene.ChangeScene("", "GameScene2");
+        GameManager.Scene.ChangeScene("", "GameScene1");
     }
 
     public void ExitGame()
