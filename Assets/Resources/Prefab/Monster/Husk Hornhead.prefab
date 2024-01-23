@@ -145,7 +145,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &3075652770801836089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,6 +160,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: b20f43b2bb03da84dac98bed051da5da, type: 2}
   monsterName: 3
-  moveSpeed: 4
-  rushSpeed: 8
-  attackRange: {x: 10, y: 10}
+  moveSpeed: 8
+  rushSpeed: 25
+  attackRange: {x: 50, y: 20}

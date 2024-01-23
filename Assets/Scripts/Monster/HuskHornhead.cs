@@ -1,6 +1,5 @@
 using HuskHornheadState;
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class HuskHornhead : Monster
@@ -10,7 +9,6 @@ public class HuskHornhead : Monster
     [SerializeField] public Vector2 attackRange;
     [NonSerialized] public Animator animator;
     [NonSerialized] public SpriteRenderer render;
-    [NonSerialized] public Collider2D col;
 
     private LayerMask groundLayer;
     private LayerMask playerLayer;
@@ -22,7 +20,6 @@ public class HuskHornhead : Monster
         base.Awake();
         animator = GetComponent<Animator>();
         render = GetComponent<SpriteRenderer>();
-        col = GetComponent<Collider2D>();
         groundLayer = 1 << LayerMask.NameToLayer("Ground");
         playerLayer = 1 << LayerMask.NameToLayer("Player");
         states = new StateBase[(int)StateHuskHornhead.Size];
@@ -42,8 +39,6 @@ public class HuskHornhead : Monster
 
     private void Update()
     {
-        Debug.Log(curState.ToString());
-
         if (curHp <= 0 && alive)
         {
             ChangeState(StateHuskHornhead.Die);
@@ -51,9 +46,6 @@ public class HuskHornhead : Monster
         }
 
         states[(int)curState].Update();
-
-        if (curState != StateHuskHornhead.Attack && PlayerDetection())
-            curState = StateHuskHornhead.Attack; 
     }
 
     public void ChangeState(StateHuskHornhead state)
@@ -61,7 +53,6 @@ public class HuskHornhead : Monster
         states[(int)curState].Exit();
         curState = state;
         states[(int)curState].Enter();
-        states[(int)curState].Update();
     }
     #endregion
 
@@ -82,12 +73,12 @@ public class HuskHornhead : Monster
         RaycastHit2D hit;
 
         if (render.flipX)
-            hit = Physics2D.Raycast(transform.position, Vector2.left, 8, groundLayer);
+            hit = Physics2D.Raycast(transform.position, Vector2.left, 4, groundLayer);
         else
-            hit = Physics2D.Raycast(transform.position, Vector2.right, 8, groundLayer);
+            hit = Physics2D.Raycast(transform.position, Vector2.right, 4, groundLayer);
 
-        Debug.DrawRay(transform.position, Vector2.left * 8, Color.red);
-        Debug.DrawRay(transform.position, Vector2.right * 8, Color.red);
+        Debug.DrawRay(transform.position, Vector2.left * 4, Color.red);
+        Debug.DrawRay(transform.position, Vector2.right * 4, Color.red);
 
         if (hit.collider != null)
             return true;
@@ -118,43 +109,21 @@ public class HuskHornhead : Monster
     }
     #endregion
 
-    #region TurnBack
-    /// <summary>
-    /// TrunBack을 Coroutine화 해서 IdleState에서 사용
-    /// </summary>
-    public void TurnBack()
-    {
-        turnBackRoutine = StartCoroutine(TurnBackRoutine());
-    }
-
-    Coroutine turnBackRoutine;
-    IEnumerator TurnBackRoutine()
-    {
-        animator.SetTrigger("TurnBack");
-
-        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9);
-
-        if (render.flipX)
-            render.flipX = false;
-        else
-            render.flipX = true;
-
-        ChangeState(StateHuskHornhead.Walk);
-    }
-    #endregion
-
     #region AttackRange
     /// <summary>
     /// Player 감지되면 AttackState 실행, Player 방향으로 Filp.X 조정
     /// </summary>
     /// <return> 범위 내 Player가 감지되면 Ture, 안되면 False </return>
-    private bool PlayerDetection()
+    public bool PlayerDetection()
     {
+        if (curState == StateHuskHornhead.Attack)
+            return false;
+
         Collider2D[] cols = Physics2D.OverlapBoxAll(transform.position, attackRange, 0, playerLayer);
 
         foreach (Collider2D collider in cols)
         {
-            if (collider.gameObject.layer == playerLayer)
+            if (collider.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 Vector2 dir = (transform.position - collider.transform.position).normalized;
 
@@ -201,6 +170,9 @@ namespace HuskHornheadState
 
         public override void Update()
         {
+            if (huskHornhead.PlayerDetection())
+                huskHornhead.ChangeState(StateHuskHornhead.Attack);
+
             if (!huskHornhead.WalkCheck())
             {
                 if (Render.flipX)
@@ -221,7 +193,8 @@ namespace HuskHornheadState
     public class IdleState : StateBase
     {
         private HuskHornhead huskHornhead;
-        private float idleTime;
+        private Animator Animator { get { return huskHornhead.animator;  } }
+        private SpriteRenderer Render { get { return huskHornhead.render; } }
 
         public IdleState(HuskHornhead huskHornhead)
         {
@@ -230,15 +203,24 @@ namespace HuskHornheadState
 
         public override void Enter()
         {
-            idleTime = 0;
+
         }
 
         public override void Update()
         {
-            if (idleTime > 3f)
-                huskHornhead.TurnBack();
+            if (huskHornhead.PlayerDetection())
+                huskHornhead.ChangeState(StateHuskHornhead.Attack);
 
-            idleTime += Time.deltaTime;
+            if (Animator.GetCurrentAnimatorStateInfo(0).IsName("TurnBack")
+                && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f)
+            {
+                if (Render.flipX)
+                    Render.flipX = false;
+                else
+                    Render.flipX = true;
+
+                huskHornhead.ChangeState(StateHuskHornhead.Walk);
+            }
         }
 
         public override void Exit()
@@ -253,6 +235,7 @@ namespace HuskHornheadState
         private Animator Animator { get { return huskHornhead.animator; } }
         private SpriteRenderer Render { get { return huskHornhead.render; } }
         private float RushSpeed { get { return huskHornhead.rushSpeed; } }
+        private bool startRush;
 
         public AttackState(HuskHornhead huskHornhead)
         {
@@ -261,17 +244,24 @@ namespace HuskHornheadState
 
         public override void Enter()
         {
+            startRush = false;
             Animator.SetTrigger("Attack");
         }
 
         public override void Update()
         {
+            if (!startRush && Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+                startRush = true;
+
             if (!huskHornhead.WalkCheck())
             {
-                if (Render.flipX)
-                    huskHornhead.transform.Translate(new Vector2(RushSpeed * Time.deltaTime, 0));
-                else
-                    huskHornhead.transform.Translate(new Vector2(-RushSpeed * Time.deltaTime, 0));
+                if (startRush)
+                {
+                    if (Render.flipX)
+                        huskHornhead.transform.Translate(new Vector2(RushSpeed * Time.deltaTime, 0));
+                    else
+                        huskHornhead.transform.Translate(new Vector2(-RushSpeed * Time.deltaTime, 0));
+                }
             }
             else
                 huskHornhead.ChangeState(StateHuskHornhead.Idle);
@@ -287,7 +277,6 @@ namespace HuskHornheadState
     {
         private HuskHornhead huskHornhead;
         private Animator Animator { get { return huskHornhead.animator; } }
-        private Collider2D Col { get { return huskHornhead.col; } }
 
         public DieState(HuskHornhead huskHornhead)
         {
@@ -296,8 +285,8 @@ namespace HuskHornheadState
 
         public override void Enter()
         {
-            Animator.SetBool("IsDie", true);
-            Col.enabled = false;
+            Animator.SetTrigger("Die");
+            huskHornhead.gameObject.layer = 1 >> huskHornhead.gameObject.layer;
         }
 
         public override void Update()
