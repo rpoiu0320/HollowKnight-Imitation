@@ -418,17 +418,25 @@ namespace GruzMotherState
         Coroutine gruzMotherDieRoutine;
         IEnumerator GruzMotherDieRoutine()
         {
-            // TODO : 피 뿜는 Effect 추가 필요
+            ParticleSystem strugglingEffect = GameManager.Resource.Instantiate<ParticleSystem>
+            ("Prefab/Effect/StrugglingEffect", gruzMother.transform.position);
+            strugglingEffect.Play();
             gruzMother.animator.SetTrigger("StartDie");     // 발악
             gruzMother.gameObject.layer = LayerMask.NameToLayer("Default");     // Player에게 추가로 맞는거 방지
 
             yield return new WaitForSeconds(5f);
 
-            // TODO : 터지는 Effect 추가 필요
+            ParticleSystem boomEffect = GameManager.Resource.Instantiate<ParticleSystem>
+            ("Prefab/Effect/MonsterBoomEffect", gruzMother.transform.position, gruzMother.transform);
+            boomEffect.Play();
             gruzMother.animator.SetTrigger("Boom");
             gruzMother.rb.gravityScale = 5f;
             gruzMother.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            gruzMother.rb.velocity = new Vector2(30, 30);
+
+            if (gruzMother.render)
+                gruzMother.rb.velocity = new Vector2(30, 30);
+            else
+                gruzMother.rb.velocity = new Vector2(-30, 30);
 
             yield return new WaitForSeconds(0.35f);
 
@@ -457,6 +465,7 @@ namespace GruzMotherState
 
             for (int i = 0; i < 7;) // Gruzzer 생성
             {
+                boomEffect.Play();
                 GameManager.Resource.Instantiate<Gruzzer>
                     ("Prefab/Monster/Gruzzer", 
                     new Vector2(gruzMother.transform.position.x + i / 2, gruzMother.transform.position.y + i * 3), 
