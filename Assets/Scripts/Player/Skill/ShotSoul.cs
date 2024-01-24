@@ -43,7 +43,7 @@ public class ShotSoul : AttackSkill
 
         yield return new WaitForSeconds(0.4f);
 
-        GameManager.Resource.Destory(gameObject);
+        GameManager.Resource.Destroy(gameObject);
 
         yield break;
     }
@@ -66,7 +66,7 @@ public class ShotSoul : AttackSkill
     {
         if (!isBump && target.gameObject.layer == LayerMask.NameToLayer("MapBoundary"))
         {
-            GameManager.Resource.Destory(gameObject);
+            GameManager.Resource.Destroy(gameObject);
         }
     }
 }

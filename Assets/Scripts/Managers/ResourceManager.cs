@@ -47,7 +47,7 @@ public class ResourceManager : MonoBehaviour
         return Instantiate<T>(original, position, null, pooling);
     }
 
-    public void Destory(GameObject gameObject)
+    public void Destroy(GameObject gameObject)
     {
         if(GameManager.Pool.IsContain(gameObject))
             GameManager.Pool.Release(gameObject);
@@ -55,7 +55,7 @@ public class ResourceManager : MonoBehaviour
             GameManager.Destroy(gameObject);
     }
 
-    public void Destory(GameObject gameObject, float delay)
+    public void Destroy(GameObject gameObject, float delay)
     {
         if (GameManager.Pool.IsContain(gameObject))
             StartCoroutine(DelayReleaseRoutine(gameObject, delay));

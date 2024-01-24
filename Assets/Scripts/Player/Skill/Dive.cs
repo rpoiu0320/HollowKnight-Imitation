@@ -27,7 +27,7 @@ public class Dive : AttackSkill
 
         yield return new WaitForSeconds(0.35f);
 
-        GameManager.Resource.Destory(gameObject);
+        GameManager.Resource.Destroy(gameObject);
         StopCoroutine(diveRoutine);
     }
 

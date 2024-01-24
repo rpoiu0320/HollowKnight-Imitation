@@ -31,7 +31,7 @@ public class Gruzzer : Monster
 
         yield return new WaitForSeconds(0.35f);
 
-        GameManager.Resource.Destory(gameObject);
+        GameManager.Resource.Destroy(gameObject);
 
         yield break;
     }

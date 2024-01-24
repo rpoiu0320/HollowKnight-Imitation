@@ -30,7 +30,7 @@ public class Howling : AttackSkill
             collider2d.enabled = true;
         }
 
-        GameManager.Resource.Destory(gameObject);
+        GameManager.Resource.Destroy(gameObject);
     }
 
     protected override void SkillActive(Collider2D target)

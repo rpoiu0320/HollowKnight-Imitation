@@ -173,7 +173,7 @@ public class OldPlayerSkiller : Player
         }
 
         animator.SetBool("IsChargeSkill", false);
-        GameManager.Resource.Destory(chargeSkill.gameObject);
+        GameManager.Resource.Destroy(chargeSkill.gameObject);
 
         yield break;
     }
