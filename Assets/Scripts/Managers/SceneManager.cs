@@ -6,6 +6,7 @@ using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 public class SceneManager : MonoBehaviour
 {
     private string beforeSceneName;
+    private bool lastPlayerFlipX;
 
     private void Awake()
     {
@@ -13,9 +14,10 @@ public class SceneManager : MonoBehaviour
         UnitySceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public void ChangeScene(string curSceneName, string nextSceneName)
+    public void ChangeScene(string curSceneName, string nextSceneName, bool playerFlipX = false)
     {
         beforeSceneName = curSceneName;
+        lastPlayerFlipX = playerFlipX;
         changeSceneRoutine = StartCoroutine(ChangeSceneRoutine(nextSceneName));
     }
 
@@ -32,8 +34,9 @@ public class SceneManager : MonoBehaviour
         {
             if (sceneDoor.name == doorName)
             {
-                GameObject player = GameObject.FindWithTag("Player");
-                player.transform.position = sceneDoor.transform.position;
+                SpriteRenderer playerRen = GameObject.FindWithTag("Player").GetComponent<SpriteRenderer>();
+                playerRen.transform.position = sceneDoor.transform.position;
+                playerRen.flipX = lastPlayerFlipX;
             }
         }
     }

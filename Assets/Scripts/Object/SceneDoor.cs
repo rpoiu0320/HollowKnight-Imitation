@@ -17,7 +17,8 @@ public class SceneDoor : MonoBehaviour
 
         if (collision.gameObject.tag == "Player")
         {
-            GameManager.Scene.ChangeScene(curSceneName, nextSceneName);
+            bool playerFlipX = collision.GetComponent<SpriteRenderer>().flipX;
+            GameManager.Scene.ChangeScene(curSceneName, nextSceneName, playerFlipX);
         }
     }
 }

@@ -166,6 +166,7 @@ public class PlayerAttacker : MonoBehaviour
                 Rb.velocity = new Vector2(-15, Rb.velocity.y);
         }
     }
+    #endregion
 
     private void OnDrawGizmos()
     {
@@ -174,5 +175,4 @@ public class PlayerAttacker : MonoBehaviour
         Gizmos.DrawWireCube(attackBox.transform.position, topAttackInfo.attackRange);
         Gizmos.DrawWireCube(attackBox.transform.position, bottomAttackInfo.attackRange);
     }
-#endregion
 }
