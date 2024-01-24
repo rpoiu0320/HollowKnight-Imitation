@@ -49,6 +49,10 @@ public class PlayerAttacker : MonoBehaviour
          ResetAttackBoxPosition();
     }
 
+    #region AttackPosition
+    /// <summary>
+    /// 바라보는 방향 따라 공격 범위 이동
+    /// </summary>
     private void ResetAttackBoxPosition()
     {
         if (Render.flipX)
@@ -62,7 +66,10 @@ public class PlayerAttacker : MonoBehaviour
             attackBox.transform.localPosition = new Vector2(normalAttackInfo.attackPoint.x, normalAttackInfo.attackPoint.y);
         }
     }
+    #endregion
 
+    // 공격 과정 전체
+    #region Attack
     private void OnAttack(InputValue value)
     {
         if (ActionLimite || curCooldown != 0)
@@ -87,6 +94,11 @@ public class PlayerAttacker : MonoBehaviour
         curCooldown = 0;
     }
 
+    /// <summary>
+    /// 입력값, 상황에 따라 알맞는 공격 진행
+    /// </summary>
+    /// <param name="dirY">Y축 입력값</param>
+    /// <param name="isGround">땅 밟고있는지 유무</param>
     private void Attack(float dirY, bool isGround)
     {
         Collider2D[] collider2Ds;
@@ -113,6 +125,10 @@ public class PlayerAttacker : MonoBehaviour
         OverlapBoxCheck(collider2Ds);
     }
 
+    /// <summary>
+    /// 탐지된 Colliers를 기반으로 판정 진행
+    /// </summary>
+    /// <param name="inBoxColliders">공격 범위 내 탐지된 Col</param>
     private void OverlapBoxCheck(Collider2D[] inBoxColliders)
     {
         foreach (Collider2D collider in inBoxColliders)
@@ -125,6 +141,10 @@ public class PlayerAttacker : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 공격 판정 후속처리
+    /// </summary>
+    /// <param name="collider"></param>
     private void SomethingHit(Collider2D collider)
     {
         IHittable hittable = collider.GetComponent<IHittable>();
@@ -141,9 +161,9 @@ public class PlayerAttacker : MonoBehaviour
         else if (InputDIr.y == 0)
         {
             if (Render.flipX)
-                Rb.velocity = new Vector2(20, Rb.velocity.y);
+                Rb.velocity = new Vector2(15, Rb.velocity.y);
             else
-                Rb.velocity = new Vector2(-20, Rb.velocity.y);
+                Rb.velocity = new Vector2(-15, Rb.velocity.y);
         }
     }
 
@@ -154,4 +174,5 @@ public class PlayerAttacker : MonoBehaviour
         Gizmos.DrawWireCube(attackBox.transform.position, topAttackInfo.attackRange);
         Gizmos.DrawWireCube(attackBox.transform.position, bottomAttackInfo.attackRange);
     }
+#endregion
 }
