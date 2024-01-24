@@ -152,6 +152,10 @@ public class PlayerAttacker : MonoBehaviour
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
+            ParticleSystem slashEffect = GameManager.Resource.Instantiate<ParticleSystem>
+                ("Prefab/Effect/SlashHitEffect", collider.transform.position, true);
+            slashEffect.Play();
+            GameManager.Resource.Destroy(slashEffect.gameObject, 1f);
             GameManager.Data.IncreaseCurSoul();
             knockback.OnKnockBackRoutine(collider);
         }
