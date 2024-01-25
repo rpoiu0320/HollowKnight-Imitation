@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,7 +41,7 @@ public class HpUI : MonoBehaviour
     public void IncreaseCurHpUI()
     {
         curHpImages.Push(maxHpImages[GameManager.Data.CurHp - 1]);
-        curHpImages.Peek().sprite = onHpImage; 
+        curHpImages.Peek().sprite = onHpImage;
     }
     
     public void DecreaseCurHpUI()
@@ -51,5 +49,17 @@ public class HpUI : MonoBehaviour
         curHpImages.Peek().sprite = onHpImage;
         curHpImages.Pop();
         maxHpImages[GameManager.Data.CurHp].sprite = nonHpImage;
+    }
+
+    private void HpDebuging()
+    {
+        Debug.Log($"Data - maxHp {GameManager.Data.MaxHp}");
+        Debug.Log($"Data - curHp {GameManager.Data.CurHp}");
+        for (int i = 0; i < maxHpImages.Length; i++)
+        {
+            Debug.Log($"UI - maxHp[{i}] {maxHpImages[i].name}");
+        }
+        Debug.Log($"cur stack Peek{curHpImages.Peek().name}");
+        Debug.Log($"cur stack Count{curHpImages.Count}");
     }
 }
