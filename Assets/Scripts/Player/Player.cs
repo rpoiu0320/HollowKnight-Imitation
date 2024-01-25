@@ -15,11 +15,14 @@ public class Player : MonoBehaviour
     [NonSerialized] public GameObject attackPoint;
     [NonSerialized] public CameraController cameraController;
     [NonSerialized] public GroundCheck groundCheck;
+    [NonSerialized] public SoundPlay soundPlay;
     [NonSerialized] public Vector2 inputDir;
     [NonSerialized] public Vector2 lastStep;
     [NonSerialized] public bool actionLimite = false;
     [NonSerialized] public bool isGround = false;
     [NonSerialized] public bool lastSetpCheck = false;
+    
+    public AudioClip oneStepSound;
 
     private void Awake()
     {
@@ -28,6 +31,7 @@ public class Player : MonoBehaviour
         col = GetComponent<Collider2D>();
         render = GetComponent<SpriteRenderer>();
         groundCheck = GetComponent<GroundCheck>();
+        soundPlay = GetComponent<SoundPlay>();
     }
 
     private void Start()
@@ -53,6 +57,9 @@ public class Player : MonoBehaviour
     {
         if (isGround = groundCheck.GroundLayerCheck())
         {
+            if (!lastSetpCheck)
+                soundPlay.PlaySound(oneStepSound);
+
             animator.SetBool("IsGround", isGround = true);
             lastSetpCheck = true;
         }

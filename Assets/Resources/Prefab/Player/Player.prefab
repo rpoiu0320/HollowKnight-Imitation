@@ -411,6 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a7b41827a91a594b835279ebc823d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneStepSound: {fileID: 8300000, guid: cc0d08861f658294bb6710507febf3b3, type: 3}
 --- !u!114 &6932034864163768093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,6 +444,7 @@ MonoBehaviour:
   moveSpeed: 20
   dashSpeed: 80
   jumpSpeed: 30
+  runSound: {fileID: 8300000, guid: cdf9241d3ab5dab45980315947e5d746, type: 3}
 --- !u!114 &6932034864163768083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,6 +482,7 @@ MonoBehaviour:
   attackBox: {fileID: 2165908303279243931}
   attackAnimator: {fileID: 4558989439409521713}
   attackRenderer: {fileID: 5395274943836910356}
+  slashSound: {fileID: 8300000, guid: 92eb482da1c113940bd79d2509c85484, type: 3}
 --- !u!114 &2050757916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -517,7 +520,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eafa508ffd441da44898b80e040f9170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 2373103065762124648}
 --- !u!82 &2373103065762124648
 AudioSource:
   m_ObjectHideFlags: 0

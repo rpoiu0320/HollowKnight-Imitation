@@ -164,6 +164,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: b20f43b2bb03da84dac98bed051da5da, type: 2}
   monsterName: 1
+  bossBGM: {fileID: 8300000, guid: 750871cbd6a7d374499ac1457e4b1879, type: 3}
+  fieldBGM: {fileID: 8300000, guid: a5de1c1cdc47634419cb9b4c87350ea5, type: 3}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64

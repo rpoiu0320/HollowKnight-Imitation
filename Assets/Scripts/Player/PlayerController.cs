@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private Animator Animator { get { return player.animator; } }
     private Rigidbody2D Rb { get { return player.rb; } }
     private SpriteRenderer Render { get { return player.render; } }
+    private SoundPlay SoundPlay { get { return player.soundPlay; } }
     private CameraController CameraController { get { return player.cameraController; } }
     private Vector2 InputDIr { get { return player.inputDir; } }
     private bool IsGround { get { return player.isGround; } }

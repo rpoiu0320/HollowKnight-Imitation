@@ -1,26 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class BossRoomDoor : MonoBehaviour
 {
-    [SerializeField] Monster boss;
+    [SerializeField] GruzMother boss;
     [SerializeField] Transform entranceDoor;
     [SerializeField] Transform exitDoor;
+    [SerializeField] AudioSource audioSource;
     [SerializeField] LayerMask groundLayer;
+
     private bool entranceDoorIsGround = false;
+    private float moveTime;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void Update()
     {
         if (!boss.alive)
         {
-            // 열리는거
+            doorOpenRoutine = StartCoroutine(DoorOpenRoutine());
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (!entranceDoorIsGround && collision.tag == "Player" && boss.alive)
             doorRockRoutine = StartCoroutine(DoorRockRoutine());
     }
 
@@ -38,15 +47,32 @@ public class BossRoomDoor : MonoBehaviour
     Coroutine doorRockRoutine;
     IEnumerator DoorRockRoutine()
     {
+        audioSource.Play();
+
         while(!entranceDoorIsGround)
         {
             GroundCheck();
             entranceDoor.Translate(new Vector2(0, -60 * Time.deltaTime));
             exitDoor.Translate(new Vector2(0, -60 * Time.deltaTime));
+            moveTime += Time.deltaTime;
 
             yield return null;
         }
+    }
 
-        yield break;
+    Coroutine doorOpenRoutine;
+    IEnumerator DoorOpenRoutine()
+    {
+        float openTime = 0;
+        audioSource.Play();
+
+        while (moveTime > openTime)
+        {
+            entranceDoor.Translate(new Vector2(0, +60 * Time.deltaTime));
+            exitDoor.Translate(new Vector2(0, +60 * Time.deltaTime));
+            openTime += Time.deltaTime;
+
+            yield return null;
+        }
     }
 }

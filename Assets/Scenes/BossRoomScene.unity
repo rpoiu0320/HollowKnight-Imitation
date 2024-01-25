@@ -771,6 +771,67 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1208687613
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 50391866222841022, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
+      propertyPath: bgm
+      value: 
+      objectReference: {fileID: 8300000, guid: a5de1c1cdc47634419cb9b4c87350ea5, type: 3}
+    - target: {fileID: 5830193597346131045, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5830193597346131045, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5830193597346131045, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5830193597346131045, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5830193597346131045, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5830193597346131045, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5830193597346131045, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5830193597346131045, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5830193597346131045, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5830193597346131045, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5830193597346131045, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5830193597346131047, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
+      propertyPath: m_Name
+      value: BGM
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6bbd9751f83a487448379d512944e07c, type: 3}
 --- !u!1 &1862764449
 GameObject:
   m_ObjectHideFlags: 0
@@ -1153,6 +1214,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2501815740130652253, guid: adc8085ab17506d468ea8f6f7007d5cc, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1ef2a6206c446244b9e45857ab4a0711, type: 3}
+    - target: {fileID: 2501815740130652253, guid: adc8085ab17506d468ea8f6f7007d5cc, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2564061925802804192, guid: adc8085ab17506d468ea8f6f7007d5cc, type: 3}
       propertyPath: OnCameraNoise.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1161,6 +1230,10 @@ PrefabInstance:
       propertyPath: OnCameraNoise.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: CameraNoise
       objectReference: {fileID: 0}
+    - target: {fileID: 6733333424117981286, guid: adc8085ab17506d468ea8f6f7007d5cc, type: 3}
+      propertyPath: audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1ef2a6206c446244b9e45857ab4a0711, type: 3}
     - target: {fileID: 6733333424740218692, guid: adc8085ab17506d468ea8f6f7007d5cc, type: 3}
       propertyPath: m_FlipX
       value: 0

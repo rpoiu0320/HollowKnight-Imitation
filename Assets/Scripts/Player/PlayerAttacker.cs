@@ -16,10 +16,12 @@ public class PlayerAttacker : MonoBehaviour
     [SerializeField] private GameObject attackBox;
     [SerializeField] private Animator attackAnimator;
     [SerializeField] private SpriteRenderer attackRenderer;
+    [SerializeField] private AudioClip slashSound;
 
     private Animator Animator { get { return player.animator; } }
     private Rigidbody2D Rb { get { return player.rb; } }
     private SpriteRenderer Render { get { return player.render; } }
+    private SoundPlay SoundPlay { get { return player.soundPlay; } }
     private Vector2 InputDIr { get { return player.inputDir; } }
     private bool ActionLimite { get { return player.actionLimite; } }
     private bool IsGround { get { return player.isGround; } }
@@ -81,6 +83,7 @@ public class PlayerAttacker : MonoBehaviour
     Coroutine attackRoutine;
     IEnumerator AttackRoutine()
     {
+        SoundPlay.PlaySound(slashSound);
         Attack(InputDIr.y, IsGround);
 
         while (curCooldown < attackCooldown)

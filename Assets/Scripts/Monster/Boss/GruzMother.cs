@@ -7,13 +7,13 @@ using UnityEngine.Events;
 
 public class GruzMother : Monster
 {
+    [SerializeField] public AudioClip bossBGM;
+    [SerializeField] public AudioClip fieldBGM;
     [SerializeField] public LayerMask groundLayer;
     [SerializeField] public float rushSpeed;
     [SerializeField] public float wildSlamSpeed;
     [SerializeField] public float vierticalSpeed;
     [SerializeField] public float horizonSpeed;
-    private StateBase[] states;
-    private StateGruzMother curState;
 
     [NonSerialized] public Rigidbody2D rb;
     [NonSerialized] public SpriteRenderer render;
@@ -24,6 +24,10 @@ public class GruzMother : Monster
     [NonSerialized] public Transform playerTransform;
     [NonSerialized] public bool isFly;
     [NonSerialized] public bool isSleep;
+
+    private StateBase[] states;
+    private StateGruzMother curState;
+
     public UnityEvent OnCameraNoise;
 
 
@@ -93,7 +97,7 @@ namespace GruzMotherState
 
         public override void Enter()
         {
-            
+
         }
 
         public override void Update()
@@ -113,6 +117,7 @@ namespace GruzMotherState
         Coroutine awakeRoutine;
         IEnumerator AwakeRoutine()
         {
+            GameManager.Sound.BGMChange(gruzMother.bossBGM);
             gruzMother.animator.SetBool("IsSleep", false);
 
             yield return new WaitForSeconds(1f);
@@ -423,6 +428,7 @@ namespace GruzMotherState
             strugglingEffect.Play();
             gruzMother.animator.SetTrigger("StartDie");     // 발악
             gruzMother.gameObject.layer = LayerMask.NameToLayer("Default");     // Player에게 추가로 맞는거 방지
+            GameManager.Resource.Destroy(strugglingEffect.gameObject, 10f);
 
             yield return new WaitForSeconds(5f);
 
@@ -463,15 +469,16 @@ namespace GruzMotherState
 
             gruzMother.rb.simulated = false;
 
-            for (int i = 0; i < 7;) // Gruzzer 생성
+            for (int i = 0; i < 7; i ++) // Gruzzer 생성
             {
                 boomEffect.Play();
-                GameManager.Resource.Instantiate<Gruzzer>
-                    ("Prefab/Monster/Gruzzer", 
-                    new Vector2(gruzMother.transform.position.x + i / 2, gruzMother.transform.position.y + i * 3), 
-                    GameObject.Find("PoolManager").transform);
-                i++;
+                
+                GameManager.Resource.Instantiate<Gruzzer>("Prefab/Monster/Gruzzer",
+                    new Vector2(gruzMother.transform.position.x + i / 2, gruzMother.transform.position.y + i * 3));
+                GameManager.Resource.Destroy(boomEffect.gameObject, 10f);
             }
+
+            GameManager.Sound.BGMChange(gruzMother.fieldBGM);
 
             yield break;
         }

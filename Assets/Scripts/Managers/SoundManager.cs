@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class SoundManager : MonoBehaviour
 {
-    private GameObject bgmObject;
+    private AudioSource bgmAudio;
 
-    public enum Sound { BGM, SFX, Size}
+    public enum Sound { BGM, SFX, Size }
 
     private void Awake()
     {
@@ -16,10 +15,20 @@ public class SoundManager : MonoBehaviour
 
     private void Init()
     {
-        gameObject.AddComponent<AudioSource>();
-        
         GameObject bgmObject = new GameObject();
         bgmObject.gameObject.name = "BGM";
         bgmObject.transform.parent = transform;
+        bgmObject.AddComponent<AudioSource>();
+        bgmAudio = bgmObject.GetComponent<AudioSource>();
+    }
+
+    public void BGMChange(AudioClip nextBGM)
+    {
+        if (bgmAudio.clip != nextBGM)
+        {
+            bgmAudio.Stop();
+            bgmAudio.clip = nextBGM;
+            bgmAudio.Play();
+        }
     }
 }
