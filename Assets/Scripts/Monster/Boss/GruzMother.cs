@@ -9,6 +9,7 @@ public class GruzMother : Monster
 {
     [SerializeField] public AudioClip bossBGM;
     [SerializeField] public AudioClip fieldBGM;
+    [SerializeField] public AudioClip bumpSound;
     [SerializeField] public LayerMask groundLayer;
     [SerializeField] public float rushSpeed;
     [SerializeField] public float wildSlamSpeed;
@@ -22,6 +23,7 @@ public class GruzMother : Monster
     [NonSerialized] public Flying flying;
     [NonSerialized] public Animator animator;
     [NonSerialized] public Transform playerTransform;
+    [NonSerialized] public SoundPlay soundPlay;
     [NonSerialized] public bool isFly;
     [NonSerialized] public bool isSleep;
 
@@ -39,6 +41,7 @@ public class GruzMother : Monster
         render = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
         flying = GetComponent<Flying>();
+        soundPlay = GetComponent<SoundPlay>();
         contactFilter.SetLayerMask(LayerMask.GetMask("Ground"));
         states = new StateBase[(int)StateGruzMother.Size];
         states[(int)StateGruzMother.Sleep] =    new SleepState(this);
@@ -219,9 +222,12 @@ namespace GruzMotherState
 
                 gruzMother.transform.Translate(dir * gruzMother.rushSpeed * Time.deltaTime);
 
-                if (Physics2D.OverlapCircle(new Vector2(gruzMother.transform.position.x, gruzMother.transform.position.y + 0.5f), 4f, gruzMother.groundLayer))
+                if (Physics2D.OverlapCircle(new Vector2(gruzMother.transform.position.x, gruzMother.transform.position.y + 0.5f), 
+                    4f, gruzMother.groundLayer))
                 {
                     gruzMother.OnCameraNoise?.Invoke();
+                    gruzMother.soundPlay.PlaySound(gruzMother.bumpSound);
+
                     break;
                 }
 
@@ -278,10 +284,12 @@ namespace GruzMotherState
         {
             if (verticalCheck == MoveDir.Up)    // 부하를 줄이기 위해 필요한 상황에서만 해당 방향으로 Ray발사
             {                                   // and 밀림방지를 위해 rb.Constraints를 모두 ture로 하니 항상 Ray발사 시 비비적대는 현상이 있음, 이를 위한 Ray분할 발사
-                RaycastHit2D hitUp = Physics2D.Raycast(gruzMother.transform.position, Vector2.up, 5f, gruzMother.groundLayer);
+                RaycastHit2D hitUp = Physics2D.Raycast(gruzMother.transform.position, Vector2.up, 
+                    5f, gruzMother.groundLayer);
 
                 if (hitUp.collider != null)
                 {
+                    gruzMother.soundPlay.PlaySound(gruzMother.bumpSound);
                     gruzMother.animator.SetTrigger("BumpCeiling");
                     this.verticalCheck = MoveDir.Down;
                     gruzMother.OnCameraNoise?.Invoke();
@@ -294,6 +302,7 @@ namespace GruzMotherState
 
                 if (hitDown.collider != null)
                 {
+                    gruzMother.soundPlay.PlaySound(gruzMother.bumpSound);
                     gruzMother.animator.SetTrigger("BumpGround");
                     this.verticalCheck = MoveDir.Up;
                     gruzMother.OnCameraNoise?.Invoke();

@@ -80,7 +80,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 90
   m_Sprite: {fileID: 1946594593, guid: a66126d86a0dcc249a652fee73f376ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -166,6 +166,7 @@ MonoBehaviour:
   monsterName: 1
   bossBGM: {fileID: 8300000, guid: 750871cbd6a7d374499ac1457e4b1879, type: 3}
   fieldBGM: {fileID: 8300000, guid: a5de1c1cdc47634419cb9b4c87350ea5, type: 3}
+  bumpSound: {fileID: 8300000, guid: cac355235382df34a97a5521534d91f3, type: 3}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -229,6 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eafa508ffd441da44898b80e040f9170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 6187183886846735627}
 --- !u!82 &6187183886846735627
 AudioSource:
   m_ObjectHideFlags: 0
@@ -240,7 +242,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
