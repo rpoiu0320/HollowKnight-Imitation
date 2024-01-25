@@ -119,7 +119,14 @@ public class HuskHornhead : Monster
         if (curState == StateHuskHornhead.Attack)
             return false;
 
-        Collider2D[] cols = Physics2D.OverlapBoxAll(transform.position, attackRange, 0, playerLayer);
+        Collider2D[] cols;
+
+        if (!render.flipX)
+            cols = Physics2D.OverlapBoxAll(new Vector2(transform.position.x - 15, transform.position.y),
+                attackRange, 0, playerLayer);
+        else
+            cols = Physics2D.OverlapBoxAll(new Vector2(transform.position.x + 15, transform.position.y),
+                attackRange, 0, playerLayer);
 
         foreach (Collider2D collider in cols)
         {
@@ -142,7 +149,9 @@ public class HuskHornhead : Monster
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(transform.position, attackRange);
+        Gizmos.DrawWireCube(new Vector2(transform.position.x - 15, transform.position.y), attackRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(new Vector2(transform.position.x + 15, transform.position.y), attackRange);
     }
     #endregion
 }

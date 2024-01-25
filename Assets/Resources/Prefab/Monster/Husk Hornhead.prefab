@@ -162,4 +162,4 @@ MonoBehaviour:
   monsterName: 3
   moveSpeed: 8
   rushSpeed: 25
-  attackRange: {x: 50, y: 20}
+  attackRange: {x: 30, y: 20}
