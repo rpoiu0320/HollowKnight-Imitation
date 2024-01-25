@@ -8,48 +8,30 @@ public class PlayerSkiller : MonoBehaviour
     [SerializeField] private Animator healingAnimator;
     [SerializeField] private Animator onHealAnimator;
 
-    private Player player;
     private bool ActionLimite { get { return player.actionLimite; } set { player.actionLimite = value; } }
     private Animator Animator { get { return player.animator; } }
     private Rigidbody2D Rb { get { return player.rb; } }
     private SpriteRenderer Render { get { return player.render; } }
     private Vector2 InputDIr { get { return player.inputDir; } }
     private bool IsGround { get { return player.isGround; } }
-    private float pressTime = 0;
+    private Player player;
+    private bool isSkill = false;
+    private bool pressCoroutineRunningCheck = false;
 
     private void Awake()
     {
         player = GetComponent<Player>();
     }
-
     private void OnSkill(InputValue value)
     {
-        bool isSkill = value.isPressed;
+        isSkill = value.isPressed;
 
-        if (isSkill && player.isGround && !player.actionLimite)
-        {
-            pressTime += Time.deltaTime;
-            healingRoutine = StartCoroutine(HealingRoutine());
+        if (isSkill && !pressCoroutineRunningCheck)
+            pressTimeCheckRoutine = StartCoroutine(PressTimeCheckRoutine());    // healing이 시작하는 조건
 
-            return;
-        }    
-
-        if (!isSkill)
-        {
-            if (healingRoutine != null)
-            {
-                Animator.SetBool("IsHealing", player.actionLimite = false);
-                healingAnimator.SetTrigger("HealEnd");
-                StopCoroutine(healingRoutine);
-                
-                return;
-            }
-
-            pressTime = 0;
-
-            if (GameManager.Data.CurSoul >= 3 || !ActionLimite)
+        if (!isSkill && healingRoutine == null)   // 스킬이 시작되는 조건
+            if (GameManager.Data.CurSoul >= 3 && !ActionLimite)     // healing 제외 다른 스킬이 시작되는 조건
                 attackSkillRoutine = StartCoroutine(AttackSkillRoutine(InputDIr.y, IsGround));
-        }
     }
 
     #region AttackSkills
@@ -115,15 +97,42 @@ public class PlayerSkiller : MonoBehaviour
     }
     #endregion
 
+    Coroutine pressTimeCheckRoutine;
+    IEnumerator PressTimeCheckRoutine()
+    {
+        float pressTime = 0;
+        pressCoroutineRunningCheck = true;
+
+        while (player.isGround && !player.actionLimite && isSkill)
+        {
+            pressTime += Time.deltaTime;
+
+            if (pressTime > 1f)
+            {
+                healingRoutine = StartCoroutine(HealingRoutine());
+
+                break;
+            }
+
+            yield return null;
+        }
+
+        pressCoroutineRunningCheck = false;
+    }
+
     Coroutine healingRoutine;
     IEnumerator HealingRoutine()
     {
+        Debug.Log("HealingStart");
         float healingTime = 0;
         player.animator.SetBool("IsHealing", player.actionLimite = true);
         healingAnimator.SetTrigger("HealStart");
-
-        while (GameManager.Data.CurSoul > 1)
+        
+        while (isSkill)
         {
+            if (GameManager.Data.CurSoul < 1)
+                break;
+
             if (healingTime > 1f)
             {
                 onHealAnimator.SetTrigger("OnHeal");
@@ -136,5 +145,10 @@ public class PlayerSkiller : MonoBehaviour
 
             yield return null;
         }
+
+        Animator.SetBool("IsHealing", player.actionLimite = false);
+        healingAnimator.SetTrigger("HealEnd");
+
+        yield break;
     }
 }
