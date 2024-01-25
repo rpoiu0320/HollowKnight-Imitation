@@ -17,11 +17,11 @@ MonoBehaviour:
     name: Player
     description: PlayerInfo
     maxHp: 5
-    curHp: 3
+    curHp: 5
     maxSoul: 10
     curSoul: 9
     attackDamage: 5
     howlingDamage: 2
-    shotSoulDamage: 2
-    diveDagame: 2
+    shotSoulDamage: 4
+    diveDagame: 6
     geo: 0

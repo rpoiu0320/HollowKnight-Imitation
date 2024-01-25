@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Spikes : MonoBehaviour, IHittable
 {
     [SerializeField] private int spikesDamage;
 
     private LayerMask playerLayer;
+
+    public UnityEvent OnSlashHitSound;
 
     private void Awake()
     {
@@ -15,7 +18,7 @@ public class Spikes : MonoBehaviour, IHittable
 
     public void TakeHit(int damage)
     {
-        
+        OnSlashHitSound?.Invoke();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
