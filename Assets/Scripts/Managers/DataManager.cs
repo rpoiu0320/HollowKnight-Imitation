@@ -79,11 +79,11 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void DecreaseCurSoul()
+    public void DecreaseCurSoul(int minusSoul = 3)
     {
-        if (curSoul >= 3)
+        if (curSoul >= minusSoul)
         {
-            curSoul -= 3;
+            curSoul -= minusSoul;
             RenewalCurSoul();
         }
     }

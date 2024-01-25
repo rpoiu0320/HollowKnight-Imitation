@@ -42,7 +42,7 @@ public class HpUI : MonoBehaviour
 
     public void IncreaseCurHpUI()
     {
-        curHpImages.Push(maxHpImages[GameManager.Data.CurHp + 1]);
+        curHpImages.Push(maxHpImages[GameManager.Data.CurHp - 1]);
         curHpImages.Peek().sprite = onHpImage; 
     }
     

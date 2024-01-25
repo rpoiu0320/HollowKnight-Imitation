@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerSkiller : MonoBehaviour
 {
+    [SerializeField] private Animator healingAnimator;
+    [SerializeField] private Animator onHealAnimator;
+
     private Player player;
     private bool ActionLimite { get { return player.actionLimite; } set { player.actionLimite = value; } }
     private Animator Animator { get { return player.animator; } }
@@ -12,6 +15,7 @@ public class PlayerSkiller : MonoBehaviour
     private SpriteRenderer Render { get { return player.render; } }
     private Vector2 InputDIr { get { return player.inputDir; } }
     private bool IsGround { get { return player.isGround; } }
+    private float pressTime = 0;
 
     private void Awake()
     {
@@ -22,15 +26,35 @@ public class PlayerSkiller : MonoBehaviour
     {
         bool isSkill = value.isPressed;
 
-        if (GameManager.Data.CurSoul < 3 || ActionLimite)
-            return;
+        if (isSkill && player.isGround && !player.actionLimite)
+        {
+            pressTime += Time.deltaTime;
+            healingRoutine = StartCoroutine(HealingRoutine());
 
-        if (isSkill)
-            skillRoutine = StartCoroutine(SkillRoutine(InputDIr.y, IsGround));
+            return;
+        }    
+
+        if (!isSkill)
+        {
+            if (healingRoutine != null)
+            {
+                Animator.SetBool("IsHealing", player.actionLimite = false);
+                healingAnimator.SetTrigger("HealEnd");
+                StopCoroutine(healingRoutine);
+                
+                return;
+            }
+
+            pressTime = 0;
+
+            if (GameManager.Data.CurSoul >= 3 || !ActionLimite)
+                attackSkillRoutine = StartCoroutine(AttackSkillRoutine(InputDIr.y, IsGround));
+        }
     }
 
-    Coroutine skillRoutine;
-    IEnumerator SkillRoutine(float dirY, bool isGround)
+    #region AttackSkills
+    Coroutine attackSkillRoutine;
+    IEnumerator AttackSkillRoutine(float dirY, bool isGround)
     {
         GameManager.Data.DecreaseCurSoul();
         ActionLimite = true;
@@ -88,5 +112,29 @@ public class PlayerSkiller : MonoBehaviour
 
         Rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         Rb.velocity = new Vector2(0f, -0.01f);
+    }
+    #endregion
+
+    Coroutine healingRoutine;
+    IEnumerator HealingRoutine()
+    {
+        float healingTime = 0;
+        player.animator.SetBool("IsHealing", player.actionLimite = true);
+        healingAnimator.SetTrigger("HealStart");
+
+        while (GameManager.Data.CurSoul > 1)
+        {
+            if (healingTime > 1f)
+            {
+                onHealAnimator.SetTrigger("OnHeal");
+                GameManager.Data.DecreaseCurSoul(1);
+                GameManager.Data.IncreaseCurHp();
+                healingTime = 0;
+            }
+
+            healingTime += Time.deltaTime;
+
+            yield return null;
+        }
     }
 }

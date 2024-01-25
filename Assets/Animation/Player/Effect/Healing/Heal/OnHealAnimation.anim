@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: OnHealingEffect_Animator
+  m_Name: OnHealAnimation
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -77,4 +77,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0
+    functionName: PlaySound
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 49d3901261496b846ad4e06ff5c75759, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
