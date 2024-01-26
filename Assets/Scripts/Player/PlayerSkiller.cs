@@ -17,6 +17,7 @@ public class PlayerSkiller : MonoBehaviour
     private Player player;
     private bool isSkill = false;
     private bool pressCoroutineRunningCheck = false;
+    private bool healinginProgress = false;
 
     private void Awake()
     {
@@ -27,10 +28,10 @@ public class PlayerSkiller : MonoBehaviour
         isSkill = value.isPressed;
 
         if (isSkill && !pressCoroutineRunningCheck)
-            pressTimeCheckRoutine = StartCoroutine(PressTimeCheckRoutine());    // healing이 시작하는 조건
+            pressTimeCheckRoutine = StartCoroutine(PressTimeCheckRoutine());
 
-        if (!isSkill && healingRoutine == null)   // 스킬이 시작되는 조건
-            if (GameManager.Data.CurSoul >= 3 && !ActionLimite)     // healing 제외 다른 스킬이 시작되는 조건
+        if (!isSkill && !healinginProgress)
+            if (GameManager.Data.CurSoul >= 3 && !ActionLimite)
                 attackSkillRoutine = StartCoroutine(AttackSkillRoutine(InputDIr.y, IsGround));
     }
 
@@ -97,6 +98,7 @@ public class PlayerSkiller : MonoBehaviour
     }
     #endregion
 
+    #region Healing
     Coroutine pressTimeCheckRoutine;
     IEnumerator PressTimeCheckRoutine()
     {
@@ -123,11 +125,11 @@ public class PlayerSkiller : MonoBehaviour
     Coroutine healingRoutine;
     IEnumerator HealingRoutine()
     {
-        Debug.Log("HealingStart");
         float healingTime = 0;
         player.animator.SetBool("IsHealing", player.actionLimite = true);
         healingAnimator.SetTrigger("HealStart");
-        
+        healinginProgress = true;
+
         while (isSkill)
         {
             if (GameManager.Data.CurSoul < 1)
@@ -148,7 +150,7 @@ public class PlayerSkiller : MonoBehaviour
 
         Animator.SetBool("IsHealing", player.actionLimite = false);
         healingAnimator.SetTrigger("HealEnd");
-
-        yield break;
+        healinginProgress = false;
     }
+    #endregion
 }
