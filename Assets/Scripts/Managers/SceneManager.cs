@@ -24,6 +24,7 @@ public class SceneManager : MonoBehaviour
     private void OnSceneChanged(Scene currentScene, Scene nextScene)
     {
         LoadUI();
+        GameManager.Pool.Init();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
